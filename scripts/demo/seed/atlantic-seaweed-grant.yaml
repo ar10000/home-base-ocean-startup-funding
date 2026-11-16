@@ -1,0 +1,19 @@
+# Fictional record for the public demo. Not a real opportunity; example.org is a placeholder.
+name: Atlantic Seaweed Innovation Grant
+funder: Example Ocean Trust
+scope: blue_specific
+types: [grant]
+source_url: https://example.org/atlantic-seaweed-grant
+retrieved_on: 2026-11-01
+verified_on: 2026-11-02
+verified_by: Demo data
+deadline: 2027-01-31
+timezone: Europe/Lisbon
+requirements:
+  - {type: hard, fact: country, operator: equals, value: PT, quote: "Applicants must be based in Portugal."}
+  - {type: hard, fact: sector, operator: equals, value: marine_living_resources, quote: "For seaweed, aquaculture and other marine living resources."}
+  - {type: hard, fact: legal_form, operator: one_of, value: [private_limited, cooperative], quote: "Limited companies and cooperatives are eligible."}
+  - {type: soft, criterion: Clear environmental benefit, quote: "Projects should show a clear benefit to ocean health."}
+questions:
+  - {text: Describe your team., required_facts: [team_size]}
+  - {text: "Why now?", required_facts: []}

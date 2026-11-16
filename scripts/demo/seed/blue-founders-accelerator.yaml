@@ -1,0 +1,15 @@
+# Fictional record for the public demo. Not a real opportunity; example.org is a placeholder.
+name: Blue Founders Accelerator
+funder: Example Accelerator
+scope: blue_specific
+types: [accelerator, investor_programme]
+source_url: https://example.org/blue-founders-accelerator
+retrieved_on: 2026-10-20
+verified_on: 2026-10-21
+verified_by: Demo data
+expected_month: 2027-03
+evidence:
+  - {kind: previous_edition, dated: 2026-03-02, source_url: "https://example.org/blue-founders-accelerator/2026"}
+requirements:
+  - {type: hard, fact: company_age, operator: at_most, value: 5, quote: "Companies founded in the last five years."}
+  - {type: hard, fact: applicant_form, operator: equals, value: alone, quote: "One company per application."}

@@ -1,0 +1,165 @@
+"""Rule traceability check (handbook section 6).
+
+Fails when:
+- a rule in docs/rules/*.yaml is malformed or duplicated;
+- an implemented rule's function is missing, or its docstring does not quote the rule ID;
+- an implemented rule has no test that names it;
+- a public function in a rules.py quotes no rule ID;
+- a rule ID appears in code or tests but not in the catalogue.
+
+Writes docs/rules/traceability.md. With --check, fails if that file is out of date
+instead of rewriting it, so CI catches a hand-edited or stale copy.
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import importlib
+import re
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parent.parent
+RULES_DIR = ROOT / "docs" / "rules"
+SRC = ROOT / "api" / "src"
+TESTS = ROOT / "api" / "tests"
+OUTPUT = RULES_DIR / "traceability.md"
+
+RULE_ID = re.compile(r"\b([A-Z]{3})-(\d{2})\b")
+DOC_RULE = re.compile(r"Rule ([A-Z]{3}-\d{2})\b")
+STATUSES = {"implemented", "planned"}
+REQUIRED = {"id", "statement", "spec", "status"}
+
+
+@dataclass
+class Rule:
+    id: str
+    statement: str
+    status: str
+    implemented_in: str | None
+    source_file: str
+    tests: list[str] = field(default_factory=list)
+
+
+def load_catalogue(errors: list[str]) -> dict[str, Rule]:
+    rules: dict[str, Rule] = {}
+    for path in sorted(RULES_DIR.glob("*.yaml")):
+        for entry in yaml.safe_load(path.read_text(encoding="utf-8")) or []:
+            missing = REQUIRED - entry.keys()
+            rid = entry.get("id", "?")
+            if missing:
+                errors.append(f"{path.name}: {rid} is missing {sorted(missing)}")
+                continue
+            if not RULE_ID.fullmatch(rid):
+                errors.append(f"{path.name}: malformed rule ID {rid!r}")
+            if rid in rules:
+                errors.append(f"{path.name}: duplicate rule ID {rid}")
+            if entry["status"] not in STATUSES:
+                errors.append(f"{path.name}: {rid} has unknown status {entry['status']!r}")
+            if entry["status"] == "implemented" and not entry.get("implemented_in"):
+                errors.append(f"{path.name}: {rid} is implemented but has no implemented_in")
+            rules[rid] = Rule(
+                id=rid,
+                statement=entry["statement"],
+                status=entry["status"],
+                implemented_in=entry.get("implemented_in"),
+                source_file=path.name,
+            )
+    return rules
+
+
+def check_implementations(rules: dict[str, Rule], errors: list[str]) -> None:
+    sys.path.insert(0, str(SRC))
+    for rule in rules.values():
+        if rule.status != "implemented" or not rule.implemented_in:
+            continue
+        module_name, _, func_name = rule.implemented_in.rpartition(".")
+        try:
+            func = getattr(importlib.import_module(module_name), func_name)
+        except (ImportError, AttributeError):
+            errors.append(f"{rule.id}: {rule.implemented_in} does not exist")
+            continue
+        if rule.id not in DOC_RULE.findall(func.__doc__ or ""):
+            errors.append(f"{rule.id}: docstring of {rule.implemented_in} does not quote it")
+
+
+def check_rule_modules(rules: dict[str, Rule], errors: list[str]) -> None:
+    for path in SRC.rglob("rules.py"):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in tree.body:
+            if not isinstance(node, ast.FunctionDef) or node.name.startswith("_"):
+                continue
+            if not DOC_RULE.findall(ast.get_docstring(node) or ""):
+                rel = path.relative_to(ROOT)
+                errors.append(f"{rel}:{node.lineno} {node.name}() quotes no rule ID")
+
+
+def find_references(rules: dict[str, Rule], errors: list[str]) -> None:
+    prefixes = "|".join(sorted({rid[:3] for rid in rules}))
+    upper = re.compile(rf"\b({prefixes})-(\d{{2}})\b")
+    lower = re.compile(rf"(?<![a-z0-9])({prefixes.lower()})_(\d{{2}})(?!\d)")  # test_fit_02_...
+    for base, label in ((SRC, "code"), (TESTS, "tests")):
+        for path in base.rglob("*.py"):
+            text = path.read_text(encoding="utf-8")
+            found = {f"{p}-{n}" for p, n in upper.findall(text)}
+            found |= {f"{p.upper()}-{n}" for p, n in lower.findall(text)}
+            for rid in sorted(found):
+                if rid not in rules:
+                    errors.append(f"{path.relative_to(ROOT)}: {label} cites unknown rule {rid}")
+                elif label == "tests":
+                    rules[rid].tests.append(str(path.relative_to(ROOT / "api")))
+    for rule in rules.values():
+        if rule.status == "implemented" and not rule.tests:
+            errors.append(f"{rule.id}: implemented but no test names it")
+
+
+def render(rules: dict[str, Rule]) -> str:
+    done = sum(r.status == "implemented" for r in rules.values())
+    lines = [
+        "# Rule traceability",
+        "",
+        "Generated by `scripts/check_rules.py`. Do not edit by hand.",
+        "",
+        f"{done} of {len(rules)} rules implemented.",
+        "",
+        "| Rule | Status | Implemented in | Tests |",
+        "| --- | --- | --- | --- |",
+    ]
+    for rule in sorted(rules.values(), key=lambda r: r.id):
+        impl = f"`{rule.implemented_in}`" if rule.implemented_in else ""
+        tests = ", ".join(f"`{t}`" for t in sorted(set(rule.tests)))
+        lines.append(f"| {rule.id} | {rule.status} | {impl} | {tests} |")
+    return "\n".join(lines) + "\n"
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true", help="fail if traceability.md is stale")
+    args = parser.parse_args()
+
+    errors: list[str] = []
+    rules = load_catalogue(errors)
+    check_implementations(rules, errors)
+    check_rule_modules(rules, errors)
+    find_references(rules, errors)
+
+    report = render(rules)
+    if args.check:
+        if not OUTPUT.exists() or OUTPUT.read_text(encoding="utf-8") != report:
+            errors.append("docs/rules/traceability.md is stale: run `make rules`")
+    else:
+        OUTPUT.write_text(report, encoding="utf-8")
+
+    for error in errors:
+        sys.stderr.write(f"check_rules: {error}\n")
+    done = sum(r.status == "implemented" for r in rules.values())
+    sys.stdout.write(f"check_rules: {done}/{len(rules)} rules implemented, {len(errors)} errors\n")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

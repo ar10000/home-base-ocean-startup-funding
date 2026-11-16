@@ -1,0 +1,3 @@
+# Files outside api/ (scripts/) use the same settings as api/.
+# Without this, ruff run from the repo root (pre-commit, editors) falls back to its defaults.
+extend = "api/pyproject.toml"

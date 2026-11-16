@@ -1,0 +1,16 @@
+# Fictional record for the public demo. Not a real opportunity; example.org is a placeholder.
+name: Ocean Energy Challenge
+funder: Example Energy Agency
+scope: blue_specific
+types: [procurement_challenge]
+source_url: https://example.org/ocean-energy-challenge
+retrieved_on: 2026-11-05
+verified_on: 2026-11-06
+verified_by: Demo data
+deadline: 2027-03-15
+timezone: Europe/Brussels
+requirements:
+  - {type: hard, fact: sector, operator: one_of, value: [ocean_energy, marine_renewable_energy], quote: "For wave, tidal and offshore renewable energy."}
+  - {type: hard, fact: applicant_form, operator: equals, value: consortium, quote: "Applications come from a consortium of at least three partners."}
+questions:
+  - {text: Describe the consortium., required_facts: [applicant_form]}

@@ -1,0 +1,16 @@
+# Fictional record for the public demo. Not a real opportunity; example.org is a placeholder.
+name: Coastal Startup Prize
+funder: Example City Council
+scope: all_sectors
+types: [prize]
+source_url: https://example.org/coastal-startup-prize
+retrieved_on: 2026-11-08
+verified_on: 2026-11-09
+verified_by: Demo data
+deadline: 2027-02-20
+timezone: Europe/Lisbon
+requirements:
+  - {type: hard, fact: country, operator: equals, value: PT, quote: "Startups with an office in Portugal."}
+  - {type: hard, fact: woman_ceo, operator: equals, value: true, quote: "This edition is for companies led by a woman CEO."}
+questions:
+  - {text: "Tell us your story in 300 words.", required_facts: []}

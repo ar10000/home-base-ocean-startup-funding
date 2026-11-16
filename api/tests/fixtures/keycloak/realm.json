@@ -1,0 +1,41 @@
+{
+  "realm": "home-base",
+  "enabled": true,
+  "accessTokenLifespan": 300,
+  "clients": [
+    {
+      "clientId": "home-base-web",
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": false,
+      "protocolMappers": [
+        {
+          "name": "api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {"included.custom.audience": "home-base-api", "access.token.claim": "true"}
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "founder-one",
+      "enabled": true,
+      "email": "founder-one@example.test",
+      "emailVerified": true,
+      "firstName": "Ana",
+      "lastName": "Test",
+      "credentials": [{"type": "password", "value": "test-only-not-a-secret", "temporary": false}]
+    },
+    {
+      "username": "founder-two",
+      "enabled": true,
+      "email": "founder-two@example.test",
+      "emailVerified": true,
+      "firstName": "Bea",
+      "lastName": "Test",
+      "credentials": [{"type": "password", "value": "test-only-not-a-secret", "temporary": false}]
+    }
+  ]
+}

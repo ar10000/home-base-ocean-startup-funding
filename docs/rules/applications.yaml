@@ -1,0 +1,14 @@
+# Rule catalogue: applications and drafts.
+
+- id: DRF-01
+  statement: A draft may only use approved company facts.
+  spec: Phase 1 spec > Priorities and progress > Where the AI is involved
+  status: planned
+- id: DRF-02
+  statement: Every draft stores links to the facts it used.
+  spec: Phase 1 spec > Priorities and progress > Where the AI is involved
+  status: planned
+- id: DRF-03
+  statement: Nothing is submitted from the platform; "submitted" is set by the founder.
+  spec: Phase 1 spec > Priorities and progress > Progress
+  status: planned

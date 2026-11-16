@@ -1,0 +1,91 @@
+[project]
+name = "home-base"
+version = "0.1.0"
+description = "Home Base: a calm daily home base for early-stage blue economy founders."
+requires-python = ">=3.12"
+dependencies = [
+    "alembic==1.20.1",
+    "fastapi==0.162.4",
+    "psycopg[binary]==3.3.8",
+    "pyjwt[crypto]==2.15.1",
+    "pyyaml==6.0.3",
+    "sqlalchemy==2.0.57",
+    "uuid6==2025.0.1",
+    "uvicorn==0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "pytest-cov==6.0.0",
+    "hypothesis==6.122.3",
+    "types-pyyaml==6.0.12.20241230",
+    "mypy==1.14.1",
+    "ruff==0.8.6",
+    "pre-commit==4.0.1",
+    "mutmut==3.8.1",
+    "testcontainers[postgres]==4.15.0",
+    "httpx==0.28.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/home_base"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "T20", "DTZ", "PL"]
+ignore = ["PLR2004"]  # magic values are fine in tests; rules use named constants from config.py
+
+[tool.ruff.lint.isort]
+known-third-party = ["alembic"]  # the installed package, not the local alembic/ folder
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLR0913"]
+"alembic/versions/*" = ["E501"]  # generated migrations keep each CHECK's SQL on one line
+"src/home_base/api/*" = ["PLR0913"]  # FastAPI routes take each path value, body and dependency as a parameter
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "src"
+packages = ["home_base"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q --strict-markers"
+markers = ["integration: needs Docker; runs on a real Postgres 16 (Testcontainers)"]
+filterwarnings = [
+    # Starlette's test client asks for httpx2; we stay on the pinned httpx until it is reviewed.
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["home_base"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+[tool.mutmut]
+# Handbook section 9: mutate only rules.py and domain.py; gate in scripts/check_mutation.py.
+source_paths = ["src"]
+do_not_mutate = [
+    "src/home_base/config.py",
+    "src/home_base/core/*",
+    "src/home_base/modules/opportunities/seed.py",
+    "src/home_base/modules/*/models.py",  # tables: checked by integration tests
+    "src/home_base/modules/*/repository.py",  # database access: integration tests
+    "*__init__.py",
+]
+pytest_add_cli_args_test_selection = ["tests/unit"]
+also_copy = ["seed", "tests/fixtures"]

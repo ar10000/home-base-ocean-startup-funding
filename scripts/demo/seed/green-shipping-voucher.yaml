@@ -1,0 +1,15 @@
+# Fictional record for the public demo. Not a real opportunity; example.org is a placeholder.
+name: Green Port Innovation Voucher
+funder: Example Port Authority
+scope: blue_specific
+types: [grant]
+source_url: https://example.org/green-port-voucher
+retrieved_on: 2026-11-10
+verified_on: 2026-11-11
+verified_by: Demo data
+deadline: 2027-04-30
+timezone: Europe/Lisbon
+requirements:
+  - {type: hard, fact: sector, operator: one_of, value: [port_activities, maritime_transport, shipbuilding_and_repair], quote: "For port, shipping and shipbuilding innovation."}
+questions:
+  - {text: Describe the port problem you solve., required_facts: []}

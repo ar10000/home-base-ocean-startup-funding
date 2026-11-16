@@ -1,0 +1,18 @@
+# Fictional record for tests only. Not a real opportunity.
+name: Fictional Ocean Grant
+funder: Example Foundation
+scope: blue_specific
+types: [grant]
+source_url: https://example.org/fictional-ocean-grant
+retrieved_on: 2026-11-01
+verified_on: 2026-11-02
+verified_by: Test fixture
+deadline: 2027-01-31
+timezone: Europe/Lisbon
+requirements:
+  - {type: hard, fact: country, operator: equals, value: PT, quote: "Applicants must be based in Portugal."}
+  - {type: hard, fact: trl, operator: at_least, value: 4, quote: "Technology at TRL 4 or above."}
+  - {type: soft, criterion: Clear environmental benefit, quote: "Projects should show a clear benefit to ocean health."}
+questions:
+  - {text: Describe your team., required_facts: [team_size]}
+  - {text: "Why now?", required_facts: []}

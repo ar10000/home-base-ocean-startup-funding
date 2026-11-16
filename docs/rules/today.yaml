@@ -1,0 +1,370 @@
+# Rule catalogue: Today (priorities, modes, progress, readiness).
+
+- id: PRI-01
+  statement: "Applying priority 1: a missing fact blocks an answer due within 14 days."
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.applying_tasks
+  note: The fact blocking the most answers, ties to the earliest question (D-31); within 14 days includes day 14 (D-22).
+  examples:
+    - given: {today: 2026-11-09, approved: [country], opportunities: [{name: Blue Fund, fit: possible, decision: pursuing, deadline: 2026-11-23, unknown: [], questions: [[missing_facts, [trl]], [missing_facts, [trl, team_size]], [ai_draft, [country]]]}]}
+      expect: "add_fact:Blue Fund:trl"
+    - given: {today: 2026-11-09, approved: [country], opportunities: [{name: Blue Fund, fit: possible, decision: pursuing, deadline: 2026-11-24, unknown: [], questions: [[missing_facts, [trl]], [ai_draft, [country]]]}]}
+      expect: "next_answer:Blue Fund:2"
+- id: PRI-02
+  statement: "Applying priority 2: AI drafts await review in an application due within 14 days."
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.applying_tasks
+  note: Counts AI drafts only (D-35).
+  examples:
+    - given: {today: 2026-11-09, approved: [country], opportunities: [{name: Blue Fund, fit: possible, decision: pursuing, deadline: 2026-11-20, unknown: [], questions: [[ai_draft, [country]], [ai_draft, [country]], [edited, [country]]]}]}
+      expect: "review_drafts:Blue Fund:2"
+- id: PRI-03
+  statement: "Applying priority 3: a Possible match closes within 21 days and one fact would decide it."
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.applying_tasks
+  note: Within 21 days includes day 21 (D-22).
+  examples:
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: Sea Grant, fit: possible, decision: none, deadline: 2026-11-30, unknown: [trl], questions: null}]}
+      expect: "answer_one_question:Sea Grant:trl"
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: Sea Grant, fit: possible, decision: none, deadline: 2026-12-01, unknown: [trl], questions: null}]}
+      expect: null
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: Sea Grant, fit: possible, decision: none, deadline: 2026-11-30, unknown: [trl, team_size], questions: null}]}
+      expect: null
+- id: PRI-04
+  statement: "Applying priority 4: a Confirmed match closes within 30 days with no application."
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.applying_tasks
+  note: Within 30 days includes day 30 (D-22).
+  examples:
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: Ocean Prize, fit: confirmed, decision: none, deadline: 2026-12-09, unknown: [], questions: null}]}
+      expect: "start_application:Ocean Prize"
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: Ocean Prize, fit: confirmed, decision: none, deadline: 2026-12-10, unknown: [], questions: null}]}
+      expect: null
+- id: PRI-05
+  statement: "Applying priority 5: next unapproved answer in the earliest-deadline application."
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.applying_tasks
+  note: The first question with an AI draft or an edit, not approved (D-34).
+  examples:
+    - given: {today: 2026-11-09, approved: [country], opportunities: [{name: Blue Fund, fit: possible, decision: pursuing, deadline: 2027-02-01, unknown: [], questions: [[approved, [country]], [missing_facts, [trl]], [edited, [country]]]}]}
+      expect: "next_answer:Blue Fund:3"
+- id: PRI-06
+  statement: Nothing matches gives the "You're all set" state.
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.today_plan
+  note: Nothing matches gives no one thing today (the empty state).
+  examples:
+    - given: {today: 2026-11-09, approved: [], opportunities: []}
+      expect: null
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: Blue Fund, fit: confirmed, decision: not_for_us, deadline: 2027-02-01, unknown: [], questions: null}]}
+      expect: null
+
+- id: PRI-07
+  statement: Days left = deadline date minus today in Lisbon, rounded down.
+  spec: Phase 1 spec > Priorities and progress > Progress
+  status: implemented
+  implemented_in: home_base.core.dates.days_left
+  examples:
+    - given: {today: 2026-11-09, deadline: 2026-11-21}
+      expect: 12
+    - given: {today: 2026-11-09, deadline: 2026-11-09}
+      expect: 0
+    - given: {today: 2026-11-09, deadline: 2026-11-08}
+      expect: -1
+
+- id: PRI-08
+  statement: Ties go to the earliest deadline.
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.task_sort_key
+  note: Then blue-specific first, then name (D-28); a rolling call sorts after dated ones (D-37).
+  examples:
+    - given: {a: [2026-11-20, false, Beta], b: [2026-11-21, true, Alpha]}
+      expect: a
+    - given: {a: [2026-11-20, false, Alpha], b: [2026-11-20, true, Beta]}
+      expect: b
+    - given: {a: [2026-11-20, true, Beta], b: [2026-11-20, true, Alpha]}
+      expect: b
+    - given: {a: [null, true, Alpha], b: [2027-06-01, false, Zeta]}
+      expect: b
+- id: PRI-09
+  statement: Needs attention = next 3 tasks, excluding the one thing today.
+  spec: Phase 1 spec > Priorities and progress > Needs attention
+  status: implemented
+  implemented_in: home_base.modules.today.rules.today_plan
+  note: Up to 3 tasks after the one thing today.
+  examples:
+    - given: {today: 2026-11-09, approved: [], opportunities: [{name: A Call, fit: confirmed, decision: none, deadline: 2026-11-12, unknown: [], questions: null}, {name: B Call, fit: confirmed, decision: none, deadline: 2026-11-13, unknown: [], questions: null}, {name: C Call, fit: confirmed, decision: none, deadline: 2026-11-14, unknown: [], questions: null}, {name: D Call, fit: confirmed, decision: none, deadline: 2026-11-15, unknown: [], questions: null}, {name: E Call, fit: confirmed, decision: none, deadline: 2026-11-16, unknown: [], questions: null}]}
+      expect: "start_application:A Call | start_application:B Call, start_application:C Call, start_application:D Call"
+- id: PRI-10
+  statement: Time estimates come from a fixed table per task type.
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.time_estimate_minutes
+  note: Values from the spec's table plus D-27.
+  examples:
+    - given: {task: add_fact}
+      expect: 10
+    - given: {task: start_application}
+      expect: 20
+    - given: {task: next_answer}
+      expect: 10
+    - given: {task: back_on_list}
+      expect: 5
+- id: PRI-11
+  statement: Today is in Applying mode when an application is in progress with a future deadline, or a Confirmed match with no decision or Pursuing closes within 30 days; otherwise Preparing. Only opportunities with a current source that are not Not eligible decide the mode.
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.today_mode
+  note: Ready counts as well as In progress (D-33); within 30 days includes day 30 (D-22). A source not current (D-39) or a Not eligible fit (D-40) leaves the opportunity out. An optional fifth item in an example is source_current (default true).
+  examples:
+    - given: {today: 2026-11-09, opportunities: []}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[confirmed, none, 2026-12-09, null]]}
+      expect: applying
+    - given: {today: 2026-11-09, opportunities: [[confirmed, none, 2026-12-10, null]]}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[confirmed, later, 2026-11-20, null]]}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[possible, pursuing, 2027-03-01, in_progress]]}
+      expect: applying
+    - given: {today: 2026-11-09, opportunities: [[possible, pursuing, 2026-11-08, in_progress]]}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[possible, pursuing, 2027-03-01, ready]]}
+      expect: applying
+    - given: {today: 2026-11-09, opportunities: [[possible, pursuing, 2027-03-01, submitted]]}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[confirmed, none, 2026-12-09, null, false]]}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[possible, pursuing, 2027-03-01, in_progress, false]]}
+      expect: preparing
+    - given: {today: 2026-11-09, opportunities: [[not_eligible, pursuing, 2027-03-01, in_progress]]}
+      expect: preparing
+- id: PRI-12
+  statement: Priority lists use only opportunities with a current source and no decision or Pursuing, plus Later once it has returned; never a Not eligible one.
+  spec: Phase 1 spec > Priorities and progress > Your one thing today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.counts_for_priorities
+  note: Later counts once it has returned (DEC-03). Not eligible never counts, whatever the decision (D-40).
+  examples:
+    - given: {fit: possible, decision: none, later_returned: false, source_current: true}
+      expect: true
+    - given: {fit: possible, decision: pursuing, later_returned: false, source_current: false}
+      expect: false
+    - given: {fit: possible, decision: later, later_returned: false, source_current: true}
+      expect: false
+    - given: {fit: possible, decision: later, later_returned: true, source_current: true}
+      expect: true
+    - given: {fit: possible, decision: not_for_us, later_returned: false, source_current: true}
+      expect: false
+    - given: {fit: confirmed, decision: none, later_returned: false, source_current: true}
+      expect: true
+    - given: {fit: not_eligible, decision: pursuing, later_returned: false, source_current: true}
+      expect: false
+- id: PRI-13
+  statement: "Preparing 1: the missing fact with the most unlocks gives \"Add [fact]\"."
+  spec: Phase 1 spec > Priorities and progress > Preparing mode
+  status: implemented
+  implemented_in: home_base.modules.today.rules.preparing_tasks
+  note: Ranked by total unlocks; no unlocks, no task (D-36).
+  examples:
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Sea Grant, fit: possible, decision: none, deadline: 2027-03-01, unknown: [trl], questions: null, upcoming: false, opening: null, later_returned: false}, {name: Blue Lab, fit: possible, decision: none, deadline: 2027-03-01, unknown: [sector], questions: null, upcoming: false, opening: null, later_returned: false}, {name: Reef Fund, fit: possible, decision: none, deadline: 2027-04-01, unknown: [sector], questions: null, upcoming: false, opening: null, later_returned: false}]}
+      expect: "add_fact::sector"
+- id: PRI-14
+  statement: "Preparing 2: an upcoming opportunity opens within 30 days and has no decision."
+  spec: Phase 1 spec > Priorities and progress > Preparing mode
+  status: implemented
+  implemented_in: home_base.modules.today.rules.preparing_tasks
+  note: Opens within 30 days, day 30 included (D-22); no decision.
+  examples:
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Lab Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-12-09, later_returned: false}]}
+      expect: "decide:Lab Batch"
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Lab Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-12-10, later_returned: false}]}
+      expect: null
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Lab Batch, fit: possible, decision: pursuing, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-12-01, later_returned: false}]}
+      expect: null
+- id: PRI-15
+  statement: "Preparing 3: an opportunity on Later has returned."
+  spec: Phase 1 spec > Priorities and progress > Preparing mode
+  status: implemented
+  implemented_in: home_base.modules.today.rules.preparing_tasks
+  note: Later once it has returned (DEC-03).
+  examples:
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Reef Fund, fit: possible, decision: later, deadline: 2026-12-01, unknown: [], questions: null, upcoming: false, opening: null, later_returned: true}]}
+      expect: "back_on_list:Reef Fund"
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Reef Fund, fit: possible, decision: later, deadline: 2027-06-01, unknown: [], questions: null, upcoming: false, opening: null, later_returned: false}]}
+      expect: null
+- id: PRI-16
+  statement: "Preparing 4: intent untouched for 90 days gives \"Check your goals\"."
+  spec: Phase 1 spec > Priorities and progress > Preparing mode
+  status: implemented
+  implemented_in: home_base.modules.today.rules.preparing_tasks
+  note: More than 90 days, or never set (D-22, D-32).
+  examples:
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-08-10, opportunities: []}
+      expect: "check_goals:"
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-08-11, opportunities: []}
+      expect: null
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: null, opportunities: []}
+      expect: "check_goals:"
+- id: PRI-17
+  statement: "Preparing 5: nothing matches gives \"You're all set\", with the next opening date."
+  spec: Phase 1 spec > Priorities and progress > Preparing mode
+  status: implemented
+  implemented_in: home_base.modules.today.rules.next_opening_date
+  note: Earliest opening among upcoming calls not marked Not for us (D-38) and not Not eligible (D-40).
+  examples:
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Lab Batch, fit: possible, decision: later, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2027-02-01, later_returned: false}, {name: Ocean Batch, fit: possible, decision: not_for_us, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2027-01-01, later_returned: false}, {name: Sea Call, fit: possible, decision: none, deadline: 2026-12-01, unknown: [], questions: null, upcoming: false, opening: null, later_returned: false}]}
+      expect: "2027-02-01"
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Sea Call, fit: possible, decision: none, deadline: 2026-12-01, unknown: [], questions: null, upcoming: false, opening: null, later_returned: false}]}
+      expect: null
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, opportunities: [{name: Reef Batch, fit: not_eligible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-12-01, later_returned: false}, {name: Lab Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2027-02-01, later_returned: false}]}
+      expect: "2027-02-01"
+
+- id: PRI-18
+  statement: "Preparing mode lists up to 3 opportunities opening soon, by opening date, each with its readiness."
+  spec: Phase 1 spec > Priorities and progress > Preparing mode
+  status: implemented
+  implemented_in: home_base.modules.today.rules.opening_soon
+  note: Upcoming, counting for Today (PRI-12), opening within 30 days as PRI-14 (both ends included, D-61); ties blue-specific first, then name (D-28). The 3 is OPENING_SOON_COUNT.
+  examples:
+    - given: {today: 2026-11-09, opportunities: [{name: Bay Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-20, later_returned: false}, {name: Arc Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-12-09, later_returned: false}, {name: Cod Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-12-10, later_returned: false}, {name: Dune Batch, fit: possible, decision: not_for_us, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-15, later_returned: false}]}
+      expect: [Bay Batch, Arc Batch]
+    - given: {today: 2026-11-09, opportunities: [{name: A Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-21, later_returned: false}, {name: B Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-12, later_returned: false}, {name: C Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-30, later_returned: false}, {name: D Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-10, later_returned: false}]}
+      expect: [D Batch, B Batch, A Batch]
+    - given: {today: 2026-11-09, opportunities: [{name: Zed Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-20, later_returned: false}, {name: Alp Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-20, later_returned: false}]}
+      expect: [Alp Batch, Zed Batch]
+    - given: {today: 2026-11-09, opportunities: [{name: Reef Batch, fit: not_eligible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-20, later_returned: false}, {name: Sea Call, fit: possible, decision: none, deadline: 2026-11-20, unknown: [], questions: null, upcoming: false, opening: null, later_returned: false}]}
+      expect: []
+    - given: {today: 2026-11-09, opportunities: [{name: Now Batch, fit: possible, decision: none, deadline: null, unknown: [], questions: null, upcoming: true, opening: 2026-11-09, later_returned: false}]}
+      expect: [Now Batch]
+
+- id: PRI-19
+  statement: Today's next deadline is the earliest deadline among opportunities with an open application, shown with its answers ready.
+  spec: Phase 1 spec > Screens > Today
+  status: implemented
+  implemented_in: home_base.modules.today.rules.next_deadline
+  note: Open = not yet marked submitted; the deadline is today or later; only opportunities that count for Today (D-40); ties blue-specific first, then name (D-28) (D-61).
+  examples:
+    - given: {today: 2026-11-09, opportunities: [{name: Late Call, fit: possible, decision: none, deadline: 2026-12-01, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}, {name: Soon Call, fit: possible, decision: none, deadline: 2026-11-20, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}, {name: Sooner, no application, fit: possible, decision: none, deadline: 2026-11-10, unknown: [], questions: null, upcoming: false, opening: null, later_returned: false}]}
+      expect: Soon Call
+    - given: {today: 2026-11-09, opportunities: [{name: Past Call, fit: possible, decision: none, deadline: 2026-11-08, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}, {name: Next Call, fit: possible, decision: none, deadline: 2026-12-01, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}]}
+      expect: Next Call
+    - given: {today: 2026-11-09, opportunities: [{name: Today Call, fit: possible, decision: none, deadline: 2026-11-09, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}]}
+      expect: Today Call
+    - given: {today: 2026-11-09, opportunities: [{name: Rolling Call, fit: possible, decision: none, deadline: null, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}]}
+      expect: null
+    - given: {today: 2026-11-09, opportunities: [{name: Reef Call, fit: not_eligible, decision: none, deadline: 2026-11-20, unknown: [], questions: [[ai_draft, [team_size]]], upcoming: false, opening: null, later_returned: false}]}
+      expect: null
+    - given: {today: 2026-11-09, opportunities: []}
+      expect: null
+
+- id: PRG-01
+  statement: Answers ready = approved / total questions.
+  spec: Phase 1 spec > Priorities and progress > Progress
+  status: implemented
+  implemented_in: home_base.modules.today.rules.answers_ready
+  note: Hidden when the call has no questions (decision D-23).
+  examples:
+    - given: {questions: [approved, edited, missing_facts]}
+      expect: 1 of 3
+    - given: {questions: []}
+      expect: null
+- id: PRG-02
+  statement: Draftable = questions whose required facts are all approved.
+  spec: Phase 1 spec > Priorities and progress > Progress
+  status: implemented
+  implemented_in: home_base.modules.today.rules.is_draftable
+  note: A question with no required facts is not draftable (decision D-24).
+  examples:
+    - given: {required: [country, trl], approved: [country, trl, sector]}
+      expect: true
+    - given: {required: [country, trl], approved: [country]}
+      expect: false
+    - given: {required: [], approved: [country]}
+      expect: false
+- id: PRG-03
+  statement: Application status moves not started, in progress, ready, submitted (reopening an approved answer returns ready to in progress, decision D-09).
+  spec: Phase 1 spec > Priorities and progress > Progress
+  status: implemented
+  implemented_in: home_base.modules.today.rules.application_status
+  note: Started = AI draft, edit or approval (D-25); a submitted application stays submitted (D-09).
+  examples:
+    - given: {questions: [missing_facts, missing_facts], submitted: false}
+      expect: not_started
+    - given: {questions: [ai_draft, missing_facts], submitted: false}
+      expect: in_progress
+    - given: {questions: [approved, approved], submitted: false}
+      expect: ready
+    - given: {questions: [approved, edited], submitted: false}
+      expect: in_progress
+    - given: {questions: [approved, edited], submitted: true}
+      expect: submitted
+    - given: {questions: [], submitted: false}
+      expect: not_started
+- id: PRG-04
+  statement: Milestones come from a fixed list; each is shown once and logged.
+  spec: Phase 1 spec > Priorities and progress > Readiness and milestones
+  status: implemented
+  implemented_in: home_base.modules.today.rules.new_milestones
+  note: Every hard-rule fact filled = the fixed list of hard-rule fact fields all approved (D-26).
+  examples:
+    - given: {approved_facts: [country], applications: [], shown: []}
+      expect: [first_fact_approved]
+    - given: {approved_facts: [country], applications: [], shown: [first_fact_approved]}
+      expect: []
+    - given: {approved_facts: [], applications: [], shown: []}
+      expect: []
+    - given: {approved_facts: [country], applications: [[[approved, approved], false]], shown: [first_fact_approved]}
+      expect: [first_answer_approved, first_application_ready]
+- id: PRG-05
+  statement: An answer can only be approved when its text is not blank (decision D-72).
+  spec: Phase 1 spec > Priorities and progress > Progress (Andrew, 2026-11-15)
+  status: implemented
+  implemented_in: home_base.modules.applications.rules.approvable
+  note: Blank means empty or only whitespace; the text itself is never changed.
+  examples:
+    - given: {text: "Two founders."}
+      expect: true
+    - given: {text: " a "}
+      expect: true
+    - given: {text: ""}
+      expect: false
+    - given: {text: "   "}
+      expect: false
+    - given: {text: "\n\t "}
+      expect: false
+- id: RDY-01
+  statement: Readiness = draftable or approved questions / total questions; hidden when the questions are unknown.
+  spec: Phase 1 spec > Priorities and progress > Readiness and milestones
+  status: implemented
+  implemented_in: home_base.modules.today.rules.readiness
+  note: Hidden when the questions are unknown or none (D-23); a question with no required facts is not draftable (D-24).
+  examples:
+    - given: {questions: [[approved, [sector]], [missing_facts, [country]], [missing_facts, [trl]]], approved: [country]}
+      expect: 2 of 3
+    - given: {questions: null, approved: [country]}
+      expect: null
+    - given: {questions: [], approved: [country]}
+      expect: null
+    - given: {questions: [[missing_facts, []]], approved: [country]}
+      expect: 0 of 1
+- id: RDY-02
+  statement: Unlocks per missing fact = Possible matches where it is the only unknown hard rule + questions it makes draftable.
+  spec: Phase 1 spec > Priorities and progress > Readiness and milestones
+  status: implemented
+  implemented_in: home_base.modules.today.rules.fact_unlocks
+  note: Questions across upcoming and Pursuing opportunities; a question counts when this fact is the only one missing (D-24, D-38). Not eligible opportunities give no unlocks (D-40).
+  examples:
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, fact: trl, opportunities: [{name: Sea Grant, fit: possible, decision: none, deadline: 2027-03-01, unknown: [trl], questions: null, upcoming: false, opening: null, later_returned: false}, {name: Blue Lab, fit: possible, decision: none, deadline: 2027-03-01, unknown: [trl, sector], questions: null, upcoming: false, opening: null, later_returned: false}, {name: Ocean Call, fit: possible, decision: pursuing, deadline: 2027-02-01, unknown: [], questions: [[missing_facts, [trl]], [missing_facts, [trl, sector]], [approved, [trl]]], upcoming: false, opening: null, later_returned: false}]}
+      expect: "1 match, 1 question"
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, fact: trl, opportunities: []}
+      expect: "0 matches, 0 questions"
+    - given: {today: 2026-11-09, approved: [], intent_recorded_on: 2026-10-01, fact: trl, opportunities: [{name: Reef Call, fit: not_eligible, decision: pursuing, deadline: 2027-02-01, unknown: [], questions: [[missing_facts, [trl]]], upcoming: false, opening: null, later_returned: false}]}
+      expect: "0 matches, 0 questions"

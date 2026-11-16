@@ -1,0 +1,14 @@
+# Fictional record for tests only. Not a real opportunity.
+name: Fictional Accelerator Batch
+funder: Example Accelerator
+scope: all_sectors
+types: [accelerator, grant]
+source_url: https://example.org/fictional-accelerator
+retrieved_on: 2026-10-20
+verified_on: 2026-10-21
+verified_by: Test fixture
+expected_month: 2027-03
+evidence:
+  - {kind: previous_edition, dated: 2026-03-02, source_url: "https://example.org/fictional-accelerator/2026"}
+requirements:
+  - {type: hard, fact: applicant_form, operator: one_of, value: [alone, consortium], quote: "Teams or single companies may apply."}

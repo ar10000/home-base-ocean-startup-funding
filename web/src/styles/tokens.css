@@ -1,0 +1,68 @@
+/*
+ * Calm tide tokens (ADR-002), taken from the "Calm tide palette" artboard of the wireframe
+ * canvas (docs/spec/phase-1.md, "Designed screens"). Split: 60% sand and white, 30% sea
+ * mist, 7% sea green, 3% coral. Coral only marks AI, the current stage and AI-drafted text.
+ * Status colours are fixed (spec): sea green confirmed, warm sand deadlines, grey unknown,
+ * coral AI.
+ */
+@import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/300.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --color-sand: #f7f3ec;
+  --color-white: #ffffff;
+  --color-line: #e6dfd3;
+  --color-divider: #efebe4;
+
+  --color-mist: #dcede8;
+  --color-sea: #1f7a6e;
+  --color-sea-deep: #165a51;
+
+  --color-coral: #f0765f;
+  --color-coral-soft: #fde6e0;
+
+  --color-deadline: #fbebdd;
+  --color-deadline-line: #f1d6be;
+  --color-deadline-ink: #9a5414;
+
+  --color-unknown: #efebe4;
+  --color-unknown-ink: #4a5464;
+
+  --color-ink: #1b2a41;
+  --color-ink-muted: #5b6676;
+
+  --radius-card: 22px;
+  --radius-hero: 24px;
+  --radius-nav: 14px;
+
+  --shadow-card: 0 1px 2px rgb(27 42 65 / 0.05), 0 8px 24px rgb(27 42 65 / 0.06);
+}
+
+@layer base {
+  body {
+    @apply bg-sand font-sans text-ink antialiased;
+  }
+  a {
+    @apply text-sea hover:text-sea-deep;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-sea;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex min-h-11 cursor-pointer items-center rounded-full border-0 bg-sea px-5 text-sm font-semibold text-white no-underline hover:bg-sea-deep hover:text-white disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-secondary {
+    @apply inline-flex min-h-11 cursor-pointer items-center rounded-full border border-line bg-white px-5 text-sm font-semibold text-ink no-underline hover:text-ink;
+  }
+  .eyebrow {
+    @apply m-0 text-xs font-semibold tracking-[0.08em] text-ink-muted uppercase;
+  }
+}

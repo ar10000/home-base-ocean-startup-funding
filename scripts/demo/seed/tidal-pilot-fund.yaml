@@ -1,0 +1,20 @@
+# Fictional record for the public demo. Not a real opportunity; example.org is a placeholder.
+name: Tidal Pilot Fund
+funder: Example Coastal Foundation
+scope: blue_specific
+types: [grant, testbed_or_pilot]
+source_url: https://example.org/tidal-pilot-fund
+retrieved_on: 2026-11-03
+verified_on: 2026-11-04
+verified_by: Demo data
+deadline: 2026-11-28
+timezone: Europe/Lisbon
+requirements:
+  - {type: hard, fact: country, operator: one_of, value: [PT, ES, FR], quote: "Open to companies registered in Portugal, Spain or France."}
+  - {type: hard, fact: trl, operator: at_least, value: 5, quote: "Solutions must have reached TRL 5."}
+  - {type: hard, fact: team_size, operator: at_most, value: 50, quote: "Applicants must have fewer than 51 employees."}
+  - {type: soft, criterion: Measurable ocean impact, quote: "Pilots should report a measurable benefit to coastal ecosystems."}
+questions:
+  - {text: Describe the pilot site and what you will measure., required_facts: [trl]}
+  - {text: "Who is on the team and what will each person do?", required_facts: [team_size]}
+  - {text: "What happens after the pilot?", required_facts: []}

@@ -1,0 +1,1833 @@
+{
+  "GET /me": {
+    "user_id": "01a1e62c-a504-7437-962c-a917b156b81e",
+    "company_id": "01a1e62c-a584-771a-a594-d7c3a54ca1f5",
+    "given_name": "Inês"
+  },
+  "GET /today": {
+    "stage": {
+      "value": "pilot",
+      "label": "Pilot",
+      "position": 5,
+      "total": 9
+    },
+    "mode": "preparing",
+    "one_thing": {
+      "type": "add_fact",
+      "minutes": 10,
+      "opportunity_id": null,
+      "opportunity": null,
+      "deadline": "2027-01-31",
+      "fact": "team_size",
+      "count": 1,
+      "question": null
+    },
+    "needs_attention": [
+      {
+        "type": "add_fact",
+        "minutes": 10,
+        "opportunity_id": null,
+        "opportunity": null,
+        "deadline": "2027-02-20",
+        "fact": "woman_ceo",
+        "count": 1,
+        "question": null
+      }
+    ],
+    "next_opening": null,
+    "next_deadline": null,
+    "current_goal": [
+      {
+        "goal": "investment",
+        "window": "soon"
+      }
+    ],
+    "opening_soon": [],
+    "top_fact": {
+      "fact": "team_size",
+      "matches": 0,
+      "questions": 1
+    }
+  },
+  "GET /profile": {
+    "facts": [
+      {
+        "id": "01a1e62c-a922-7e98-9fd8-a6a252a69581",
+        "key": "applicant_form",
+        "value": "alone",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-16T21:04:08.991399Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e62c-a678-7a29-80e8-40e56ed2dad0",
+        "key": "country",
+        "value": "PT",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-16T21:04:08.308287Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e62c-a7c9-7c09-82ba-115ba75d3154",
+        "key": "legal_form",
+        "value": "private_limited",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-16T21:04:08.643147Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e62c-a742-7921-a580-1c198c63f7a6",
+        "key": "sector",
+        "value": "marine_living_resources",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-16T21:04:08.510428Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e62c-a8b7-7910-860f-87ccfc7b4120",
+        "key": "team_size",
+        "value": 4,
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-16T21:04:08.884347Z",
+        "approved": false
+      },
+      {
+        "id": "01a1e62c-a83f-74ac-9ce2-1f5544cea9a1",
+        "key": "trl",
+        "value": 5,
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-16T21:04:08.762260Z",
+        "approved": true
+      }
+    ],
+    "founder_facts": [],
+    "stage": "pilot"
+  },
+  "GET /fact-options": {
+    "country": [
+      {
+        "value": "AT",
+        "label": "Austria"
+      },
+      {
+        "value": "BE",
+        "label": "Belgium"
+      },
+      {
+        "value": "BG",
+        "label": "Bulgaria"
+      },
+      {
+        "value": "HR",
+        "label": "Croatia"
+      },
+      {
+        "value": "CY",
+        "label": "Cyprus"
+      },
+      {
+        "value": "CZ",
+        "label": "Czechia"
+      },
+      {
+        "value": "DK",
+        "label": "Denmark"
+      },
+      {
+        "value": "EE",
+        "label": "Estonia"
+      },
+      {
+        "value": "FI",
+        "label": "Finland"
+      },
+      {
+        "value": "FR",
+        "label": "France"
+      },
+      {
+        "value": "DE",
+        "label": "Germany"
+      },
+      {
+        "value": "GR",
+        "label": "Greece"
+      },
+      {
+        "value": "HU",
+        "label": "Hungary"
+      },
+      {
+        "value": "IE",
+        "label": "Ireland"
+      },
+      {
+        "value": "IT",
+        "label": "Italy"
+      },
+      {
+        "value": "LV",
+        "label": "Latvia"
+      },
+      {
+        "value": "LT",
+        "label": "Lithuania"
+      },
+      {
+        "value": "LU",
+        "label": "Luxembourg"
+      },
+      {
+        "value": "MT",
+        "label": "Malta"
+      },
+      {
+        "value": "NL",
+        "label": "Netherlands"
+      },
+      {
+        "value": "PL",
+        "label": "Poland"
+      },
+      {
+        "value": "PT",
+        "label": "Portugal"
+      },
+      {
+        "value": "RO",
+        "label": "Romania"
+      },
+      {
+        "value": "SK",
+        "label": "Slovakia"
+      },
+      {
+        "value": "SI",
+        "label": "Slovenia"
+      },
+      {
+        "value": "ES",
+        "label": "Spain"
+      },
+      {
+        "value": "SE",
+        "label": "Sweden"
+      },
+      {
+        "value": "OTHER",
+        "label": "Outside the EU"
+      }
+    ],
+    "sector": [
+      {
+        "value": "marine_living_resources",
+        "label": "Marine living resources (fisheries, aquaculture, seaweed)"
+      },
+      {
+        "value": "marine_non_living_resources",
+        "label": "Marine non-living resources"
+      },
+      {
+        "value": "marine_renewable_energy",
+        "label": "Marine renewable energy"
+      },
+      {
+        "value": "port_activities",
+        "label": "Port activities"
+      },
+      {
+        "value": "shipbuilding_and_repair",
+        "label": "Shipbuilding and repair"
+      },
+      {
+        "value": "maritime_transport",
+        "label": "Maritime transport"
+      },
+      {
+        "value": "coastal_tourism",
+        "label": "Coastal tourism"
+      },
+      {
+        "value": "blue_biotechnology",
+        "label": "Blue biotechnology"
+      },
+      {
+        "value": "ocean_energy",
+        "label": "Ocean energy"
+      },
+      {
+        "value": "desalination",
+        "label": "Desalination"
+      },
+      {
+        "value": "maritime_defence_and_security",
+        "label": "Maritime defence and security"
+      },
+      {
+        "value": "research_and_education",
+        "label": "Research and education"
+      },
+      {
+        "value": "marine_infrastructure_and_robotics",
+        "label": "Marine infrastructure and robotics"
+      },
+      {
+        "value": "other",
+        "label": "Other (not ocean-specific)"
+      }
+    ],
+    "legal_form": [
+      {
+        "value": "not_incorporated",
+        "label": "Not yet incorporated"
+      },
+      {
+        "value": "sole_trader",
+        "label": "Sole trader (ENI)"
+      },
+      {
+        "value": "private_limited",
+        "label": "Private limited company (Lda, Unipessoal Lda)"
+      },
+      {
+        "value": "public_limited",
+        "label": "Public limited company (S.A.)"
+      },
+      {
+        "value": "cooperative",
+        "label": "Cooperative"
+      },
+      {
+        "value": "non_profit",
+        "label": "Non-profit association or foundation"
+      }
+    ],
+    "applicant_form": [
+      {
+        "value": "alone",
+        "label": "Alone"
+      },
+      {
+        "value": "consortium",
+        "label": "In a consortium"
+      }
+    ]
+  },
+  "GET /stages": [
+    {
+      "value": "idea",
+      "label": "Idea"
+    },
+    {
+      "value": "validation",
+      "label": "Validation"
+    },
+    {
+      "value": "foundations",
+      "label": "Foundations"
+    },
+    {
+      "value": "prototype",
+      "label": "Prototype"
+    },
+    {
+      "value": "pilot",
+      "label": "Pilot"
+    },
+    {
+      "value": "non_dilutive_funding",
+      "label": "Non-dilutive funding"
+    },
+    {
+      "value": "raise_prep",
+      "label": "Raise prep"
+    },
+    {
+      "value": "first_round",
+      "label": "First round"
+    },
+    {
+      "value": "growth",
+      "label": "Growth"
+    }
+  ],
+  "GET /applications": [
+    {
+      "id": "01a1e62c-b3e5-7be9-b054-1b5797129068",
+      "opportunity_id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+      "opportunity": "Tidal Pilot Fund",
+      "status": "in_progress",
+      "answers_ready": {
+        "ready": 1,
+        "total": 3
+      },
+      "call_removed": false
+    }
+  ],
+  "GET /opportunities": {
+    "items": [
+      {
+        "id": "01a1e62a-3c35-7ee5-86aa-9c9967f7b053",
+        "name": "Blue Founders Accelerator",
+        "funder": "Example Accelerator",
+        "types": ["accelerator", "investor_programme"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "later",
+        "status": "upcoming",
+        "opening": null,
+        "expected_month": "2027-03",
+        "deadline": {
+          "kind": "rolling",
+          "date": null,
+          "days_left": null
+        },
+        "checked_on": "2026-10-21",
+        "checked_days_ago": 26,
+        "recheck_due": true,
+        "readiness": null,
+        "based_on_last_edition": true,
+        "goal_relevant": true
+      },
+      {
+        "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
+        "name": "Atlantic Seaweed Innovation Grant",
+        "funder": "Example Ocean Trust",
+        "types": ["grant"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-01-31",
+          "days_left": null
+        },
+        "checked_on": "2026-11-02",
+        "checked_days_ago": 14,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 2
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      },
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 12
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 12,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 1,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      },
+      {
+        "id": "01a1e62a-3c3a-7c41-bf60-7637545beb24",
+        "name": "Coastal Startup Prize",
+        "funder": "Example City Council",
+        "types": ["prize"],
+        "scope": "all_sectors",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "none",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-02-20",
+          "days_left": null
+        },
+        "checked_on": "2026-11-09",
+        "checked_days_ago": 7,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 3,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?decision=none": {
+    "items": [
+      {
+        "id": "01a1e62a-3c3a-7c41-bf60-7637545beb24",
+        "name": "Coastal Startup Prize",
+        "funder": "Example City Council",
+        "types": ["prize"],
+        "scope": "all_sectors",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "none",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-02-20",
+          "days_left": null
+        },
+        "checked_on": "2026-11-09",
+        "checked_days_ago": 7,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?decision=pursuing": {
+    "items": [
+      {
+        "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
+        "name": "Atlantic Seaweed Innovation Grant",
+        "funder": "Example Ocean Trust",
+        "types": ["grant"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-01-31",
+          "days_left": null
+        },
+        "checked_on": "2026-11-02",
+        "checked_days_ago": 14,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 2
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      },
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 12
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 12,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 1,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?decision=later": {
+    "items": [
+      {
+        "id": "01a1e62a-3c35-7ee5-86aa-9c9967f7b053",
+        "name": "Blue Founders Accelerator",
+        "funder": "Example Accelerator",
+        "types": ["accelerator", "investor_programme"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "later",
+        "status": "upcoming",
+        "opening": null,
+        "expected_month": "2027-03",
+        "deadline": {
+          "kind": "rolling",
+          "date": null,
+          "days_left": null
+        },
+        "checked_on": "2026-10-21",
+        "checked_days_ago": 26,
+        "recheck_due": true,
+        "readiness": null,
+        "based_on_last_edition": true,
+        "goal_relevant": true
+      }
+    ],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?decision=not_for_us": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
+      "possible": 0,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=confirmed": {
+    "items": [
+      {
+        "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
+        "name": "Atlantic Seaweed Innovation Grant",
+        "funder": "Example Ocean Trust",
+        "types": ["grant"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-01-31",
+          "days_left": null
+        },
+        "checked_on": "2026-11-02",
+        "checked_days_ago": 14,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 2
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 3,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=confirmed&decision=none": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=confirmed&decision=pursuing": {
+    "items": [
+      {
+        "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
+        "name": "Atlantic Seaweed Innovation Grant",
+        "funder": "Example Ocean Trust",
+        "types": ["grant"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-01-31",
+          "days_left": null
+        },
+        "checked_on": "2026-11-02",
+        "checked_days_ago": 14,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 2
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?fit=confirmed&decision=later": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?fit=confirmed&decision=not_for_us": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
+      "possible": 0,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=possible": {
+    "items": [
+      {
+        "id": "01a1e62a-3c35-7ee5-86aa-9c9967f7b053",
+        "name": "Blue Founders Accelerator",
+        "funder": "Example Accelerator",
+        "types": ["accelerator", "investor_programme"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "later",
+        "status": "upcoming",
+        "opening": null,
+        "expected_month": "2027-03",
+        "deadline": {
+          "kind": "rolling",
+          "date": null,
+          "days_left": null
+        },
+        "checked_on": "2026-10-21",
+        "checked_days_ago": 26,
+        "recheck_due": true,
+        "readiness": null,
+        "based_on_last_edition": true,
+        "goal_relevant": true
+      },
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 12
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 12,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 1,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      },
+      {
+        "id": "01a1e62a-3c3a-7c41-bf60-7637545beb24",
+        "name": "Coastal Startup Prize",
+        "funder": "Example City Council",
+        "types": ["prize"],
+        "scope": "all_sectors",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "none",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-02-20",
+          "days_left": null
+        },
+        "checked_on": "2026-11-09",
+        "checked_days_ago": 7,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 3,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=possible&decision=none": {
+    "items": [
+      {
+        "id": "01a1e62a-3c3a-7c41-bf60-7637545beb24",
+        "name": "Coastal Startup Prize",
+        "funder": "Example City Council",
+        "types": ["prize"],
+        "scope": "all_sectors",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "none",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-02-20",
+          "days_left": null
+        },
+        "checked_on": "2026-11-09",
+        "checked_days_ago": 7,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=possible&decision=pursuing": {
+    "items": [
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 12
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 12,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 1,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?fit=possible&decision=later": {
+    "items": [
+      {
+        "id": "01a1e62a-3c35-7ee5-86aa-9c9967f7b053",
+        "name": "Blue Founders Accelerator",
+        "funder": "Example Accelerator",
+        "types": ["accelerator", "investor_programme"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "possible",
+          "few_explicit_rules": false
+        },
+        "decision": "later",
+        "status": "upcoming",
+        "opening": null,
+        "expected_month": "2027-03",
+        "deadline": {
+          "kind": "rolling",
+          "date": null,
+          "days_left": null
+        },
+        "checked_on": "2026-10-21",
+        "checked_days_ago": 26,
+        "recheck_due": true,
+        "readiness": null,
+        "based_on_last_edition": true,
+        "goal_relevant": true
+      }
+    ],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?fit=possible&decision=not_for_us": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
+      "possible": 0,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=not_eligible": {
+    "items": [
+      {
+        "id": "01a1e62a-3c3f-7e94-95bc-9d7ccfa7f89b",
+        "name": "Ocean Energy Challenge",
+        "funder": "Example Energy Agency",
+        "types": ["procurement_challenge"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "not_eligible",
+          "few_explicit_rules": false
+        },
+        "decision": "none",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-03-15",
+          "days_left": null
+        },
+        "checked_on": "2026-11-06",
+        "checked_days_ago": 10,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 1,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 1,
+      "possible": 3,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=not_eligible&decision=none": {
+    "items": [
+      {
+        "id": "01a1e62a-3c3f-7e94-95bc-9d7ccfa7f89b",
+        "name": "Ocean Energy Challenge",
+        "funder": "Example Energy Agency",
+        "types": ["procurement_challenge"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "not_eligible",
+          "few_explicit_rules": false
+        },
+        "decision": "none",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-03-15",
+          "days_left": null
+        },
+        "checked_on": "2026-11-06",
+        "checked_days_ago": 10,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 1,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=not_eligible&decision=pursuing": {
+    "items": [],
+    "counts": {
+      "confirmed": 1,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?fit=not_eligible&decision=later": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
+      "possible": 1,
+      "not_eligible": 0
+    }
+  },
+  "GET /opportunities?fit=not_eligible&decision=not_for_us": {
+    "items": [
+      {
+        "id": "01a1e62a-3c44-7a9a-86df-a90e3bd19e31",
+        "name": "Green Port Innovation Voucher",
+        "funder": "Example Port Authority",
+        "types": ["grant"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "not_eligible",
+          "few_explicit_rules": true
+        },
+        "decision": "not_for_us",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-04-30",
+          "days_left": null
+        },
+        "checked_on": "2026-11-11",
+        "checked_days_ago": 5,
+        "recheck_due": false,
+        "readiness": {
+          "ready": 0,
+          "total": 1
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 0,
+      "possible": 0,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities/01a1e62a-3c35-7ee5-86aa-9c9967f7b053": {
+    "id": "01a1e62a-3c35-7ee5-86aa-9c9967f7b053",
+    "name": "Blue Founders Accelerator",
+    "funder": "Example Accelerator",
+    "types": ["accelerator", "investor_programme"],
+    "scope": "blue_specific",
+    "fit": {
+      "status": "possible",
+      "few_explicit_rules": false
+    },
+    "decision": "later",
+    "status": "upcoming",
+    "opening": null,
+    "expected_month": "2027-03",
+    "deadline": {
+      "kind": "rolling",
+      "date": null,
+      "days_left": null
+    },
+    "checked_on": "2026-10-21",
+    "checked_days_ago": 26,
+    "recheck_due": true,
+    "readiness": null,
+    "based_on_last_edition": true,
+    "goal_relevant": true,
+    "source_url": "https://example.org/blue-founders-accelerator",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "Companies founded in the last five years.",
+        "fact": "company_age",
+        "criterion": null,
+        "result": "unknown"
+      },
+      {
+        "hard": true,
+        "quote": "One company per application.",
+        "fact": "applicant_form",
+        "criterion": null,
+        "result": "pass"
+      }
+    ],
+    "questions_total": null,
+    "questions_draftable": 0,
+    "evidence": [
+      {
+        "kind": "previous_edition",
+        "dated": "2026-03-02",
+        "url": "https://example.org/blue-founders-accelerator/2026"
+      }
+    ],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "blue-founders-accelerator"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.991399+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:09.074310+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "decision.changed",
+        "occurred_at": "2026-11-16T21:04:10.895387+00:00",
+        "before": {
+          "decision": "none"
+        },
+        "after": {
+          "reason": null,
+          "decision": "later"
+        }
+      }
+    ]
+  },
+  "GET /opportunities/01a1e62a-3c28-7002-9e10-fc727663187a": {
+    "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
+    "name": "Atlantic Seaweed Innovation Grant",
+    "funder": "Example Ocean Trust",
+    "types": ["grant"],
+    "scope": "blue_specific",
+    "fit": {
+      "status": "confirmed",
+      "few_explicit_rules": false
+    },
+    "decision": "pursuing",
+    "status": "open",
+    "opening": null,
+    "expected_month": null,
+    "deadline": {
+      "kind": "date",
+      "date": "2027-01-31",
+      "days_left": null
+    },
+    "checked_on": "2026-11-02",
+    "checked_days_ago": 14,
+    "recheck_due": false,
+    "readiness": {
+      "ready": 0,
+      "total": 2
+    },
+    "based_on_last_edition": false,
+    "goal_relevant": false,
+    "source_url": "https://example.org/atlantic-seaweed-grant",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "Applicants must be based in Portugal.",
+        "fact": "country",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "For seaweed, aquaculture and other marine living resources.",
+        "fact": "sector",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "Limited companies and cooperatives are eligible.",
+        "fact": "legal_form",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": false,
+        "quote": "Projects should show a clear benefit to ocean health.",
+        "fact": null,
+        "criterion": "Clear environmental benefit",
+        "result": "ai_judgement"
+      }
+    ],
+    "questions_total": 2,
+    "questions_draftable": 0,
+    "evidence": [],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "atlantic-seaweed-grant"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.460908+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.510428+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.607718+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.643147+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.724784+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "confirmed",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "decision.changed",
+        "occurred_at": "2026-11-16T21:04:13.984425+00:00",
+        "before": {
+          "decision": "none"
+        },
+        "after": {
+          "reason": null,
+          "decision": "pursuing"
+        }
+      }
+    ]
+  },
+  "GET /opportunities/01a1e62a-3c48-7204-8dcb-78cb27cfb4bd": {
+    "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+    "name": "Tidal Pilot Fund",
+    "funder": "Example Coastal Foundation",
+    "types": ["grant", "testbed_or_pilot"],
+    "scope": "blue_specific",
+    "fit": {
+      "status": "possible",
+      "few_explicit_rules": false
+    },
+    "decision": "pursuing",
+    "status": "open",
+    "opening": null,
+    "expected_month": null,
+    "deadline": {
+      "kind": "days_left",
+      "date": "2026-11-28",
+      "days_left": 12
+    },
+    "checked_on": "2026-11-04",
+    "checked_days_ago": 12,
+    "recheck_due": true,
+    "readiness": {
+      "ready": 1,
+      "total": 3
+    },
+    "based_on_last_edition": false,
+    "goal_relevant": false,
+    "source_url": "https://example.org/tidal-pilot-fund",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "Open to companies registered in Portugal, Spain or France.",
+        "fact": "country",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "Solutions must have reached TRL 5.",
+        "fact": "trl",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "Applicants must have fewer than 51 employees.",
+        "fact": "team_size",
+        "criterion": null,
+        "result": "unknown"
+      },
+      {
+        "hard": false,
+        "quote": "Pilots should report a measurable benefit to coastal ecosystems.",
+        "fact": null,
+        "criterion": "Measurable ocean impact",
+        "result": "ai_judgement"
+      }
+    ],
+    "questions_total": 3,
+    "questions_draftable": 1,
+    "evidence": [],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "tidal-pilot-fund"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.460908+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.762260+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.840584+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.884347+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "decision.changed",
+        "occurred_at": "2026-11-16T21:04:11.737072+00:00",
+        "before": {
+          "decision": "none"
+        },
+        "after": {
+          "reason": null,
+          "decision": "pursuing"
+        }
+      }
+    ]
+  },
+  "GET /opportunities/01a1e62a-3c3a-7c41-bf60-7637545beb24": {
+    "id": "01a1e62a-3c3a-7c41-bf60-7637545beb24",
+    "name": "Coastal Startup Prize",
+    "funder": "Example City Council",
+    "types": ["prize"],
+    "scope": "all_sectors",
+    "fit": {
+      "status": "possible",
+      "few_explicit_rules": false
+    },
+    "decision": "none",
+    "status": "open",
+    "opening": null,
+    "expected_month": null,
+    "deadline": {
+      "kind": "date",
+      "date": "2027-02-20",
+      "days_left": null
+    },
+    "checked_on": "2026-11-09",
+    "checked_days_ago": 7,
+    "recheck_due": false,
+    "readiness": {
+      "ready": 0,
+      "total": 1
+    },
+    "based_on_last_edition": false,
+    "goal_relevant": false,
+    "source_url": "https://example.org/coastal-startup-prize",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "Startups with an office in Portugal.",
+        "fact": "country",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "This edition is for companies led by a woman CEO.",
+        "fact": "woman_ceo",
+        "criterion": null,
+        "result": "unknown"
+      }
+    ],
+    "questions_total": 1,
+    "questions_draftable": 0,
+    "evidence": [],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "coastal-startup-prize"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.460908+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      }
+    ]
+  },
+  "GET /opportunities/01a1e62a-3c3f-7e94-95bc-9d7ccfa7f89b": {
+    "id": "01a1e62a-3c3f-7e94-95bc-9d7ccfa7f89b",
+    "name": "Ocean Energy Challenge",
+    "funder": "Example Energy Agency",
+    "types": ["procurement_challenge"],
+    "scope": "blue_specific",
+    "fit": {
+      "status": "not_eligible",
+      "few_explicit_rules": false
+    },
+    "decision": "none",
+    "status": "open",
+    "opening": null,
+    "expected_month": null,
+    "deadline": {
+      "kind": "date",
+      "date": "2027-03-15",
+      "days_left": null
+    },
+    "checked_on": "2026-11-06",
+    "checked_days_ago": 10,
+    "recheck_due": false,
+    "readiness": {
+      "ready": 1,
+      "total": 1
+    },
+    "based_on_last_edition": false,
+    "goal_relevant": false,
+    "source_url": "https://example.org/ocean-energy-challenge",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "For wave, tidal and offshore renewable energy.",
+        "fact": "sector",
+        "criterion": null,
+        "result": "fail"
+      },
+      {
+        "hard": true,
+        "quote": "Applications come from a consortium of at least three partners.",
+        "fact": "applicant_form",
+        "criterion": null,
+        "result": "fail"
+      }
+    ],
+    "questions_total": 1,
+    "questions_draftable": 1,
+    "evidence": [],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "eu-ocean-energy-challenge"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.510428+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.607718+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "not_eligible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.991399+00:00",
+        "before": {
+          "fit_status": "not_eligible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "not_eligible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:09.074310+00:00",
+        "before": {
+          "fit_status": "not_eligible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "not_eligible",
+          "few_explicit_rules": false
+        }
+      }
+    ]
+  },
+  "GET /opportunities/01a1e62a-3c44-7a9a-86df-a90e3bd19e31": {
+    "id": "01a1e62a-3c44-7a9a-86df-a90e3bd19e31",
+    "name": "Green Port Innovation Voucher",
+    "funder": "Example Port Authority",
+    "types": ["grant"],
+    "scope": "blue_specific",
+    "fit": {
+      "status": "not_eligible",
+      "few_explicit_rules": true
+    },
+    "decision": "not_for_us",
+    "status": "open",
+    "opening": null,
+    "expected_month": null,
+    "deadline": {
+      "kind": "date",
+      "date": "2027-04-30",
+      "days_left": null
+    },
+    "checked_on": "2026-11-11",
+    "checked_days_ago": 5,
+    "recheck_due": false,
+    "readiness": {
+      "ready": 0,
+      "total": 1
+    },
+    "based_on_last_edition": false,
+    "goal_relevant": false,
+    "source_url": "https://example.org/green-port-voucher",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "For port, shipping and shipbuilding innovation.",
+        "fact": "sector",
+        "criterion": null,
+        "result": "fail"
+      }
+    ],
+    "questions_total": 1,
+    "questions_draftable": 0,
+    "evidence": [],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "green-shipping-voucher"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": true
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.510428+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": true
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": true
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-16T21:04:08.607718+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": true
+        },
+        "after": {
+          "fit_status": "not_eligible",
+          "few_explicit_rules": true
+        }
+      },
+      {
+        "action": "decision.changed",
+        "occurred_at": "2026-11-16T21:04:10.113160+00:00",
+        "before": {
+          "decision": "none"
+        },
+        "after": {
+          "reason": null,
+          "decision": "not_for_us"
+        }
+      }
+    ]
+  },
+  "GET /applications/01a1e62c-b3e5-7be9-b054-1b5797129068": {
+    "id": "01a1e62c-b3e5-7be9-b054-1b5797129068",
+    "opportunity_id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+    "opportunity": "Tidal Pilot Fund",
+    "deadline": {
+      "kind": "days_left",
+      "date": "2026-11-28",
+      "days_left": 12
+    },
+    "started_at": "2026-11-16T21:04:11.737072Z",
+    "submitted_at": null,
+    "status": "in_progress",
+    "answers_ready": {
+      "ready": 1,
+      "total": 3
+    },
+    "no_longer_eligible": false,
+    "call_removed": false,
+    "questions_known": true,
+    "questions": [
+      {
+        "id": "01a1e62a-3c49-7142-a279-074d9aa28697",
+        "position": 1,
+        "text": "Describe the pilot site and what you will measure.",
+        "required_facts": ["trl"],
+        "missing": [],
+        "draftable": true,
+        "state": "approved",
+        "answer": "Our 2-hectare seaweed line off Peniche moves from tank trials to open water. Over six months we will measure nitrogen uptake, juvenile fish counts and yield per metre of line.",
+        "built_from": []
+      },
+      {
+        "id": "01a1e62a-3c4a-79b7-b80c-32f698357540",
+        "position": 2,
+        "text": "Who is on the team and what will each person do?",
+        "required_facts": ["team_size"],
+        "missing": ["team_size"],
+        "draftable": false,
+        "state": "missing_facts",
+        "answer": null,
+        "built_from": []
+      },
+      {
+        "id": "01a1e62a-3c4b-721f-80bf-0da9ddb02f97",
+        "position": 3,
+        "text": "What happens after the pilot?",
+        "required_facts": [],
+        "missing": [],
+        "draftable": false,
+        "state": "missing_facts",
+        "answer": null,
+        "built_from": []
+      }
+    ]
+  },
+  "recorded_on": "2026-11-16"
+}

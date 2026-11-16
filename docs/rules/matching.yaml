@@ -1,0 +1,172 @@
+# Rule catalogue: matching (requirement results and fit status).
+# Source of truth for rule wording is the Phase 1 spec. Change this file first,
+# then the tests, then the code. Examples run as tests (tests/unit/test_catalogue_examples.py).
+
+- id: REQ-01
+  statement: A hard rule passes when its approved fact meets it.
+  spec: Phase 1 spec > Fit and freshness rules > Result per requirement
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.evaluate_requirement
+  examples:
+    - given: {operator: at_least, rule: 5, fact: 6, approved: true}
+      expect: pass
+    - given: {operator: one_of, rule: [PT, ES], fact: PT, approved: true}
+      expect: pass
+    - given: {operator: at_least, rule: 5, fact: 5, approved: true}
+      expect: pass
+
+- id: REQ-02
+  statement: A hard rule fails when its approved fact does not meet it.
+  spec: Phase 1 spec > Fit and freshness rules > Result per requirement
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.evaluate_requirement
+  examples:
+    - given: {operator: at_least, rule: 5, fact: 4, approved: true}
+      expect: fail
+    - given: {operator: not_one_of, rule: [cooperative], fact: cooperative, approved: true}
+      expect: fail
+
+- id: REQ-03
+  statement: A hard rule is Unknown when its fact is missing or not approved.
+  spec: Phase 1 spec > Fit and freshness rules > Result per requirement
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.evaluate_requirement
+  examples:
+    - given: {operator: at_least, rule: 5, fact: null, approved: true}
+      expect: unknown
+    - given: {operator: at_least, rule: 5, fact: 9, approved: false}
+      expect: unknown
+
+- id: REQ-04
+  statement: A soft criterion is shown as an AI judgement with confidence, never as pass or fail.
+  spec: Phase 1 spec > Fit and freshness rules > Result per requirement
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.soft_result
+  examples:
+    - given: {confidence: high}
+      expect: ai_judgement
+    - given: {confidence: low}
+      expect: ai_judgement
+
+- id: REQ-05
+  statement: Applicant form (alone or consortium) is a hard rule; a consortium-only call fails for a company applying alone.
+  spec: Phase 1 spec > Fit and freshness rules > Requirement types
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.applicant_form_requirement
+  examples:
+    - given: {accepts: [consortium], company: alone}
+      expect: fail
+    - given: {accepts: [alone, consortium], company: alone}
+      expect: pass
+    - given: {accepts: [consortium], company: null}
+      expect: unknown
+
+- id: REQ-06
+  statement: A founder-age rule compares the youngest founder's age in whole years, on the call's deadline, with the call's limit.
+  spec: Phase 1 spec > Fit and freshness rules > Founder facts
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.founder_age
+  note: Always the deadline, even when the call measures age on the day of applying, so a match never changes on a birthday (D-44). A birthday on the deadline counts. A rolling call (no deadline) measures it on the day the match is calculated. Someone born on 29 February turns a year older on 1 March in a non-leap year.
+  examples:
+    - given: {birth_date: 1997-06-15, deadline: 2027-06-15, today: 2026-11-10}
+      expect: 30
+    - given: {birth_date: 1997-06-15, deadline: 2027-06-14, today: 2026-11-10}
+      expect: 29
+    - given: {birth_date: 1997-06-15, deadline: null, today: 2026-11-10}
+      expect: 29
+    - given: {birth_date: 2004-02-29, deadline: 2027-02-28, today: 2026-11-10}
+      expect: 22
+    - given: {birth_date: 2004-02-29, deadline: 2027-03-01, today: 2026-11-10}
+      expect: 23
+- id: REQ-07
+  statement: Founder facts are optional; a missing or deleted founder fact gives Unknown, never Fail.
+  spec: Phase 1 spec > Fit and freshness rules > Founder facts
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.founder_age_fact
+  note: Facts are the youngest founder's birth date, at least one woman founder, woman CEO (D-44). Never logged, never sent to the AI, not part of PRG-04's milestone. Examples give the founder_age requirement's result (at most 29).
+  examples:
+    - given: {birth_date: null, deadline: 2027-06-14, today: 2026-11-10, at_most: 29}
+      expect: unknown
+    - given: {birth_date: 1997-06-15, deadline: 2027-06-14, today: 2026-11-10, at_most: 29}
+      expect: pass
+    - given: {birth_date: 1997-06-15, deadline: 2027-06-15, today: 2026-11-10, at_most: 29}
+      expect: fail
+- id: REQ-09
+  statement: Country, sector, legal form and consortium need only take values from their fixed lists, in the company profile and in the seed files.
+  spec: Phase 1 spec > Fit and freshness rules > Requirement types (Andrew, 2026-11-16, decision D-76)
+  status: implemented
+  implemented_in: home_base.modules.companies.rules.fact_value_allowed
+  note: The lists and their labels are in config.FACT_VALUES; other facts are not limited by this rule.
+  examples:
+    - given: {key: country, value: PT}
+      expect: true
+    - given: {key: country, value: pt}
+      expect: false
+    - given: {key: country, value: OTHER}
+      expect: true
+    - given: {key: sector, value: blue_biotechnology}
+      expect: true
+    - given: {key: sector, value: Aquaculture}
+      expect: false
+    - given: {key: legal_form, value: private_limited}
+      expect: true
+    - given: {key: applicant_form, value: both}
+      expect: false
+    - given: {key: team_size, value: 4}
+      expect: true
+- id: FIT-01
+  statement: Confirmed when every hard rule passes.
+  spec: Phase 1 spec > Fit and freshness rules > Fit status per opportunity
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.fit_status
+  examples:
+    - given: [pass, pass]
+      expect: confirmed
+    - given: [pass, pass, pass, ai_judgement]
+      expect: confirmed
+
+- id: FIT-02
+  statement: Possible when no hard rule fails and at least one is Unknown.
+  spec: Phase 1 spec > Fit and freshness rules > Fit status per opportunity
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.fit_status
+  examples:
+    - given: [pass, pass, unknown]
+      expect: possible
+    - given: [unknown, unknown]
+      expect: possible
+
+- id: FIT-03
+  statement: Not eligible when any hard rule fails; hidden by default.
+  spec: Phase 1 spec > Fit and freshness rules > Fit status per opportunity
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.fit_status
+  examples:
+    - given: [pass, fail, unknown]
+      expect: not_eligible
+    - given: [fail]
+      expect: not_eligible
+
+- id: FIT-04
+  statement: Fewer than two hard rules, with none failing, gives Possible, with the note "few explicit rules".
+  spec: Phase 1 spec > Fit and freshness rules > Fit status per opportunity
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.fit_status
+  examples:
+    - given: [pass]
+      expect: possible
+    - given: []
+      expect: possible
+    - given: [pass, ai_judgement]
+      expect: possible
+
+- id: FIT-05
+  statement: Soft criteria never change the fit status.
+  spec: Phase 1 spec > Fit and freshness rules > Fit status per opportunity
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.hard_results
+  examples:
+    - given: [pass, pass, ai_judgement, ai_judgement]
+      expect: confirmed
+    - given: [pass, unknown, ai_judgement]
+      expect: possible

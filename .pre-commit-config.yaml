@@ -1,0 +1,59 @@
+# Hooks from handbook section 8. TypeScript hooks (prettier, eslint, tsc) arrive with web/.
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+        args: [--maxkb=500]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      - id: ruff-format
+      - id: ruff
+        args: [--fix]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3  # keep equal to GITLEAKS_VERSION in .github/workflows/ci.yml
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        # Handbook section 8 adds rule( and migration( to the standard types.
+        args: [build, chore, ci, docs, feat, fix, migration, perf, refactor, revert, rule, style, test]
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy --strict
+        entry: bash -c 'cd api && uv run mypy'
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: rule-ids
+        name: rule IDs match the catalogue
+        entry: bash -c 'cd api && uv run python ../scripts/check_rules.py --check'
+        language: system
+        files: ^(docs/rules/|api/src/|api/tests/)
+        pass_filenames: false
+      - id: no-debug
+        name: no print or breakpoint outside scripts
+        entry: '(^|\s)(print\(|breakpoint\()'
+        language: pygrep
+        types: [python]
+        exclude: ^scripts/
+      - id: fast-unit-tests
+        name: unit tests
+        entry: bash -c 'cd api && uv run pytest -q -x'
+        language: system
+        stages: [pre-push]
+        pass_filenames: false

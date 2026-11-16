@@ -1,0 +1,129 @@
+# Rule catalogue: founder intent and decisions.
+
+- id: INT-01
+  statement: Intent = goals from a fixed list, each with a window of now, soon or later.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Intent
+  status: implemented
+  implemented_in: home_base.modules.companies.rules.intent_record
+  examples:
+    - given: {goals: [[investment, later], [pilot_or_test_site, now]]}
+      expect: valid
+    - given: {goals: []}
+      expect: refused
+    - given: {goals: [[investment, now], [investment, later]]}
+      expect: refused
+- id: INT-02
+  statement: Each intent change adds a dated record; the latest is current.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Intent
+  status: implemented
+  implemented_in: home_base.modules.companies.rules.current_intent
+  examples:
+    - given: {records: [["2026-10-01T09:00:00+00:00", [[investment, later]]], ["2026-11-02T09:00:00+00:00", [[first_customers, now]]]]}
+      expect: [[first_customers, now]]
+    - given: {records: []}
+      expect: null
+- id: INT-03
+  statement: Intent orders and groups opportunities; it never changes a fit status.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Intent
+  status: implemented
+  implemented_in: home_base.modules.companies.rules.serves_current_goal
+  note: An opportunity is goal-relevant when one of its types serves a goal in the current intent, whatever the window; with no intent, none is (D-43). Goal-relevant opportunities are listed first, then "Other matches", each ordered by SCP-02 (D-41). Fit takes no intent input.
+  examples:
+    - given: {types: [grant], goals: [non_dilutive_funding]}
+      expect: true
+    - given: {types: [grant], goals: [investment]}
+      expect: false
+    - given: {types: [accelerator, grant], goals: [non_dilutive_funding]}
+      expect: true
+    - given: {types: [procurement_challenge], goals: [first_customers]}
+      expect: true
+    - given: {types: [procurement_challenge], goals: [pilot_or_test_site]}
+      expect: true
+    - given: {types: [testbed_or_pilot], goals: [first_customers]}
+      expect: false
+    - given: {types: [prize], goals: [non_dilutive_funding, investment]}
+      expect: true
+    - given: {types: [investor_programme], goals: [investment]}
+      expect: true
+    - given: {types: [accelerator], goals: [accelerator_place]}
+      expect: true
+    - given: {types: [grant], goals: null}
+      expect: false
+- id: INT-04
+  statement: An intent or fact change recalculates every match; nothing is deleted, and an application no longer eligible is marked, then archived on confirmation.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Intent
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.match_changed
+  note: The services recalculate on every fact or intent change (companies.service.recalculate_matches) and store a new match only when something changed (D-52); no longer eligible is calculated (matching.rules.no_longer_eligible, D-53); an intent change writes no new match (D-54); rule_version is a fingerprint of the rules (D-55). Integration tests cover the services.
+  examples:
+    - given: {stored: null, calculated: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}}
+      expect: store
+    - given: {stored: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}, calculated: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}}
+      expect: skip
+    - given: {stored: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}, calculated: {fit: confirmed, results: [unknown], facts: [v1], rule_version: r1}}
+      expect: store
+    - given: {stored: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}, calculated: {fit: possible, results: [pass], facts: [v1], rule_version: r1}}
+      expect: store
+    - given: {stored: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}, calculated: {fit: possible, results: [unknown], facts: [v2], rule_version: r1}}
+      expect: store
+    - given: {stored: {fit: possible, results: [unknown], facts: [v1], rule_version: r1}, calculated: {fit: possible, results: [unknown], facts: [v1], rule_version: r2}}
+      expect: store
+    - given: {no_longer_eligible: not_eligible}
+      expect: true
+    - given: {no_longer_eligible: possible}
+      expect: false
+    - given: {no_longer_eligible: confirmed}
+      expect: false
+    - given: {no_longer_eligible: null}
+      expect: false
+- id: DEC-01
+  statement: Decision per opportunity is none, Pursuing, Later or Not for us; each change is dated and logged.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Founder decisions
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.current_decision
+  examples:
+    - given: {changes: []}
+      expect: none
+    - given: {changes: [["2026-10-01T09:00:00+00:00", later], ["2026-11-02T09:00:00+00:00", pursuing]]}
+      expect: pursuing
+- id: DEC-02
+  statement: Starting an application sets Pursuing.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Founder decisions
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.decision_on_application_start
+  examples:
+    - given: {current: none}
+      expect: pursuing
+    - given: {current: not_for_us}
+      expect: pursuing
+- id: DEC-03
+  statement: Later returns once, 30 days before the deadline or opening, as "Back on your list".
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Founder decisions
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.later_has_returned
+  note: Day 30 counts (D-22); it stays back until the founder changes the decision, and a call with no date never returns (D-29, D-30). Later chosen for the first time inside the window is back straight away; Later chosen again after it returned never returns (D-60, matching.rules.later_chosen_again_after_return).
+  examples:
+    - given: {today: 2026-11-09, deadline: 2026-12-09, opening: null, chosen_again_after_return: false}
+      expect: true
+    - given: {today: 2026-11-09, deadline: 2026-12-10, opening: null, chosen_again_after_return: false}
+      expect: false
+    - given: {today: 2026-11-09, deadline: 2027-06-30, opening: 2026-12-01, chosen_again_after_return: false}
+      expect: true
+    - given: {today: 2026-11-09, deadline: null, opening: null, chosen_again_after_return: false}
+      expect: false
+    - given: {today: 2026-11-09, deadline: 2026-11-20, opening: null, chosen_again_after_return: true}
+      expect: false
+- id: DEC-04
+  statement: "Not for us: left out of Today and the default list; visible under its filter."
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Founder decisions
+  status: implemented
+  implemented_in: home_base.modules.matching.rules.shown_in_list
+  examples:
+    - given: {decision: not_for_us, filter: null}
+      expect: false
+    - given: {decision: not_for_us, filter: not_for_us}
+      expect: true
+    - given: {decision: later, filter: null}
+      expect: true
+    - given: {decision: later, filter: pursuing}
+      expect: false

@@ -1,0 +1,9 @@
+# Fictional company for the Week 1 demo. Not a real company; values are made up.
+name: Example Tides Lda
+facts:                       # key: {value, approved}; only approved facts are used (REQ-03)
+  country: {value: PT, approved: true}
+  team_size: {value: 4, approved: true}
+  applicant_form: {value: alone, approved: true}
+  trl: {value: 4, approved: false}   # entered but not approved yet, so it counts as unknown
+intent_recorded_on: null     # date of the latest intent, or null if never set
+decisions: {}                # opportunity name: pursuing | later | not_for_us

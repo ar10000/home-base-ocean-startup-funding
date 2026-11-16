@@ -1,0 +1,239 @@
+# Rule catalogue: opportunities (freshness, upcoming, scope).
+
+- id: FRS-01
+  statement: Each opportunity carries a last verified date, set only by a manual check.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.last_verified_date
+  examples:
+    - given: {today: 2026-11-09, checks: [[2026-11-01, manual], [2026-11-05, automated]]}
+      expect: 2026-11-01
+    - given: {today: 2026-11-09, checks: [[2026-11-05, automated]]}
+      expect: null
+
+- id: FRS-02
+  statement: Review interval is 14 days.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.review_interval_days
+  examples:
+    - given: {today: 2026-11-09, deadline: 2027-01-20}
+      expect: 14
+    - given: {today: 2026-11-09, deadline: null}
+      expect: 14
+
+- id: FRS-03
+  statement: Review interval is 7 days when the deadline is within 30 days.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.review_interval_days
+  examples:
+    - given: {today: 2026-11-09, deadline: 2026-11-21}
+      expect: 7
+    - given: {today: 2026-11-09, deadline: 2026-12-09}
+      expect: 7
+    - given: {today: 2026-11-09, deadline: 2026-12-10}
+      expect: 14
+
+- id: FRS-04
+  statement: Past its interval gives Re-check due; still listed with a flag, excluded from priorities and Today's deadlines.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.freshness_state
+  examples:
+    - given: {today: 2026-11-09, last_verified: 2026-10-26, deadline: 2027-01-20}
+      expect: current
+    - given: {today: 2026-11-09, last_verified: 2026-10-25, deadline: 2027-01-20}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: 2026-11-01, deadline: 2026-11-21}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: null, deadline: 2027-01-20}
+      expect: recheck_due
+
+- id: FRS-05
+  statement: Deadline passed gives Closed; hidden, kept in history.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.freshness_state
+  examples:
+    - given: {today: 2026-11-09, last_verified: 2026-11-08, deadline: 2026-11-08}
+      expect: closed
+    - given: {today: 2026-11-09, last_verified: 2026-11-08, deadline: 2026-11-09}
+      expect: current
+
+- id: FRS-06
+  statement: A change found in a re-check is logged and the opportunity's matches are recalculated.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.reload_effects
+  note: Under D-46 a re-check is a reviewed seed file change, applied by the reload (jobs.reload_seed), as the system, in one transaction with its audit events and the recalculation; only matches that changed are stored (D-52). An archived opportunity keeps its last matches and leaves the lists. Integration tests cover the job.
+  examples:
+    - given: added
+      expect: {audit: true, recalculate: true}
+    - given: changed
+      expect: {audit: true, recalculate: true}
+    - given: unchanged
+      expect: {audit: false, recalculate: false}
+    - given: archived
+      expect: {audit: true, recalculate: false}
+
+- id: FRS-07
+  statement: When sources disagree, the official one wins; with no official source, Re-check due.
+  spec: Phase 1 spec > Fit and freshness rules > Freshness
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.resolve_sources
+  examples:
+    - given: [[€900/month, true], [€700/month, false]]
+      expect: {value: €900/month, recheck_due: false}
+    - given: [[30 Jan, false], [31 Jan, false]]
+      expect: {value: null, recheck_due: true}
+    - given: [[30 Jan, false], [30 Jan, true]]
+      expect: {value: 30 Jan, recheck_due: false}
+
+- id: UPC-01
+  statement: Status is Open, Upcoming or Closed.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Upcoming opportunities
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.opportunity_status
+  note: Status is calculated (decision D-18).
+  examples:
+    - given: {today: 2026-11-09, opening: 2026-11-10, expected_month: null, deadline: 2027-01-31}
+      expect: upcoming
+    - given: {today: 2026-11-09, opening: 2026-11-09, expected_month: null, deadline: 2027-01-31}
+      expect: open
+    - given: {today: 2026-11-09, opening: 2026-10-01, expected_month: null, deadline: 2026-11-09}
+      expect: open
+    - given: {today: 2026-11-09, opening: 2026-10-01, expected_month: null, deadline: 2026-11-08}
+      expect: closed
+    - given: {today: 2026-11-09, opening: null, expected_month: 2026-10, deadline: null}
+      expect: upcoming
+    - given: {today: 2026-11-09, opening: null, expected_month: null, deadline: 2027-01-31}
+      expect: open
+
+- id: UPC-02
+  statement: Upcoming is shown only with an official opening date, or an expected month backed by evidence.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Upcoming opportunities
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.upcoming_is_shown
+  note: Evidence counts only under UPC-05 (decisions D-20, D-21).
+  examples:
+    - given: {today: 2026-11-09, opening: 2027-02-01, expected_month: null, evidence: []}
+      expect: shown
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, evidence: [2026-03-02]}
+      expect: shown
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, evidence: []}
+      expect: hidden
+
+- id: UPC-03
+  statement: Until the call is published, fit and readiness use the last edition, labelled as such.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Upcoming opportunities
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.based_on_last_edition
+  note: The opportunity's own record holds the last edition's requirements and questions. A call is unpublished while it is Upcoming with only an expected month; a check that records the official opening date publishes it (D-18, D-42).
+  examples:
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, deadline: null}
+      expect: true
+    - given: {today: 2026-11-09, opening: null, expected_month: 2026-11, deadline: null}
+      expect: true
+    - given: {today: 2026-11-09, opening: 2027-03-02, expected_month: 2027-03, deadline: 2027-05-01}
+      expect: false
+    - given: {today: 2026-11-09, opening: 2027-03-02, expected_month: null, deadline: 2027-05-01}
+      expect: false
+    - given: {today: 2026-11-09, opening: null, expected_month: null, deadline: 2027-01-31}
+      expect: false
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, deadline: 2026-11-08}
+      expect: false
+
+- id: UPC-04
+  statement: Review every 14 days, every 7 when the opening is within 30 days; expected month passed with no call gives Re-check due.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Upcoming opportunities
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.upcoming_freshness_state
+  note: For an expected month the opening is its 1st day; the 7-day interval also applies during the month (decision D-19).
+  examples:
+    - given: {today: 2026-11-09, last_verified: 2026-11-01, opening: 2026-12-09, expected_month: null}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: 2026-11-01, opening: 2026-12-10, expected_month: null}
+      expect: current
+    - given: {today: 2026-11-09, last_verified: 2026-10-25, opening: 2026-12-10, expected_month: null}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: 2026-11-01, opening: null, expected_month: 2026-12}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: 2026-11-01, opening: null, expected_month: 2027-01}
+      expect: current
+    - given: {today: 2026-11-09, last_verified: 2026-11-01, opening: null, expected_month: 2026-11}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: 2026-11-08, opening: null, expected_month: 2026-10}
+      expect: recheck_due
+    - given: {today: 2026-11-09, last_verified: null, opening: null, expected_month: 2027-01}
+      expect: recheck_due
+
+- id: UPC-05
+  statement: Evidence older than 18 months does not count; the opportunity stays hidden until checked by hand.
+  spec: Phase 1 spec > Intent, decisions and upcoming opportunities > Upcoming opportunities
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.evidence_counts
+  note: Age is from the evidence's own date; exactly 18 months still counts; only new evidence unhides (decisions D-20, D-21).
+  examples:
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, evidence: [2025-05-09]}
+      expect: shown
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, evidence: [2025-05-08]}
+      expect: hidden
+    - given: {today: 2026-11-09, opening: null, expected_month: 2027-03, evidence: [2025-05-08, 2026-03-02]}
+      expect: shown
+    - given: {today: 2026-08-31, opening: null, expected_month: 2027-03, evidence: [2025-02-28]}
+      expect: shown
+
+- id: SCP-01
+  statement: Every opportunity has a scope (blue-specific or all sectors); the seed check rejects a record without one.
+  spec: Phase 1 spec > Data freshness and verification > Which opportunities are included
+  status: implemented
+  implemented_in: home_base.modules.opportunities.seed.parse_seed
+  note: The seed set also refuses two opportunities with the same name, so tasks that name an opportunity link back to exactly one (seed.check_unique_names).
+  examples:
+    - given: {scope: blue_specific}
+      expect: valid
+    - given: {scope: all_sectors}
+      expect: valid
+    - given: {scope: null}
+      expect: refused
+    - given: {scope: marine}
+      expect: refused
+
+- id: SCP-02
+  statement: When fit and deadline are equal, blue-specific sorts before all-sector.
+  spec: Phase 1 spec > Data freshness and verification > Which opportunities are included
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.list_sort_key
+  note: The full order within a group is fit (Confirmed, Possible, Not eligible), then the earliest deadline (or opening, for an upcoming call; no date last), then blue-specific first, then name A to Z (D-41). Grouping by goal comes first and belongs to INT-03.
+  examples:
+    - given: {a: [possible, 2026-11-20, false, Alpha], b: [possible, 2026-11-20, true, Beta]}
+      expect: b
+    - given: {a: [possible, 2026-11-20, true, Beta], b: [possible, 2026-11-20, true, Alpha]}
+      expect: b
+    - given: {a: [confirmed, 2027-03-01, false, Zeta], b: [possible, 2026-11-20, true, Alpha]}
+      expect: a
+    - given: {a: [not_eligible, 2026-11-20, true, Alpha], b: [possible, 2027-03-01, false, Zeta]}
+      expect: b
+    - given: {a: [possible, 2026-11-21, true, Alpha], b: [possible, 2026-11-20, false, Zeta]}
+      expect: b
+    - given: {a: [possible, null, true, Alpha], b: [possible, 2027-12-31, false, Zeta]}
+      expect: b
+
+- id: SCP-03
+  statement: The deadline is shown as days left when it is 30 days or fewer away, otherwise as its date; "Rolling" when there is none.
+  spec: Phase 1 spec > Screens > Opportunities
+  status: implemented
+  implemented_in: home_base.modules.opportunities.rules.deadline_display
+  note: The API returns the display form, so the web app never decides it (architecture rule 8). A deadline that has passed is shown as its date (the call is Closed, FRS-05) (D-56). The threshold is DEADLINE_AS_DAYS_LEFT_MAX in config.py.
+  examples:
+    - given: {deadline: null, today: 2026-11-11}
+      expect: [rolling, null]
+    - given: {deadline: 2026-11-11, today: 2026-11-11}
+      expect: [days_left, 0]
+    - given: {deadline: 2026-12-11, today: 2026-11-11}
+      expect: [days_left, 30]
+    - given: {deadline: 2026-12-12, today: 2026-11-11}
+      expect: [date, null]
+    - given: {deadline: 2026-11-10, today: 2026-11-11}
+      expect: [date, null]

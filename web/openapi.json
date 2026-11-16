@@ -1,0 +1,2621 @@
+{
+  "components": {
+    "schemas": {
+      "AnswerIn": {
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "AnswerIn",
+        "type": "object"
+      },
+      "AnswerState": {
+        "description": "Where one question's answer is (spec: Application > Question list and status).",
+        "enum": [
+          "missing_facts",
+          "ai_draft",
+          "edited",
+          "approved"
+        ],
+        "title": "AnswerState",
+        "type": "string"
+      },
+      "ApplicationOut": {
+        "properties": {
+          "answers_ready": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Readiness"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "call_removed": {
+            "title": "Call Removed",
+            "type": "boolean"
+          },
+          "deadline": {
+            "$ref": "#/components/schemas/Deadline"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "no_longer_eligible": {
+            "title": "No Longer Eligible",
+            "type": "boolean"
+          },
+          "opportunity": {
+            "title": "Opportunity",
+            "type": "string"
+          },
+          "opportunity_id": {
+            "format": "uuid",
+            "title": "Opportunity Id",
+            "type": "string"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionOut"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "questions_known": {
+            "title": "Questions Known",
+            "type": "boolean"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ApplicationStatus"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          }
+        },
+        "required": [
+          "id",
+          "opportunity_id",
+          "opportunity",
+          "deadline",
+          "started_at",
+          "submitted_at",
+          "status",
+          "answers_ready",
+          "no_longer_eligible",
+          "call_removed",
+          "questions_known",
+          "questions"
+        ],
+        "title": "ApplicationOut",
+        "type": "object"
+      },
+      "ApplicationStatus": {
+        "description": "Application status (spec: Progress).",
+        "enum": [
+          "not_started",
+          "in_progress",
+          "ready",
+          "submitted"
+        ],
+        "title": "ApplicationStatus",
+        "type": "string"
+      },
+      "ApplicationSummary": {
+        "properties": {
+          "answers_ready": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Readiness"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "call_removed": {
+            "title": "Call Removed",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "opportunity": {
+            "title": "Opportunity",
+            "type": "string"
+          },
+          "opportunity_id": {
+            "format": "uuid",
+            "title": "Opportunity Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ApplicationStatus"
+          }
+        },
+        "required": [
+          "id",
+          "opportunity_id",
+          "opportunity",
+          "status",
+          "answers_ready",
+          "call_removed"
+        ],
+        "title": "ApplicationSummary",
+        "type": "object"
+      },
+      "Deadline": {
+        "properties": {
+          "date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "days_left": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Days Left"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "date",
+          "days_left"
+        ],
+        "title": "Deadline",
+        "type": "object"
+      },
+      "Decision": {
+        "description": "The founder's decision on a match (spec: Founder decisions).",
+        "enum": [
+          "none",
+          "pursuing",
+          "later",
+          "not_for_us"
+        ],
+        "title": "Decision",
+        "type": "string"
+      },
+      "DecisionIn": {
+        "properties": {
+          "decision": {
+            "$ref": "#/components/schemas/Decision"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NotForUsReason"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ],
+        "title": "DecisionIn",
+        "type": "object"
+      },
+      "DecisionOut": {
+        "properties": {
+          "decision": {
+            "$ref": "#/components/schemas/Decision"
+          }
+        },
+        "required": [
+          "decision"
+        ],
+        "title": "DecisionOut",
+        "type": "object"
+      },
+      "EvidenceLine": {
+        "properties": {
+          "dated": {
+            "format": "date",
+            "title": "Dated",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "dated",
+          "url"
+        ],
+        "title": "EvidenceLine",
+        "type": "object"
+      },
+      "FactIn": {
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/components/schemas/FactLabel"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "key",
+          "value",
+          "label"
+        ],
+        "title": "FactIn",
+        "type": "object"
+      },
+      "FactLabel": {
+        "description": "Where a fact came from (spec: Company fact). Never changes on approval (D-48).",
+        "enum": [
+          "sourced",
+          "user_provided",
+          "ai_suggested",
+          "unverified"
+        ],
+        "title": "FactLabel",
+        "type": "string"
+      },
+      "FactOption": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "label"
+        ],
+        "title": "FactOption",
+        "type": "object"
+      },
+      "FactOut": {
+        "properties": {
+          "approved": {
+            "title": "Approved",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/components/schemas/FactLabel"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "id",
+          "key",
+          "value",
+          "label",
+          "source",
+          "recorded_at",
+          "approved"
+        ],
+        "title": "FactOut",
+        "type": "object"
+      },
+      "Fit": {
+        "properties": {
+          "few_explicit_rules": {
+            "title": "Few Explicit Rules",
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/FitStatus"
+          }
+        },
+        "required": [
+          "status",
+          "few_explicit_rules"
+        ],
+        "title": "Fit",
+        "type": "object"
+      },
+      "FitStatus": {
+        "description": "Fit of a company for one opportunity (spec: Fit status per opportunity).",
+        "enum": [
+          "confirmed",
+          "possible",
+          "not_eligible"
+        ],
+        "title": "FitStatus",
+        "type": "string"
+      },
+      "FounderFactIn": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "title": "FounderFactIn",
+        "type": "object"
+      },
+      "FounderFactOut": {
+        "properties": {
+          "approved": {
+            "title": "Approved",
+            "type": "boolean"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "key",
+          "value",
+          "approved"
+        ],
+        "title": "FounderFactOut",
+        "type": "object"
+      },
+      "Goal-Input": {
+        "description": "A goal from the fixed list.",
+        "enum": [
+          "pilot_or_test_site",
+          "non_dilutive_funding",
+          "accelerator_place",
+          "first_customers",
+          "investment"
+        ],
+        "title": "Goal",
+        "type": "string"
+      },
+      "GoalIn-Input": {
+        "properties": {
+          "goal": {
+            "$ref": "#/components/schemas/Goal-Input"
+          },
+          "window": {
+            "$ref": "#/components/schemas/Window"
+          }
+        },
+        "required": [
+          "goal",
+          "window"
+        ],
+        "title": "GoalIn",
+        "type": "object"
+      },
+      "GoalIn-Output": {
+        "properties": {
+          "goal": {
+            "$ref": "#/components/schemas/home_base__modules__companies__domain__Goal"
+          },
+          "window": {
+            "$ref": "#/components/schemas/Window"
+          }
+        },
+        "required": [
+          "goal",
+          "window"
+        ],
+        "title": "GoalIn",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "git_sha": {
+            "title": "Git Sha",
+            "type": "string"
+          },
+          "migration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Migration"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "git_sha",
+          "migration"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "HistoryLine": {
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "after": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "After"
+          },
+          "before": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Before"
+          },
+          "occurred_at": {
+            "title": "Occurred At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "occurred_at",
+          "before",
+          "after"
+        ],
+        "title": "HistoryLine",
+        "type": "object"
+      },
+      "IntentIn": {
+        "properties": {
+          "goals": {
+            "items": {
+              "$ref": "#/components/schemas/GoalIn-Input"
+            },
+            "title": "Goals",
+            "type": "array"
+          }
+        },
+        "required": [
+          "goals"
+        ],
+        "title": "IntentIn",
+        "type": "object"
+      },
+      "IntentOut": {
+        "properties": {
+          "goals": {
+            "items": {
+              "$ref": "#/components/schemas/GoalIn-Output"
+            },
+            "title": "Goals",
+            "type": "array"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "goals",
+          "recorded_at"
+        ],
+        "title": "IntentOut",
+        "type": "object"
+      },
+      "Me": {
+        "properties": {
+          "company_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Id"
+          },
+          "given_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Given Name"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "company_id",
+          "given_name"
+        ],
+        "title": "Me",
+        "type": "object"
+      },
+      "Mode": {
+        "description": "Which priority list Today uses (spec: Your one thing today).",
+        "enum": [
+          "applying",
+          "preparing"
+        ],
+        "title": "Mode",
+        "type": "string"
+      },
+      "NextDeadline": {
+        "properties": {
+          "answers_ready": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Readiness"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "days_left": {
+            "title": "Days Left",
+            "type": "integer"
+          },
+          "deadline": {
+            "format": "date",
+            "title": "Deadline",
+            "type": "string"
+          },
+          "opportunity": {
+            "title": "Opportunity",
+            "type": "string"
+          },
+          "opportunity_id": {
+            "format": "uuid",
+            "title": "Opportunity Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "opportunity",
+          "deadline",
+          "days_left",
+          "answers_ready"
+        ],
+        "title": "NextDeadline",
+        "type": "object"
+      },
+      "NotForUsReason": {
+        "description": "Optional reason given with Not for us.",
+        "enum": [
+          "not_relevant",
+          "too_early",
+          "too_much_work",
+          "other"
+        ],
+        "title": "NotForUsReason",
+        "type": "string"
+      },
+      "OnboardingIn": {
+        "properties": {
+          "company_name": {
+            "title": "Company Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "company_name"
+        ],
+        "title": "OnboardingIn",
+        "type": "object"
+      },
+      "OpeningSoon": {
+        "properties": {
+          "opening": {
+            "format": "date",
+            "title": "Opening",
+            "type": "string"
+          },
+          "opportunity": {
+            "title": "Opportunity",
+            "type": "string"
+          },
+          "opportunity_id": {
+            "format": "uuid",
+            "title": "Opportunity Id",
+            "type": "string"
+          },
+          "readiness": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Readiness"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "opportunity",
+          "opening",
+          "readiness"
+        ],
+        "title": "OpeningSoon",
+        "type": "object"
+      },
+      "OpportunityDetail": {
+        "properties": {
+          "based_on_last_edition": {
+            "title": "Based On Last Edition",
+            "type": "boolean"
+          },
+          "checked_days_ago": {
+            "title": "Checked Days Ago",
+            "type": "integer"
+          },
+          "checked_on": {
+            "format": "date",
+            "title": "Checked On",
+            "type": "string"
+          },
+          "deadline": {
+            "$ref": "#/components/schemas/Deadline"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/Decision"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceLine"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "expected_month": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Month"
+          },
+          "fit": {
+            "$ref": "#/components/schemas/Fit"
+          },
+          "funder": {
+            "title": "Funder",
+            "type": "string"
+          },
+          "goal_relevant": {
+            "title": "Goal Relevant",
+            "type": "boolean"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/HistoryLine"
+            },
+            "title": "History",
+            "type": "array"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "opening": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening"
+          },
+          "questions_draftable": {
+            "title": "Questions Draftable",
+            "type": "integer"
+          },
+          "questions_total": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Questions Total"
+          },
+          "readiness": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Readiness"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recheck_due": {
+            "title": "Recheck Due",
+            "type": "boolean"
+          },
+          "requirements": {
+            "items": {
+              "$ref": "#/components/schemas/RequirementLine"
+            },
+            "title": "Requirements",
+            "type": "array"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "source_url": {
+            "title": "Source Url",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OpportunityStatus"
+          },
+          "types": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Types",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "funder",
+          "types",
+          "scope",
+          "fit",
+          "decision",
+          "status",
+          "opening",
+          "expected_month",
+          "deadline",
+          "checked_on",
+          "checked_days_ago",
+          "recheck_due",
+          "readiness",
+          "based_on_last_edition",
+          "goal_relevant",
+          "source_url",
+          "requirements",
+          "questions_total",
+          "questions_draftable",
+          "evidence",
+          "history"
+        ],
+        "title": "OpportunityDetail",
+        "type": "object"
+      },
+      "OpportunityItem": {
+        "properties": {
+          "based_on_last_edition": {
+            "title": "Based On Last Edition",
+            "type": "boolean"
+          },
+          "checked_days_ago": {
+            "title": "Checked Days Ago",
+            "type": "integer"
+          },
+          "checked_on": {
+            "format": "date",
+            "title": "Checked On",
+            "type": "string"
+          },
+          "deadline": {
+            "$ref": "#/components/schemas/Deadline"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/Decision"
+          },
+          "expected_month": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Month"
+          },
+          "fit": {
+            "$ref": "#/components/schemas/Fit"
+          },
+          "funder": {
+            "title": "Funder",
+            "type": "string"
+          },
+          "goal_relevant": {
+            "title": "Goal Relevant",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "opening": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening"
+          },
+          "readiness": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Readiness"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recheck_due": {
+            "title": "Recheck Due",
+            "type": "boolean"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OpportunityStatus"
+          },
+          "types": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Types",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "funder",
+          "types",
+          "scope",
+          "fit",
+          "decision",
+          "status",
+          "opening",
+          "expected_month",
+          "deadline",
+          "checked_on",
+          "checked_days_ago",
+          "recheck_due",
+          "readiness",
+          "based_on_last_edition",
+          "goal_relevant"
+        ],
+        "title": "OpportunityItem",
+        "type": "object"
+      },
+      "OpportunityList": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/FitStatus"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OpportunityItem"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items",
+          "counts"
+        ],
+        "title": "OpportunityList",
+        "type": "object"
+      },
+      "OpportunityStatus": {
+        "description": "Whether an opportunity accepts applications (spec: Upcoming opportunities).",
+        "enum": [
+          "open",
+          "upcoming",
+          "closed"
+        ],
+        "title": "OpportunityStatus",
+        "type": "string"
+      },
+      "Profile": {
+        "properties": {
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/FactOut"
+            },
+            "title": "Facts",
+            "type": "array"
+          },
+          "founder_facts": {
+            "items": {
+              "$ref": "#/components/schemas/FounderFactOut"
+            },
+            "title": "Founder Facts",
+            "type": "array"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          }
+        },
+        "required": [
+          "facts",
+          "founder_facts",
+          "stage"
+        ],
+        "title": "Profile",
+        "type": "object"
+      },
+      "QuestionOut": {
+        "properties": {
+          "answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer"
+          },
+          "built_from": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Built From",
+            "type": "array"
+          },
+          "draftable": {
+            "title": "Draftable",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "missing": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing",
+            "type": "array"
+          },
+          "position": {
+            "title": "Position",
+            "type": "integer"
+          },
+          "required_facts": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Required Facts",
+            "type": "array"
+          },
+          "state": {
+            "$ref": "#/components/schemas/AnswerState"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "position",
+          "text",
+          "required_facts",
+          "missing",
+          "draftable",
+          "state",
+          "answer",
+          "built_from"
+        ],
+        "title": "QuestionOut",
+        "type": "object"
+      },
+      "Readiness": {
+        "properties": {
+          "ready": {
+            "title": "Ready",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ready",
+          "total"
+        ],
+        "title": "Readiness",
+        "type": "object"
+      },
+      "RequirementLine": {
+        "properties": {
+          "criterion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Criterion"
+          },
+          "fact": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fact"
+          },
+          "hard": {
+            "title": "Hard",
+            "type": "boolean"
+          },
+          "quote": {
+            "title": "Quote",
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/RequirementResult"
+          }
+        },
+        "required": [
+          "hard",
+          "quote",
+          "fact",
+          "criterion",
+          "result"
+        ],
+        "title": "RequirementLine",
+        "type": "object"
+      },
+      "RequirementResult": {
+        "description": "Result of checking one requirement against a company (spec: Result per requirement).",
+        "enum": [
+          "pass",
+          "fail",
+          "unknown",
+          "ai_judgement"
+        ],
+        "title": "RequirementResult",
+        "type": "string"
+      },
+      "Scope": {
+        "description": "Whether an opportunity is for the blue economy or open to all sectors (SCP-01).",
+        "enum": [
+          "blue_specific",
+          "all_sectors"
+        ],
+        "title": "Scope",
+        "type": "string"
+      },
+      "Stage": {
+        "description": "The founder's journey stage (spec: Today > Stage; D-78): \"Stage 6 of 9\".",
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "position": {
+            "title": "Position",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "label",
+          "position",
+          "total"
+        ],
+        "title": "Stage",
+        "type": "object"
+      },
+      "StageIn": {
+        "properties": {
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage"
+        ],
+        "title": "StageIn",
+        "type": "object"
+      },
+      "StartedOut": {
+        "properties": {
+          "application_id": {
+            "format": "uuid",
+            "title": "Application Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "application_id"
+        ],
+        "title": "StartedOut",
+        "type": "object"
+      },
+      "TaskOut": {
+        "properties": {
+          "count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Count"
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline"
+          },
+          "fact": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fact"
+          },
+          "minutes": {
+            "title": "Minutes",
+            "type": "integer"
+          },
+          "opportunity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity"
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          },
+          "question": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Question"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TaskType"
+          }
+        },
+        "required": [
+          "type",
+          "minutes",
+          "opportunity_id",
+          "opportunity",
+          "deadline",
+          "fact",
+          "count",
+          "question"
+        ],
+        "title": "TaskOut",
+        "type": "object"
+      },
+      "TaskType": {
+        "description": "Today's task types; each has a fixed time estimate (PRI-10).",
+        "enum": [
+          "add_fact",
+          "review_drafts",
+          "answer_one_question",
+          "start_application",
+          "next_answer",
+          "decide",
+          "back_on_list",
+          "check_goals"
+        ],
+        "title": "TaskType",
+        "type": "string"
+      },
+      "Today": {
+        "properties": {
+          "current_goal": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/home_base__views__today__Goal"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Goal"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/Mode"
+          },
+          "needs_attention": {
+            "items": {
+              "$ref": "#/components/schemas/TaskOut"
+            },
+            "title": "Needs Attention",
+            "type": "array"
+          },
+          "next_deadline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NextDeadline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "next_opening": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Opening"
+          },
+          "one_thing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaskOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "opening_soon": {
+            "items": {
+              "$ref": "#/components/schemas/OpeningSoon"
+            },
+            "title": "Opening Soon",
+            "type": "array"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "top_fact": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TopFact"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "stage",
+          "mode",
+          "one_thing",
+          "needs_attention",
+          "next_opening",
+          "next_deadline",
+          "current_goal",
+          "opening_soon",
+          "top_fact"
+        ],
+        "title": "Today",
+        "type": "object"
+      },
+      "TopFact": {
+        "properties": {
+          "fact": {
+            "title": "Fact",
+            "type": "string"
+          },
+          "matches": {
+            "title": "Matches",
+            "type": "integer"
+          },
+          "questions": {
+            "title": "Questions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "fact",
+          "matches",
+          "questions"
+        ],
+        "title": "TopFact",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Window": {
+        "description": "When a goal matters: now (within 3 months), soon (3 to 6), later (6 to 12).",
+        "enum": [
+          "now",
+          "soon",
+          "later"
+        ],
+        "title": "Window",
+        "type": "string"
+      },
+      "home_base__modules__companies__domain__Goal": {
+        "description": "A goal from the fixed list.",
+        "enum": [
+          "pilot_or_test_site",
+          "non_dilutive_funding",
+          "accelerator_place",
+          "first_customers",
+          "investment"
+        ],
+        "title": "Goal",
+        "type": "string"
+      },
+      "home_base__views__today__Goal": {
+        "properties": {
+          "goal": {
+            "title": "Goal",
+            "type": "string"
+          },
+          "window": {
+            "title": "Window",
+            "type": "string"
+          }
+        },
+        "required": [
+          "goal",
+          "window"
+        ],
+        "title": "Goal",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Home Base API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/applications": {
+      "get": {
+        "operationId": "list_applications_applications_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationSummary"
+                  },
+                  "title": "Response List Applications Applications Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Applications",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/applications/{application_id}": {
+      "get": {
+        "operationId": "get_application_applications__application_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "application_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Application Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Application",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/applications/{application_id}/answers/{question_id}": {
+      "put": {
+        "description": "Autosave the founder's text (D-62).",
+        "operationId": "save_answer_applications__application_id__answers__question_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "application_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Application Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Save Answer",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/applications/{application_id}/answers/{question_id}/approve": {
+      "post": {
+        "operationId": "approve_answer_applications__application_id__answers__question_id__approve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "application_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Application Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Approve Answer",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/applications/{application_id}/archive-not-eligible": {
+      "post": {
+        "description": "Confirm an application no longer eligible: it is archived, never deleted (INT-04).",
+        "operationId": "archive_not_eligible_applications__application_id__archive_not_eligible_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "application_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Application Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Archive Not Eligible",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/applications/{application_id}/submitted": {
+      "post": {
+        "description": "The founder marks it submitted; nothing is submitted from the platform.",
+        "operationId": "mark_submitted_applications__application_id__submitted_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "application_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Application Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Mark Submitted",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/fact-options": {
+      "get": {
+        "description": "The values each listed fact may take, with their labels (REQ-09, D-76), so the\nprofile offers exactly the words the seed files use.",
+        "operationId": "fact_options_fact_options_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "items": {
+                      "$ref": "#/components/schemas/FactOption"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Fact Options Fact Options Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Fact Options",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/facts": {
+      "post": {
+        "operationId": "add_fact_facts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FactIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FactOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Fact",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/facts/{version_id}/approve": {
+      "post": {
+        "operationId": "approve_fact_facts__version_id__approve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FactOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Approve Fact",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/founder-facts/{key}": {
+      "delete": {
+        "operationId": "delete_founder_fact_founder_facts__key__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "title": "Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Founder Fact",
+        "tags": [
+          "profile"
+        ]
+      },
+      "put": {
+        "operationId": "set_founder_fact_founder_facts__key__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "title": "Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FounderFactIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FounderFactOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Set Founder Fact",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/founder-facts/{key}/approve": {
+      "post": {
+        "operationId": "approve_founder_fact_founder_facts__key__approve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "title": "Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FounderFactOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Approve Founder Fact",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "Status, git SHA and current migration, so a deploy is checked in one call.",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "ops"
+        ]
+      }
+    },
+    "/intent": {
+      "put": {
+        "operationId": "set_intent_intent_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntentIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntentOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Set Intent",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/me": {
+      "get": {
+        "operationId": "me_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Me",
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/onboarding": {
+      "post": {
+        "operationId": "onboard_onboarding_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardingIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Onboard",
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/opportunities": {
+      "get": {
+        "description": "The company's matches: Not eligible only under its filter, Not for us only under its\ndecision filter.",
+        "operationId": "list_opportunities_opportunities_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/FitStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Fit"
+            }
+          },
+          {
+            "in": "query",
+            "name": "decision",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Decision"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Decision"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpportunityList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Opportunities",
+        "tags": [
+          "opportunities"
+        ]
+      }
+    },
+    "/opportunities/{opportunity_id}": {
+      "get": {
+        "operationId": "get_opportunity_opportunities__opportunity_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Opportunity Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpportunityDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Opportunity",
+        "tags": [
+          "opportunities"
+        ]
+      }
+    },
+    "/opportunities/{opportunity_id}/application": {
+      "post": {
+        "description": "Open the workspace (or return the open one) and set Pursuing (DEC-02).",
+        "operationId": "start_application_opportunities__opportunity_id__application_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Opportunity Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartedOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Start Application",
+        "tags": [
+          "opportunities"
+        ]
+      }
+    },
+    "/opportunities/{opportunity_id}/decision": {
+      "put": {
+        "operationId": "set_decision_opportunities__opportunity_id__decision_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Opportunity Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Set Decision",
+        "tags": [
+          "opportunities"
+        ]
+      }
+    },
+    "/profile": {
+      "get": {
+        "operationId": "get_profile_profile_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Profile",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/stage": {
+      "put": {
+        "operationId": "set_stage_stage_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StageIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Set Stage",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/stages": {
+      "get": {
+        "description": "The journey stages in order, with their labels (D-78).",
+        "operationId": "stages_stages_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FactOption"
+                  },
+                  "title": "Response Stages Stages Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Stages",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/today": {
+      "get": {
+        "operationId": "get_today_today_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Today"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Today",
+        "tags": [
+          "today"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+dist
+dist-demo
+coverage
+openapi.json
+package-lock.json
+playwright-report
+test-results
