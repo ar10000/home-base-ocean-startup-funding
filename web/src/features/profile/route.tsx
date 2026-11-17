@@ -7,6 +7,7 @@ import { api, unwrap } from "../../lib/api";
 import { factLabel, goalLabel, windowLabel } from "../../lib/format";
 import { useToday } from "../today/route";
 import { FounderFacts } from "./FounderFacts";
+import { KnowledgeBase } from "./KnowledgeBase";
 import { StageSection } from "./StageSection";
 
 type Fact = components["schemas"]["FactOut"];
@@ -96,6 +97,7 @@ export function Component() {
       {profile.error && <ErrorState error={profile.error} onRetry={() => void profile.refetch()} />}
       {profile.data && <StageSection current={profile.data.stage} />}
       {profile.data && <Facts facts={profile.data.facts} />}
+      {profile.data && <KnowledgeBase facts={profile.data.facts} />}
       <Goals />
       {profile.data && <FounderFacts facts={profile.data.founder_facts} />}
     </>

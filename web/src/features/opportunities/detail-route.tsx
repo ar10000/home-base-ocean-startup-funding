@@ -115,6 +115,8 @@ export function OpportunityBody({ o }: { o: Detail }) {
         </Card>
       )}
 
+      {o.requirements.length > 0 && <WhyItFits o={o} />}
+
       <Card>
         <h2 className="m-0 text-base font-semibold">Eligibility, checked against your facts</h2>
         {o.based_on_last_edition && (
@@ -315,5 +317,38 @@ function StartApplication({ id }: { id: string }) {
       </button>
       {start.error && <ErrorState error={start.error} />}
     </div>
+  );
+}
+
+/** D-82: the calculated fit in words, marked as AI. It explains; it never sets the fit. */
+function WhyItFits({ o }: { o: Detail }) {
+  const results = o.requirements.map((r) => r.result).join(",");
+  const why = useQuery({
+    // Same fit and results: same words (the API caches by input too).
+    queryKey: ["why-it-fits", o.id, o.fit.status, results],
+    queryFn: async () =>
+      unwrap(
+        await api.POST("/opportunities/{opportunity_id}/why-it-fits", {
+          params: { path: { opportunity_id: o.id } },
+        }),
+      ),
+    retry: false,
+    staleTime: Infinity,
+  });
+  if (why.isError) return null; // the fit and requirements below say it all without words
+  return (
+    <Card className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <h2 className="m-0 text-base font-semibold">Why it fits</h2>
+        <Pill tone="ai">AI</Pill>
+      </div>
+      <p className="m-0 text-sm" aria-live="polite">
+        {why.isPending ? (
+          <span className="text-ink-muted">Putting it into words…</span>
+        ) : (
+          why.data.text
+        )}
+      </p>
+    </Card>
   );
 }

@@ -135,7 +135,10 @@ describe("Profile: company facts, all chosen from lists (D-74, D-76)", () => {
       expect(row(name).getByText("Not given yet")).toBeInTheDocument();
       expect(row(name).getByLabelText(name).tagName).toBe("SELECT");
     }
-    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+    // Nothing typed among the company facts (D-76); only the knowledge base is prose (D-80).
+    const section = screen.getByRole("heading", { name: "Company facts" }).closest("section");
+    if (!section) throw new Error("no facts section");
+    expect(within(section).queryByRole("textbox")).not.toBeInTheDocument();
   });
 
   it("offers the API's lists for country, sector, legal form and consortium need", async () => {
@@ -403,5 +406,44 @@ describe("Profile: where you are (D-78)", () => {
     );
     expect(await screen.findByText("Stage 6 of 9")).toBeInTheDocument();
     expect(writes).toContainEqual({ path: "PUT /stage", body: { stage: "non_dilutive_funding" } });
+  });
+});
+
+describe("Profile: about your company, the knowledge base (D-80)", () => {
+  const card = (title: string) => {
+    const found = screen.getByText(title, { selector: "label" }).closest("li");
+    if (!found) throw new Error(`no card for ${title}`);
+    return within(found);
+  };
+
+  it("lists the four facts drafts may use, none given yet", async () => {
+    serve();
+    renderAt("/profile");
+    await screen.findByRole("heading", { name: "About your company" });
+    for (const title of ["What the company does", "Impact", "Team", "Traction"]) {
+      expect(card(title).getByText("Not given yet")).toBeInTheDocument();
+      expect(card(title).getByRole("button", { name: "Save" })).toBeDisabled();
+    }
+  });
+
+  it("saves the text as written by the founder, then approves it", async () => {
+    const writes = serve();
+    renderAt("/profile");
+    await screen.findByRole("heading", { name: "About your company" });
+    fireEvent.change(screen.getByLabelText("Impact"), {
+      target: { value: "  Absorbs 2 t of nitrogen a year (pilot, 2026).  " },
+    });
+    fireEvent.click(card("Impact").getByRole("button", { name: "Save" }));
+    expect(await card("Impact").findByText("Not approved yet")).toBeInTheDocument();
+    expect(writes[0]).toEqual({
+      path: "POST /facts",
+      body: {
+        key: "impact",
+        value: "Absorbs 2 t of nitrogen a year (pilot, 2026).",
+        label: "user_provided",
+      },
+    });
+    fireEvent.click(card("Impact").getByRole("button", { name: "Approve" }));
+    expect(await card("Impact").findByText("Approved")).toBeInTheDocument();
   });
 });

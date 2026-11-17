@@ -4,18 +4,24 @@ import uuid
 
 from sqlalchemy.orm import Session
 
+from home_base.ai import retrieval
+from home_base.ai.provider import Provider
+from home_base.ai.runner import AiTask, run
+from home_base.ai.tasks import draft_answer as draft_task
 from home_base.core.context import Caller, Clock
 from home_base.core.errors import ApplicationError, NotFoundError
 from home_base.modules.applications import rules
 from home_base.modules.applications.domain import (
     Answer,
     AnswerVersion,
+    Draft,
     StoredApplication,
     VersionKind,
 )
 from home_base.modules.applications.repository import ApplicationRepository
 from home_base.modules.audit.domain import Actor, AuditEntry
 from home_base.modules.audit.repository import AuditRepository
+from home_base.modules.companies.repository import CompanyRepository
 from home_base.modules.matching import service as matching
 from home_base.modules.opportunities.service import current_opportunities
 from home_base.modules.today.domain import AnswerState
@@ -169,10 +175,102 @@ def approve_answer(
     return version
 
 
+def draft_answer(
+    session: Session,
+    caller: Caller,
+    ref: tuple[uuid.UUID, uuid.UUID],
+    provider: Provider,
+    clock: Clock,
+) -> AnswerVersion:
+    """Draft (or redraft) one answer from approved facts (D-81, DRF-01, DRF-02).
+
+    The question's required facts and the approved facts closest to it are the only
+    facts sent. A valid draft replaces the answer's text, is saved as an AI draft with
+    links to every fact it cited, and is audited. An invalid one raises; nothing is
+    saved but the AI action log. An approved answer is reopened by editing it first.
+    """
+    application_id, question_id = ref
+    application = _open_application(session, caller, application_id)
+    _check_question(session, application, question_id)
+    before = _state(application, question_id)
+    if before is AnswerState.APPROVED:
+        raise ApplicationError("this answer is approved; edit it to reopen it before redrafting")
+    opp = {o.id: o for o in current_opportunities(session)}[application.opportunity_id]
+    question = dict(zip(opp.question_ids, opp.record.questions or (), strict=True))[question_id]
+
+    usable = [
+        f
+        for f in CompanyRepository(session, caller.company_id).current_facts()
+        if f.approved_at is not None and f.superseded_at is None
+    ]
+    if not usable:
+        raise ApplicationError("approve at least one company fact before drafting")
+    required = [f for f in usable if f.key in question.required_facts]
+    retrieval.ensure_embeddings(session, provider, caller.company_id, usable)
+    near = retrieval.closest(
+        session,
+        provider,
+        caller.company_id,
+        question.text,
+        among={f.id for f in usable} - {f.id for f in required},
+    )
+    by_id = {f.id: f for f in usable}
+    chosen = [*required, *(by_id[i] for i in near)]
+    refs = {f"F{n}": f for n, f in enumerate(chosen, start=1)}
+    payload = draft_task.DraftInput(
+        question=question.text,
+        limit=None,  # the seed files carry no limits yet
+        facts=[
+            draft_task.FactIn(
+                ref=r, fact=retrieval.fact_name(f.key), value=retrieval.value_text(f.key, f.value)
+            )
+            for r, f in refs.items()
+        ],
+    )
+    result = run(
+        session,
+        provider,
+        AiTask(
+            prompt=draft_task.prompt(),
+            payload=payload,
+            output=draft_task.DraftOutput,
+            validate=draft_task.validator(payload),
+            refs=[{"entity": "question", "id": str(question_id)}]
+            + [{"entity": "company_fact", "id": str(f.id)} for f in chosen],
+            company_id=caller.company_id,
+            served=("application", application_id),
+        ),
+        clock,
+    )
+    cited = rules.draft_citations(s.facts for s in result.value.sentences)
+    fact_ids = [refs[r].id for r in cited]
+    if rules.unusable_citations(fact_ids, by_id.keys()):  # DRF-01, checked again on IDs
+        raise ApplicationError("the draft cited a fact that is not approved")
+    version = ApplicationRepository(session, caller.company_id).save_ai_draft(
+        application_id,
+        question_id,
+        Draft(result.value.text, result.action_id, frozenset(fact_ids)),
+        clock.at,
+    )
+    _audit(
+        session,
+        caller,
+        clock,
+        "answer.drafted",
+        application_id,
+        before,
+        AnswerState.AI_DRAFT,
+        question_id,
+    )
+    return version
+
+
 def mark_submitted(
     session: Session, caller: Caller, application_id: uuid.UUID, clock: Clock
 ) -> StoredApplication:
     """The founder marks it submitted (DRF-03: nothing is submitted from the platform)."""
+    if not rules.may_mark_submitted(Actor.FOUNDER):  # the only actor this path serves
+        raise ApplicationError("only the founder marks an application submitted")
     before = _open_application(session, caller, application_id)
     application = ApplicationRepository(session, caller.company_id).mark_submitted(
         application_id, clock.at

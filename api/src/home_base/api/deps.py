@@ -14,6 +14,8 @@ from fastapi import Depends, Request
 from sqlalchemy import Engine, create_engine, text
 from sqlalchemy.orm import Session
 
+from home_base.ai.provider import Provider
+from home_base.ai.settings import provider_from_environment
 from home_base.api import auth
 from home_base.api.auth import Identity
 from home_base.core.context import Caller, Clock
@@ -95,3 +97,12 @@ def tenant_session(db: Db, who: Annotated[Caller, Depends(caller)]) -> Iterator[
 
 
 TenantDb = Annotated[Session, Depends(tenant_session, scope="function")]
+
+
+@lru_cache(maxsize=1)
+def ai_provider() -> Provider:
+    """One provider per process, chosen by the environment (ADR-009)."""
+    return provider_from_environment()
+
+
+AiProvider = Annotated[Provider, Depends(ai_provider)]

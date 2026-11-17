@@ -19,6 +19,8 @@ Mistral on the EU endpoint, with training opt-out set on the organisation before
 
 The week 4 evaluation also runs Claude Sonnet or Opus 5.5 on Bedrock with EU routing, as a benchmark only (Andrew, 2026-11-10). It shows what the EU-owned choice costs in quality. Using a US provider in production would need Andrew's explicit decision and a new version of this ADR.
 
+Update, 2026-11-17 (D-84): the public demo and the evaluations run on Claude Haiku 5.5 through the Anthropic API, with fictional data only, on Andrew's decision. Nothing here changes for real founders' data.
+
 ## Consequences
 
 - The adapter only accepts the EU base URL; any other is a configuration error.

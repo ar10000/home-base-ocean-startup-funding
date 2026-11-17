@@ -1,0 +1,25 @@
+# Fictional call written for the evaluation set. Not a real programme.
+name: Offshore Energy Demonstration
+text: |
+  Offshore Energy Demonstration Projects, call 2027.
+
+  Scope. The call funds demonstration of wave, tidal and floating offshore wind technologies
+  at sea for at least twelve months. Projects must deliver measured data on energy output
+  and on effects on marine life.
+
+  Who may apply. Applications must come from a consortium of at least three independent
+  partners from at least two different countries. At least one partner must be a small or
+  medium-sized enterprise. Partners must be established in an EU Member State. The
+  technology must be at TRL 6 or above at the start of the project.
+
+  Award criteria. Excellence (40%), impact (40%) and the quality and efficiency of
+  implementation (20%). Applicants must show how the project will reduce the cost of
+  energy and how results will be shared with the public.
+
+  Budget. The total budget is 12 million euros; each project may receive between 2 and
+  4 million euros.
+expected:
+  - {fact: applicant_form, operator: equals, values: [consortium]}
+  - {fact: country, operator: one_of, values: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE]}
+  - {fact: trl, operator: at_least, values: [6]}
+  - {fact: sector, operator: one_of, values: [ocean_energy, marine_renewable_energy]}

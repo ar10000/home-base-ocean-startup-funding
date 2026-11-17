@@ -4,6 +4,7 @@ Every value here comes from the Phase 1 spec and carries the rule ID that owns i
 Rules import these; they never hard-code numbers.
 """
 
+from decimal import Decimal
 from typing import Final
 from zoneinfo import ZoneInfo
 
@@ -89,6 +90,24 @@ FACT_VALUES: Final[dict[str, tuple[tuple[str, str], ...]]] = {
     ),
     # REQ-05: the consortium-need fact.
     "applicant_form": (("alone", "Alone"), ("consortium", "In a consortium")),
+}
+
+# D-80: the knowledge base, free-text company facts drafts may use once approved (DRF-01).
+KNOWLEDGE_FACT_KEYS: Final = ("description", "impact", "team", "traction")
+
+# ADR-009: embeddings are mistral-embed's size; the fake provider makes the same size.
+EMBEDDING_DIMENSIONS: Final = 1024
+
+# ADR-009, handbook section 10: the AI cost limit per day, all tasks together, and the list
+# prices used to count it (per million tokens: input, output). From the research note of
+# 2026-11-10 (USD, counted as EUR: an estimate that errs high). Unknown models count as
+# the dearest. The free tier costs nothing; the log still records the list price.
+AI_DAILY_BUDGET_EUR: Final = Decimal("0.10")  # D-84: Andrew, at most 0.10 EUR a day
+AI_PRICE_PER_MILLION_TOKENS: Final[dict[str, tuple[Decimal, Decimal]]] = {
+    "mistral-small-latest": (Decimal("0.15"), Decimal("0.60")),
+    "mistral-large-latest": (Decimal("0.70"), Decimal("2.10")),
+    # D-84: Anthropic's list price for Claude Haiku 5.5 (USD, as of 2026-11-03).
+    "claude-haiku-5-5": (Decimal("0.10"), Decimal("0.50")),
 }
 
 # REQ-06, REQ-07: optional founder facts hard rules may check (decision D-44). Kept out of

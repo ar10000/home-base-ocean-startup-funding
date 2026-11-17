@@ -6,8 +6,17 @@ WEB := cd web && npm run
 # The local stack only (infra/docker-compose.yml); nothing here points at a hosted service.
 DEV_ENV := HOME_BASE_DATABASE_URL=postgresql+psycopg://home_base:home_base_local@127.0.0.1:54320/home_base \
 	HOME_BASE_OIDC_ISSUER=http://localhost:8080/realms/home-base HOME_BASE_OIDC_AUDIENCE=home-base-api
+# The AI provider for local commands (ADR-009): AI=fake (default, no network), AI=anthropic
+# (D-84) or AI=mistral, each loading its key from a file outside the repository
+# (~/.config/home-base/<provider>.env). The key is passed to the process only; nothing
+# prints it. Fictional data only.
+AI ?= fake
+KEY_ENV = $(HOME)/.config/home-base/$(AI).env
+MISTRAL_BASE_URL ?= https://api.eu.mistral.ai
+AI_ENV = $(if $(filter mistral anthropic,$(AI)),test -f $(KEY_ENV) || { echo "no $(KEY_ENV): see the README (Run it locally)"; exit 2; }; set -a; . $(KEY_ENV); set +a;) \
+	export HOME_BASE_AI_PROVIDER=$(AI) HOME_BASE_MISTRAL_BASE_URL=$(MISTRAL_BASE_URL);
 
-.PHONY: setup check test db-up db-check rules mutation demo client web dev-up dev-api dev-web e2e demo-seed demo-record demo-build all
+.PHONY: setup check test db-up db-check rules mutation demo client web dev-up dev-api dev-web e2e demo-seed demo-record demo-build evals all
 
 setup:  ## install tools and git hooks
 	cd api && uv sync
@@ -57,7 +66,7 @@ dev-up:  ## local stack: Postgres and Keycloak, migrations, fictional opportunit
 	cd api && $(DEV_ENV) uv run python ../scripts/dev_seed.py
 
 dev-api:  ## the API on 127.0.0.1:8000 against the local stack, reloading on change
-	cd api && $(DEV_ENV) uv run uvicorn --factory home_base.api.app:create_app --reload --reload-dir src --host 127.0.0.1 --port 8000
+	cd api && $(AI_ENV) $(DEV_ENV) uv run uvicorn --factory home_base.api.app:create_app --reload --reload-dir src --host 127.0.0.1 --port 8000
 
 dev-web:  ## the web app on http://localhost:5173, /api proxied to the local API
 	$(WEB) dev
@@ -66,11 +75,14 @@ e2e:  ## Playwright golden path against the local stack (run make dev-up first);
 	cd web && npx playwright install chromium
 	$(WEB) e2e
 
+evals:  ## the AI evaluation sets against the handbook's thresholds; local stack, provider from HOME_BASE_AI_PROVIDER
+	cd api && $(AI_ENV) $(DEV_ENV) uv run python ../scripts/run_evals.py
+
 demo-seed:  ## load the public demo's fictional calls (scripts/demo/seed) into the local stack
 	cd api && $(DEV_ENV) uv run python ../scripts/dev_seed.py --seed-dir ../scripts/demo/seed
 
 demo-record:  ## re-record the demo snapshot from the local stack (after demo-seed, dev-api, dev-web)
-	cd web && npx playwright install chromium && node e2e/record-demo.mjs
+	cd web && npx playwright install chromium && node e2e/record-demo.mjs && npx prettier --write src/demo/snapshot.json
 
 demo-build:  ## the static demo (D-79) into web/dist-demo; DEMO_BASE is the path it is served from
 	cd web && VITE_DEMO=1 VITE_BASE=$(or $(DEMO_BASE),/) npx vite build --outDir dist-demo \

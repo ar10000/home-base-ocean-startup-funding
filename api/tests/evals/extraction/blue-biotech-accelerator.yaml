@@ -1,0 +1,27 @@
+# Fictional call written for the evaluation set. Not a real programme.
+name: Blue Biotech Accelerator
+text: |
+  Blue Biotech Accelerator, sixth edition.
+
+  About the programme. Over six months, ten start-ups developing products from marine
+  organisms (algae, microorganisms, by-products of fisheries) receive mentoring, lab access
+  and a grant of 25,000 euros. The programme ends with a demo day for investors.
+
+  Eligibility. To take part, a company must be legally established in a Member State of the
+  European Union. It must work in blue biotechnology. Teams must include at least one
+  founder who works full time on the company. Start-ups must have been founded less than
+  5 years before the opening of the call. The programme is for single companies; joint
+  applications from several companies are not accepted.
+
+  Selection. A jury selects the start-ups on the strength of the science, the size of the
+  market opportunity, the commitment of the team, and the sustainability of the sourcing of
+  marine raw materials. Priority is given to solutions that reduce waste from the seafood
+  industry.
+
+  Diversity. This edition reserves three places for companies led by a woman CEO; the other
+  places are open to all.
+expected:
+  - {fact: country, operator: one_of, values: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE]}
+  - {fact: sector, operator: equals, values: [blue_biotechnology]}
+  - {fact: company_age, operator: at_most, values: [4]}
+  - {fact: applicant_form, operator: equals, values: [alone]}

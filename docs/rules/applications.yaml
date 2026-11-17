@@ -3,12 +3,43 @@
 - id: DRF-01
   statement: A draft may only use approved company facts.
   spec: Phase 1 spec > Priorities and progress > Where the AI is involved
-  status: planned
+  status: implemented
+  implemented_in: home_base.modules.applications.rules.unusable_citations
+  note: Only the company's approved, current facts are sent to the model (D-81); a draft citing any other fact is refused and nothing is saved. Returns the cited facts that may not be used, each once, in the order cited.
+  examples:
+    - given: {cited: [a, b], usable: [a, b, c]}
+      expect: []
+    - given: {cited: [a, z], usable: [a]}
+      expect: [z]
+    - given: {cited: [z, z], usable: []}
+      expect: [z]
+    - given: {cited: [], usable: []}
+      expect: []
 - id: DRF-02
   statement: Every draft stores links to the facts it used.
   spec: Phase 1 spec > Priorities and progress > Where the AI is involved
-  status: planned
+  status: implemented
+  implemented_in: home_base.modules.applications.rules.draft_citations
+  note: The facts a draft used are every fact cited by any of its sentences, each once, in the order first cited (D-81). A sentence citing nothing adds nothing.
+  examples:
+    - given: {sentences: [[a], [a, b], []]}
+      expect: [a, b]
+    - given: {sentences: [[b], [a]]}
+      expect: [b, a]
+    - given: {sentences: [[]]}
+      expect: []
+    - given: {sentences: []}
+      expect: []
 - id: DRF-03
   statement: Nothing is submitted from the platform; "submitted" is set by the founder.
   spec: Phase 1 spec > Priorities and progress > Progress
-  status: planned
+  status: implemented
+  implemented_in: home_base.modules.applications.rules.may_mark_submitted
+  note: Only the founder marks an application submitted; the system and jobs never do, and nothing is ever sent to a funder.
+  examples:
+    - given: {actor: founder}
+      expect: true
+    - given: {actor: system}
+      expect: false
+    - given: {actor: job}
+      expect: false

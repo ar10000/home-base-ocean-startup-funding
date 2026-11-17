@@ -372,3 +372,38 @@ describe("missing facts point to the Profile", () => {
     expect(screen.queryByRole("link", { name: /woman CEO/ })).not.toBeInTheDocument();
   });
 });
+
+describe("why it fits (D-82)", () => {
+  it("shows the calculated fit in words, marked as AI, next to the fit itself", async () => {
+    const calls = show(detail(), {
+      [`POST /opportunities/${ID}/why-it-fits`]: () => ({
+        text: "May fit: add your TRL, the call asks for TRL 5 or higher.",
+      }),
+    }).calls;
+    const card = (await screen.findByRole("heading", { name: "Why it fits" })).closest("div");
+    if (!card?.parentElement) throw new Error("no card");
+    expect(within(card).getByText("AI")).toBeInTheDocument();
+    expect(
+      await screen.findByText("May fit: add your TRL, the call asks for TRL 5 or higher."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Possible")).toBeInTheDocument(); // the fit is the rules', unchanged
+    expect(calls.filter((c) => c.url.endsWith("/why-it-fits"))).toHaveLength(1);
+  });
+
+  it("leaves the words out when they cannot be worked out", async () => {
+    show(detail(), {
+      [`POST /opportunities/${ID}/why-it-fits`]: () => problem(502, "Bad Gateway", "no"),
+    });
+    await screen.findByText("Eligibility, checked against your facts");
+    await waitFor(() =>
+      expect(screen.queryByRole("heading", { name: "Why it fits" })).not.toBeInTheDocument(),
+    );
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("asks for nothing when the call lists no requirements", async () => {
+    const { calls } = show(detail({ requirements: [] }));
+    await screen.findByText("The call lists no requirements we could check.");
+    expect(calls.some((c) => c.url.endsWith("/why-it-fits"))).toBe(false);
+  });
+});

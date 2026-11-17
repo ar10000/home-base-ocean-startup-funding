@@ -17,7 +17,13 @@ from home_base.core.dates import days_left
 from home_base.core.errors import IntentError
 from home_base.core.errors import SeedError as _SeedError
 from home_base.core.vocabulary import Decision, FitStatus, Operator, OpportunityType
-from home_base.modules.applications.rules import approvable
+from home_base.modules.applications.rules import (
+    approvable,
+    draft_citations,
+    may_mark_submitted,
+    unusable_citations,
+)
+from home_base.modules.audit.domain import Actor
 from home_base.modules.companies.domain import Goal, GoalChoice, Window
 from home_base.modules.companies.rules import (
     current_intent,
@@ -275,6 +281,18 @@ def _fact_value(given: dict[str, Any]) -> bool:
 
 def _approvable(given: dict[str, Any]) -> bool:
     return approvable(given["text"])
+
+
+def _unusable(given: dict[str, Any]) -> list[str]:
+    return unusable_citations(given["cited"], frozenset(given["usable"]))
+
+
+def _citations(given: dict[str, Any]) -> list[str]:
+    return draft_citations(given["sentences"])
+
+
+def _may_submit(given: dict[str, Any]) -> bool:
+    return may_mark_submitted(Actor(given["actor"]))
 
 
 def _milestones(given: dict[str, Any]) -> list[str]:
@@ -541,6 +559,9 @@ ADAPTERS: dict[str, Callable[[Any], object]] = {
     "PRG-03": _app_status,
     "PRG-04": _milestones,
     "PRG-05": _approvable,
+    "DRF-01": _unusable,
+    "DRF-02": _citations,
+    "DRF-03": _may_submit,
     "REQ-09": _fact_value,
     "RDY-01": _readiness,
     "PRI-01": _first_task,

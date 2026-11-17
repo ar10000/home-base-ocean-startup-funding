@@ -11,10 +11,12 @@ from datetime import date, datetime
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from home_base.ai import retrieval
 from home_base.core.errors import NotFoundError
 from home_base.modules.applications import service as applications
 from home_base.modules.applications.repository import ApplicationRepository
 from home_base.modules.companies import service as companies
+from home_base.modules.companies.repository import CompanyRepository
 from home_base.modules.opportunities import rules as opportunity_rules
 from home_base.modules.opportunities.service import (
     StoredOpportunity,
@@ -31,6 +33,14 @@ from home_base.modules.today.domain import (
 from home_base.views.opportunities import Deadline, Readiness
 
 
+class CitedFact(BaseModel):
+    """A fact version an answer was built from (DRF-02), in words."""
+
+    id: uuid.UUID
+    fact: str  # the key, e.g. "team_size" or "impact"
+    value: str
+
+
 class QuestionOut(BaseModel):
     id: uuid.UUID
     position: int  # 1-based, in the call's order
@@ -41,6 +51,7 @@ class QuestionOut(BaseModel):
     state: AnswerState
     answer: str | None
     built_from: list[uuid.UUID]  # fact versions of the latest saved version (DRF-02)
+    sources: list[CitedFact]  # the same facts, with their values as they were then
 
 
 class ApplicationOut(BaseModel):
@@ -78,6 +89,15 @@ def _opportunity(session: Session, opportunity_id: uuid.UUID) -> tuple[StoredOpp
     return removed, True
 
 
+def _sources(repo: CompanyRepository, ids: frozenset[uuid.UUID]) -> list[CitedFact]:
+    found = (repo.fact_version(i) for i in sorted(ids))
+    return [
+        CitedFact(id=f.id, fact=f.key, value=retrieval.value_text(f.key, f.value))
+        for f in found
+        if f is not None
+    ]
+
+
 def application_view(
     session: Session, company_id: uuid.UUID, application_id: uuid.UUID, today: date
 ) -> ApplicationOut:
@@ -91,6 +111,7 @@ def application_view(
     approved = frozenset(f.key for f in inputs.facts if f.approved)
     answers = {a.question_id: a for a in found.answers}
     repo = ApplicationRepository(session, company_id)
+    facts_repo = CompanyRepository(session, company_id)
     questions: list[QuestionOut] = []
     snapshots: list[QuestionSnapshot] = []
     for i, (qid, q) in enumerate(zip(opp.question_ids, opp.record.questions or (), strict=True)):
@@ -110,6 +131,7 @@ def application_view(
                 state=state,
                 answer=answer.text if answer else None,
                 built_from=sorted(versions[-1].fact_version_ids) if versions else [],
+                sources=_sources(facts_repo, versions[-1].fact_version_ids) if versions else [],
             )
         )
     status = today_rules.application_status(

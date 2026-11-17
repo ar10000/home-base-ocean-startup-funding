@@ -7,6 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
+from home_base.ai.runner import AiFailed
 from home_base.api import deps
 from home_base.core.context import Caller, Clock
 from home_base.modules.applications import service as applications
@@ -17,6 +18,7 @@ router = APIRouter(prefix="/applications", tags=["applications"])
 SessionDep = deps.TenantDb
 CallerDep = Annotated[Caller, Depends(deps.caller)]
 ClockDep = Annotated[Clock, Depends(deps.clock)]
+AiProvider = deps.AiProvider
 
 
 class AnswerIn(BaseModel):
@@ -60,6 +62,25 @@ def approve_answer(
     clock: ClockDep,
 ) -> views.ApplicationOut:
     applications.approve_answer(session, caller, (application_id, question_id), clock)
+    return views.application_view(session, caller.company_id, application_id, clock.today)
+
+
+@router.post("/{application_id}/answers/{question_id}/draft")
+def draft_answer(
+    application_id: uuid.UUID,
+    question_id: uuid.UUID,
+    session: SessionDep,
+    caller: CallerDep,
+    clock: ClockDep,
+    provider: AiProvider,
+) -> views.ApplicationOut:
+    """Draft or redraft one answer from approved facts (D-81). A failed draft saves
+    nothing but its AI action log entry, which is kept so the failure can be traced."""
+    try:
+        applications.draft_answer(session, caller, (application_id, question_id), provider, clock)
+    except AiFailed:
+        session.commit()
+        raise
     return views.application_view(session, caller.company_id, application_id, clock.today)
 
 

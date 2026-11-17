@@ -19,6 +19,7 @@ const question = (over: Partial<Question>): Question => ({
   missing: [],
   required_facts: [],
   built_from: [],
+  sources: [],
   ...over,
 });
 
@@ -41,6 +42,10 @@ const app = (over: Partial<Application> = {}): Application => ({
       state: "approved",
       answer: "We farm seaweed.",
       built_from: ["f1", "f2"],
+      sources: [
+        { id: "f1", fact: "description", value: "We farm seaweed." },
+        { id: "f2", fact: "country", value: "Portugal" },
+      ],
     }),
     question({
       id: "q2",
@@ -258,5 +263,65 @@ describe("Application workspace", () => {
     expect(await screen.findByRole("alert", {}, { timeout: AUTOSAVE_MS + 1500 })).toHaveTextContent(
       "already submitted",
     );
+  });
+});
+
+describe("AI drafts (D-81, DRF-01, DRF-02)", () => {
+  const drafted = app({
+    questions: [
+      question({ id: "q1", position: 1, state: "approved", answer: "We farm seaweed." }),
+      question({
+        id: "q2",
+        position: 2,
+        text: "Team",
+        state: "ai_draft",
+        answer: "Team size: 4.",
+        built_from: ["f9"],
+        sources: [{ id: "f9", fact: "team_size", value: "4" }],
+      }),
+    ],
+  });
+
+  it("drafts an answer from approved facts, marked as AI, with the facts it was built from", async () => {
+    const calls: string[] = [];
+    serve(app(), {
+      [`POST /applications/${ID}/answers/q2/draft`]: () => {
+        calls.push("draft q2");
+        return drafted;
+      },
+    });
+    renderAt(`/applications/${ID}`);
+    fireEvent.click(await screen.findByRole("button", { name: /2\. Team/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Draft with AI" }));
+    expect(await screen.findByDisplayValue("Team size: 4.")).toBeInTheDocument();
+    expect(calls).toEqual(["draft q2"]);
+    const heading = screen.getByRole("heading", { name: "Question 2" });
+    expect(heading.parentElement).toHaveTextContent("AI draft");
+    expect(screen.getByLabelText("Team")).toHaveClass("border-coral");
+    fireEvent.click(screen.getByText("Built from 1 approved fact"));
+    expect(screen.getByText("Team size:")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Redraft with AI" })).toBeInTheDocument();
+  });
+
+  it("shows why a draft failed and keeps the text as it was", async () => {
+    serve(app(), {
+      [`POST /applications/${ID}/answers/q2/draft`]: () =>
+        problem(502, "Bad Gateway", "the AI could not give a valid answer (1 problems)"),
+    });
+    renderAt(`/applications/${ID}`);
+    fireEvent.click(await screen.findByRole("button", { name: /2\. Team/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Draft with AI" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("could not give a valid answer");
+    expect(screen.getByLabelText("Team")).toHaveValue("");
+  });
+
+  it("offers no draft for an approved answer, nor while text is unsaved", async () => {
+    serve(app());
+    renderAt(`/applications/${ID}`);
+    await screen.findByRole("button", { name: /1\. Describe/ });
+    expect(screen.queryByRole("button", { name: /Draft with AI|Redraft/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /2\. Team/ }));
+    fireEvent.change(screen.getByLabelText("Team"), { target: { value: "Two" } });
+    expect(screen.getByRole("button", { name: "Redraft with AI" })).toBeDisabled();
   });
 });

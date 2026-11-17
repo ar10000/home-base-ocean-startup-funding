@@ -191,6 +191,23 @@ export function AnswerEditor({
       ),
     onSuccess: (data) => queryClient.setQueryData(key(applicationId), data),
   });
+  // D-81: an AI draft from approved facts replaces the text; it stays marked as AI
+  // until the founder edits it.
+  const draft = useMutation({
+    mutationFn: async () =>
+      unwrap(
+        await api.POST("/applications/{application_id}/answers/{question_id}/draft", {
+          params: { path },
+        }),
+      ),
+    onSuccess: (data) => {
+      const drafted = data.questions.find((x) => x.id === q.id)?.answer ?? "";
+      pending.current = null;
+      setText(drafted);
+      setSavedText(drafted);
+      queryClient.setQueryData(key(applicationId), data);
+    },
+  });
 
   const saveText = save.mutate;
   // Autosave: after a pause in typing, and when leaving the question with unsaved text.
@@ -240,11 +257,23 @@ export function AnswerEditor({
         </p>
       )}
       <div className="flex flex-wrap items-center gap-3">
+        {!readOnly && q.state !== "approved" && (
+          <button
+            type="button"
+            className="btn-secondary"
+            disabled={unsaved || draft.isPending}
+            onClick={() => draft.mutate()}
+          >
+            {draft.isPending ? "Drafting…" : blank ? "Draft with AI" : "Redraft with AI"}
+          </button>
+        )}
         {!readOnly && (
           <button
             type="button"
             className="btn-primary"
-            disabled={blank || unsaved || approve.isPending || q.state === "approved"}
+            disabled={
+              blank || unsaved || draft.isPending || approve.isPending || q.state === "approved"
+            }
             onClick={() => approve.mutate()}
           >
             {q.state === "approved" ? "Approved" : "Approve"}
@@ -253,13 +282,25 @@ export function AnswerEditor({
         <span role="status" className="text-sm text-ink-muted">
           {save.isPending ? "Saving…" : save.isSuccess ? "Saved" : ""}
         </span>
-        {q.built_from.length > 0 && (
-          <span className="text-sm text-ink-muted">
-            Built from {q.built_from.length} approved {q.built_from.length === 1 ? "fact" : "facts"}
-          </span>
-        )}
       </div>
-      {(save.error ?? approve.error) && <ErrorState error={save.error ?? approve.error} />}
+      {q.sources.length > 0 && (
+        <details className="text-sm">
+          <summary className="cursor-pointer text-ink-muted">
+            Built from {q.sources.length} approved {q.sources.length === 1 ? "fact" : "facts"}
+          </summary>
+          <ul className="m-0 mt-2 flex list-none flex-col gap-1.5 p-0">
+            {q.sources.map((s) => (
+              <li key={s.id}>
+                <span className="font-semibold">{capitalised(factLabel(s.fact))}:</span>{" "}
+                <span className="text-ink-muted">{s.value}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+      {(save.error ?? approve.error ?? draft.error) && (
+        <ErrorState error={save.error ?? approve.error ?? draft.error} />
+      )}
     </Card>
   );
 }
@@ -343,4 +384,8 @@ function NoLongerEligible({ id }: { id: string }) {
       {archive.error && <ErrorState error={archive.error} />}
     </div>
   );
+}
+
+function capitalised(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

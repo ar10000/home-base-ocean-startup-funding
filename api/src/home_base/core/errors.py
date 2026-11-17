@@ -67,3 +67,15 @@ class OnboardingError(DomainError):
 
 class StageError(DomainError):
     """A journey stage that is not in the list (D-78)."""
+
+
+class AiError(DomainError):
+    """An AI task could not give a valid answer; nothing was saved (handbook section 10)."""
+
+
+class AiBudgetError(AiError):
+    """Today's AI spending limit is reached (config.AI_DAILY_BUDGET_EUR)."""
+
+
+class AiConfigError(AiError):
+    """The AI provider is configured wrongly, for example a base URL outside the EU."""

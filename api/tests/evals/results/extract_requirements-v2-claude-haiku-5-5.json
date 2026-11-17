@@ -1,0 +1,46 @@
+{
+  "task": "extract_requirements",
+  "prompt": "extract_requirements/v2",
+  "model": "claude-haiku-5-5",
+  "run_on": "2026-11-17T11:23:08+00:00",
+  "cases": 3,
+  "runs": [
+    {
+      "run": 1,
+      "recall": 1.0,
+      "precision": 1.0,
+      "quotes_verbatim": 1.0,
+      "below_thresholds": [],
+      "lines": [
+        "Blue Biotech Accelerator: found 4/4, extracted 4",
+        "Coastal Innovation Voucher: found 6/6, extracted 6",
+        "Offshore Energy Demonstration: found 4/4, extracted 4"
+      ]
+    },
+    {
+      "run": 2,
+      "recall": 1.0,
+      "precision": 1.0,
+      "quotes_verbatim": 1.0,
+      "below_thresholds": [],
+      "lines": [
+        "Blue Biotech Accelerator: found 4/4, extracted 4",
+        "Coastal Innovation Voucher: found 6/6, extracted 6",
+        "Offshore Energy Demonstration: found 4/4, extracted 4"
+      ]
+    },
+    {
+      "run": 3,
+      "recall": 1.0,
+      "precision": 1.0,
+      "quotes_verbatim": 1.0,
+      "below_thresholds": [],
+      "lines": [
+        "Blue Biotech Accelerator: found 4/4, extracted 4",
+        "Coastal Innovation Voucher: found 6/6, extracted 6",
+        "Offshore Energy Demonstration: found 4/4, extracted 4"
+      ]
+    }
+  ],
+  "below_thresholds_in_any_run": []
+}

@@ -9,6 +9,7 @@ memberships come with sign-in (week 2, step 6).
 import uuid
 from datetime import date, datetime
 
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     CheckConstraint,
     ForeignKey,
@@ -19,7 +20,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
-from home_base.config import STAGES
+from home_base.config import EMBEDDING_DIMENSIONS, STAGES
 from home_base.core.db import Base, Record, one_of
 from home_base.modules.companies.domain import Goal, Window
 
@@ -109,6 +110,29 @@ class CompanyFactRow(Record, Base):
     approved_at: Mapped[datetime | None]
     approved_by: Mapped[uuid.UUID | None]  # the founder's user ID; FK with users (step 6)
     superseded_at: Mapped[datetime | None]  # set when a newer version replaces this one
+
+
+class FactEmbeddingRow(Record, Base):
+    """One approved text fact version, embedded for retrieval (ADR-009, D-81).
+
+    Written when a text fact version is approved; a new version gets its own row. Only
+    the vector and the model are stored here, never the text (it stays on the fact).
+    """
+
+    __tablename__ = "fact_embeddings"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["fact_version_id", "company_id"],
+            ["company_facts.id", "company_facts.company_id"],
+            name="fk_fact_embeddings_fact_version",
+        ),
+        UniqueConstraint("fact_version_id", "model", name="uq_fact_embeddings_version_model"),
+    )
+
+    company_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("companies.id"), index=True)
+    fact_version_id: Mapped[uuid.UUID]
+    model: Mapped[str]
+    embedding: Mapped[list[float]] = mapped_column(Vector(EMBEDDING_DIMENSIONS))
 
 
 class FounderFactRow(Record, Base):

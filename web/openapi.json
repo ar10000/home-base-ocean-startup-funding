@@ -167,6 +167,31 @@
         "title": "ApplicationSummary",
         "type": "object"
       },
+      "CitedFact": {
+        "description": "A fact version an answer was built from (DRF-02), in words.",
+        "properties": {
+          "fact": {
+            "title": "Fact",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "fact",
+          "value"
+        ],
+        "title": "CitedFact",
+        "type": "object"
+      },
       "Deadline": {
         "properties": {
           "date": {
@@ -1199,6 +1224,13 @@
             "title": "Required Facts",
             "type": "array"
           },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/CitedFact"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
           "state": {
             "$ref": "#/components/schemas/AnswerState"
           },
@@ -1216,7 +1248,8 @@
           "draftable",
           "state",
           "answer",
-          "built_from"
+          "built_from",
+          "sources"
         ],
         "title": "QuestionOut",
         "type": "object"
@@ -1630,6 +1663,20 @@
         "title": "ValidationError",
         "type": "object"
       },
+      "WhyItFits": {
+        "description": "D-82: the calculated fit in words, always shown marked as AI.",
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "WhyItFits",
+        "type": "object"
+      },
       "Window": {
         "description": "When a goal matters: now (within 3 months), soon (3 to 6), later (6 to 12).",
         "enum": [
@@ -1858,6 +1905,60 @@
           }
         },
         "summary": "Approve Answer",
+        "tags": [
+          "applications"
+        ]
+      }
+    },
+    "/applications/{application_id}/answers/{question_id}/draft": {
+      "post": {
+        "description": "Draft or redraft one answer from approved facts (D-81). A failed draft saves\nnothing but its AI action log entry, which is kept so the failure can be traced.",
+        "operationId": "draft_answer_applications__application_id__answers__question_id__draft_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "application_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Application Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Draft Answer",
         "tags": [
           "applications"
         ]
@@ -2510,6 +2611,50 @@
           }
         },
         "summary": "Set Decision",
+        "tags": [
+          "opportunities"
+        ]
+      }
+    },
+    "/opportunities/{opportunity_id}/why-it-fits": {
+      "post": {
+        "description": "Word why the call fits, from the results the rules calculated (cached by input).",
+        "operationId": "why_it_fits_opportunities__opportunity_id__why_it_fits_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Opportunity Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhyItFits"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Why It Fits",
         "tags": [
           "opportunities"
         ]

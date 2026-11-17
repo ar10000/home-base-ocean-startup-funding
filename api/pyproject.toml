@@ -5,7 +5,11 @@ description = "Home Base: a calm daily home base for early-stage blue economy fo
 requires-python = ">=3.12"
 dependencies = [
     "alembic==1.20.1",
+    "anthropic==2.9.0",
     "fastapi==0.162.4",
+    "fastembed==0.9.1",
+    "httpx==0.28.1",
+    "pgvector==0.4.1",
     "psycopg[binary]==3.3.8",
     "pyjwt[crypto]==2.15.1",
     "pyyaml==6.0.3",
@@ -25,7 +29,6 @@ dev = [
     "pre-commit==4.0.1",
     "mutmut==3.8.1",
     "testcontainers[postgres]==4.15.0",
-    "httpx==0.28.1",
 ]
 
 [build-system]
@@ -57,6 +60,11 @@ strict = true
 python_version = "3.12"
 mypy_path = "src"
 packages = ["home_base"]
+
+# pgvector ships no type information; only its SQLAlchemy column type is used.
+[[tool.mypy.overrides]]
+module = ["pgvector.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

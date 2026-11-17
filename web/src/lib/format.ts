@@ -103,6 +103,11 @@ const factLabels: Record<string, string> = {
   youngest_founder_birth_date: "youngest founder's birth date",
   woman_founder: "at least one woman founder",
   woman_ceo: "woman CEO",
+  // The knowledge base (D-80).
+  description: "company description",
+  impact: "impact",
+  team: "team",
+  traction: "traction",
 };
 
 /** The founder facts a call can check (spec: Founder facts), and the stored fact behind each. */

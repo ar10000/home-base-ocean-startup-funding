@@ -42,3 +42,14 @@ describe("public demo (D-79)", () => {
     expect(sources.every((u) => u.startsWith("https://example.org/"))).toBe(true);
   });
 });
+
+describe("recorded AI answers in the demo", () => {
+  it("serves a recorded POST, and still refuses any other change", async () => {
+    const recorded = Object.keys(snapshot).filter((k) => k.startsWith("POST "));
+    for (const key of recorded) {
+      const [method, path] = key.split(" ") as [string, string];
+      expect((await demoFetch(at(path, method))).status, key).toBe(200);
+    }
+    expect((await demoFetch(at("/facts", "POST"))).status).toBe(403);
+  });
+});

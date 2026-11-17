@@ -1,7 +1,7 @@
 {
   "GET /me": {
-    "user_id": "01a1e62c-a504-7437-962c-a917b156b81e",
-    "company_id": "01a1e62c-a584-771a-a594-d7c3a54ca1f5",
+    "user_id": "01a1e944-11a2-7db0-8ffd-fe3b26cc65ef",
+    "company_id": "01a1e944-121f-70cf-b8ec-50d6175cac6e",
     "given_name": "Inês"
   },
   "GET /today": {
@@ -17,23 +17,12 @@
       "minutes": 10,
       "opportunity_id": null,
       "opportunity": null,
-      "deadline": "2027-01-31",
-      "fact": "team_size",
+      "deadline": "2027-02-20",
+      "fact": "woman_ceo",
       "count": 1,
       "question": null
     },
-    "needs_attention": [
-      {
-        "type": "add_fact",
-        "minutes": 10,
-        "opportunity_id": null,
-        "opportunity": null,
-        "deadline": "2027-02-20",
-        "fact": "woman_ceo",
-        "count": 1,
-        "question": null
-      }
-    ],
+    "needs_attention": [],
     "next_opening": null,
     "next_deadline": null,
     "current_goal": [
@@ -44,65 +33,101 @@
     ],
     "opening_soon": [],
     "top_fact": {
-      "fact": "team_size",
-      "matches": 0,
-      "questions": 1
+      "fact": "woman_ceo",
+      "matches": 1,
+      "questions": 0
     }
   },
   "GET /profile": {
     "facts": [
       {
-        "id": "01a1e62c-a922-7e98-9fd8-a6a252a69581",
+        "id": "01a1e944-15f1-78f1-98e9-e1797de6f50b",
         "key": "applicant_form",
         "value": "alone",
         "label": "user_provided",
         "source": null,
-        "recorded_at": "2026-11-16T21:04:08.991399Z",
+        "recorded_at": "2026-11-17T11:28:35.820343Z",
         "approved": true
       },
       {
-        "id": "01a1e62c-a678-7a29-80e8-40e56ed2dad0",
+        "id": "01a1e944-1318-79a3-a2e9-6e9145522b98",
         "key": "country",
         "value": "PT",
         "label": "user_provided",
         "source": null,
-        "recorded_at": "2026-11-16T21:04:08.308287Z",
+        "recorded_at": "2026-11-17T11:28:35.086955Z",
         "approved": true
       },
       {
-        "id": "01a1e62c-a7c9-7c09-82ba-115ba75d3154",
+        "id": "01a1e944-1668-71d5-8a83-b93296b886ed",
+        "key": "description",
+        "value": "Mareva Seaweed grows kelp on longlines off Peniche and turns it into a feed ingredient for fish farms.",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-17T11:28:35.939677Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e944-1709-75c0-b3f6-9079ff23d141",
+        "key": "impact",
+        "value": "On our 2-hectare pilot line, the kelp took up an estimated 1.4 t of nitrogen in 2026, measured with the University of Example.",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-17T11:28:36.102657Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e944-1482-750e-8689-7943fb2ac32d",
         "key": "legal_form",
         "value": "private_limited",
         "label": "user_provided",
         "source": null,
-        "recorded_at": "2026-11-16T21:04:08.643147Z",
+        "recorded_at": "2026-11-17T11:28:35.453541Z",
         "approved": true
       },
       {
-        "id": "01a1e62c-a742-7921-a580-1c198c63f7a6",
+        "id": "01a1e944-13f0-7c29-9227-639ec0599ce2",
         "key": "sector",
         "value": "marine_living_resources",
         "label": "user_provided",
         "source": null,
-        "recorded_at": "2026-11-16T21:04:08.510428Z",
+        "recorded_at": "2026-11-17T11:28:35.305146Z",
         "approved": true
       },
       {
-        "id": "01a1e62c-a8b7-7910-860f-87ccfc7b4120",
+        "id": "01a1e944-179f-7309-95ea-060a6b37c7f1",
+        "key": "team",
+        "value": "Inês (CEO) is a marine biologist with 8 years in aquaculture; Tomás (CTO) is a naval engineer who designed the longline system.",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-17T11:28:36.252489Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e944-157b-7879-a045-c7a0257c6669",
         "key": "team_size",
         "value": 4,
         "label": "user_provided",
         "source": null,
-        "recorded_at": "2026-11-16T21:04:08.884347Z",
-        "approved": false
+        "recorded_at": "2026-11-17T11:28:35.703406Z",
+        "approved": true
       },
       {
-        "id": "01a1e62c-a83f-74ac-9ce2-1f5544cea9a1",
+        "id": "01a1e944-1815-7bef-8531-9431ee31712d",
+        "key": "traction",
+        "value": "One pilot with a fish farm in Nazaré since March 2026, and a letter of intent from a feed producer for 20 t a year.",
+        "label": "user_provided",
+        "source": null,
+        "recorded_at": "2026-11-17T11:28:36.369921Z",
+        "approved": true
+      },
+      {
+        "id": "01a1e944-1508-7092-b359-7b19662754fc",
         "key": "trl",
         "value": 5,
         "label": "user_provided",
         "source": null,
-        "recorded_at": "2026-11-16T21:04:08.762260Z",
+        "recorded_at": "2026-11-17T11:28:35.587563Z",
         "approved": true
       }
     ],
@@ -359,7 +384,7 @@
   ],
   "GET /applications": [
     {
-      "id": "01a1e62c-b3e5-7be9-b054-1b5797129068",
+      "id": "01a1e944-2282-7824-94f4-26d62eaa3948",
       "opportunity_id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
       "opportunity": "Tidal Pilot Fund",
       "status": "in_progress",
@@ -392,11 +417,40 @@
           "days_left": null
         },
         "checked_on": "2026-10-21",
-        "checked_days_ago": 26,
+        "checked_days_ago": 27,
         "recheck_due": true,
         "readiness": null,
         "based_on_last_edition": true,
         "goal_relevant": true
+      },
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 11
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 13,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 2,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
       },
       {
         "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
@@ -418,40 +472,11 @@
           "days_left": null
         },
         "checked_on": "2026-11-02",
-        "checked_days_ago": 14,
-        "recheck_due": false,
-        "readiness": {
-          "ready": 0,
-          "total": 2
-        },
-        "based_on_last_edition": false,
-        "goal_relevant": false
-      },
-      {
-        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
-        "name": "Tidal Pilot Fund",
-        "funder": "Example Coastal Foundation",
-        "types": ["grant", "testbed_or_pilot"],
-        "scope": "blue_specific",
-        "fit": {
-          "status": "possible",
-          "few_explicit_rules": false
-        },
-        "decision": "pursuing",
-        "status": "open",
-        "opening": null,
-        "expected_month": null,
-        "deadline": {
-          "kind": "days_left",
-          "date": "2026-11-28",
-          "days_left": 12
-        },
-        "checked_on": "2026-11-04",
-        "checked_days_ago": 12,
+        "checked_days_ago": 15,
         "recheck_due": true,
         "readiness": {
           "ready": 1,
-          "total": 3
+          "total": 2
         },
         "based_on_last_edition": false,
         "goal_relevant": false
@@ -476,7 +501,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-09",
-        "checked_days_ago": 7,
+        "checked_days_ago": 8,
         "recheck_due": false,
         "readiness": {
           "ready": 0,
@@ -487,8 +512,8 @@
       }
     ],
     "counts": {
-      "confirmed": 1,
-      "possible": 3,
+      "confirmed": 2,
+      "possible": 2,
       "not_eligible": 1
     }
   },
@@ -514,7 +539,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-09",
-        "checked_days_ago": 7,
+        "checked_days_ago": 8,
         "recheck_due": false,
         "readiness": {
           "ready": 0,
@@ -532,6 +557,35 @@
   },
   "GET /opportunities?decision=pursuing": {
     "items": [
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 11
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 13,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 2,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      },
       {
         "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
         "name": "Atlantic Seaweed Innovation Grant",
@@ -552,48 +606,19 @@
           "days_left": null
         },
         "checked_on": "2026-11-02",
-        "checked_days_ago": 14,
-        "recheck_due": false,
-        "readiness": {
-          "ready": 0,
-          "total": 2
-        },
-        "based_on_last_edition": false,
-        "goal_relevant": false
-      },
-      {
-        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
-        "name": "Tidal Pilot Fund",
-        "funder": "Example Coastal Foundation",
-        "types": ["grant", "testbed_or_pilot"],
-        "scope": "blue_specific",
-        "fit": {
-          "status": "possible",
-          "few_explicit_rules": false
-        },
-        "decision": "pursuing",
-        "status": "open",
-        "opening": null,
-        "expected_month": null,
-        "deadline": {
-          "kind": "days_left",
-          "date": "2026-11-28",
-          "days_left": 12
-        },
-        "checked_on": "2026-11-04",
-        "checked_days_ago": 12,
+        "checked_days_ago": 15,
         "recheck_due": true,
         "readiness": {
           "ready": 1,
-          "total": 3
+          "total": 2
         },
         "based_on_last_edition": false,
         "goal_relevant": false
       }
     ],
     "counts": {
-      "confirmed": 1,
-      "possible": 1,
+      "confirmed": 2,
+      "possible": 0,
       "not_eligible": 0
     }
   },
@@ -619,7 +644,7 @@
           "days_left": null
         },
         "checked_on": "2026-10-21",
-        "checked_days_ago": 26,
+        "checked_days_ago": 27,
         "recheck_due": true,
         "readiness": null,
         "based_on_last_edition": true,
@@ -643,10 +668,10 @@
   "GET /opportunities?fit=confirmed": {
     "items": [
       {
-        "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
-        "name": "Atlantic Seaweed Innovation Grant",
-        "funder": "Example Ocean Trust",
-        "types": ["grant"],
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
         "scope": "blue_specific",
         "fit": {
           "status": "confirmed",
@@ -657,37 +682,20 @@
         "opening": null,
         "expected_month": null,
         "deadline": {
-          "kind": "date",
-          "date": "2027-01-31",
-          "days_left": null
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 11
         },
-        "checked_on": "2026-11-02",
-        "checked_days_ago": 14,
-        "recheck_due": false,
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 13,
+        "recheck_due": true,
         "readiness": {
-          "ready": 0,
-          "total": 2
+          "ready": 2,
+          "total": 3
         },
         "based_on_last_edition": false,
         "goal_relevant": false
-      }
-    ],
-    "counts": {
-      "confirmed": 1,
-      "possible": 3,
-      "not_eligible": 1
-    }
-  },
-  "GET /opportunities?fit=confirmed&decision=none": {
-    "items": [],
-    "counts": {
-      "confirmed": 0,
-      "possible": 1,
-      "not_eligible": 1
-    }
-  },
-  "GET /opportunities?fit=confirmed&decision=pursuing": {
-    "items": [
+      },
       {
         "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
         "name": "Atlantic Seaweed Innovation Grant",
@@ -708,10 +716,10 @@
           "days_left": null
         },
         "checked_on": "2026-11-02",
-        "checked_days_ago": 14,
-        "recheck_due": false,
+        "checked_days_ago": 15,
+        "recheck_due": true,
         "readiness": {
-          "ready": 0,
+          "ready": 1,
           "total": 2
         },
         "based_on_last_edition": false,
@@ -719,8 +727,83 @@
       }
     ],
     "counts": {
-      "confirmed": 1,
+      "confirmed": 2,
+      "possible": 2,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=confirmed&decision=none": {
+    "items": [],
+    "counts": {
+      "confirmed": 0,
       "possible": 1,
+      "not_eligible": 1
+    }
+  },
+  "GET /opportunities?fit=confirmed&decision=pursuing": {
+    "items": [
+      {
+        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+        "name": "Tidal Pilot Fund",
+        "funder": "Example Coastal Foundation",
+        "types": ["grant", "testbed_or_pilot"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "days_left",
+          "date": "2026-11-28",
+          "days_left": 11
+        },
+        "checked_on": "2026-11-04",
+        "checked_days_ago": 13,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 2,
+          "total": 3
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      },
+      {
+        "id": "01a1e62a-3c28-7002-9e10-fc727663187a",
+        "name": "Atlantic Seaweed Innovation Grant",
+        "funder": "Example Ocean Trust",
+        "types": ["grant"],
+        "scope": "blue_specific",
+        "fit": {
+          "status": "confirmed",
+          "few_explicit_rules": false
+        },
+        "decision": "pursuing",
+        "status": "open",
+        "opening": null,
+        "expected_month": null,
+        "deadline": {
+          "kind": "date",
+          "date": "2027-01-31",
+          "days_left": null
+        },
+        "checked_on": "2026-11-02",
+        "checked_days_ago": 15,
+        "recheck_due": true,
+        "readiness": {
+          "ready": 1,
+          "total": 2
+        },
+        "based_on_last_edition": false,
+        "goal_relevant": false
+      }
+    ],
+    "counts": {
+      "confirmed": 2,
+      "possible": 0,
       "not_eligible": 0
     }
   },
@@ -762,40 +845,11 @@
           "days_left": null
         },
         "checked_on": "2026-10-21",
-        "checked_days_ago": 26,
+        "checked_days_ago": 27,
         "recheck_due": true,
         "readiness": null,
         "based_on_last_edition": true,
         "goal_relevant": true
-      },
-      {
-        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
-        "name": "Tidal Pilot Fund",
-        "funder": "Example Coastal Foundation",
-        "types": ["grant", "testbed_or_pilot"],
-        "scope": "blue_specific",
-        "fit": {
-          "status": "possible",
-          "few_explicit_rules": false
-        },
-        "decision": "pursuing",
-        "status": "open",
-        "opening": null,
-        "expected_month": null,
-        "deadline": {
-          "kind": "days_left",
-          "date": "2026-11-28",
-          "days_left": 12
-        },
-        "checked_on": "2026-11-04",
-        "checked_days_ago": 12,
-        "recheck_due": true,
-        "readiness": {
-          "ready": 1,
-          "total": 3
-        },
-        "based_on_last_edition": false,
-        "goal_relevant": false
       },
       {
         "id": "01a1e62a-3c3a-7c41-bf60-7637545beb24",
@@ -817,7 +871,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-09",
-        "checked_days_ago": 7,
+        "checked_days_ago": 8,
         "recheck_due": false,
         "readiness": {
           "ready": 0,
@@ -828,8 +882,8 @@
       }
     ],
     "counts": {
-      "confirmed": 1,
-      "possible": 3,
+      "confirmed": 2,
+      "possible": 2,
       "not_eligible": 1
     }
   },
@@ -855,7 +909,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-09",
-        "checked_days_ago": 7,
+        "checked_days_ago": 8,
         "recheck_due": false,
         "readiness": {
           "ready": 0,
@@ -872,40 +926,10 @@
     }
   },
   "GET /opportunities?fit=possible&decision=pursuing": {
-    "items": [
-      {
-        "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
-        "name": "Tidal Pilot Fund",
-        "funder": "Example Coastal Foundation",
-        "types": ["grant", "testbed_or_pilot"],
-        "scope": "blue_specific",
-        "fit": {
-          "status": "possible",
-          "few_explicit_rules": false
-        },
-        "decision": "pursuing",
-        "status": "open",
-        "opening": null,
-        "expected_month": null,
-        "deadline": {
-          "kind": "days_left",
-          "date": "2026-11-28",
-          "days_left": 12
-        },
-        "checked_on": "2026-11-04",
-        "checked_days_ago": 12,
-        "recheck_due": true,
-        "readiness": {
-          "ready": 1,
-          "total": 3
-        },
-        "based_on_last_edition": false,
-        "goal_relevant": false
-      }
-    ],
+    "items": [],
     "counts": {
-      "confirmed": 1,
-      "possible": 1,
+      "confirmed": 2,
+      "possible": 0,
       "not_eligible": 0
     }
   },
@@ -931,7 +955,7 @@
           "days_left": null
         },
         "checked_on": "2026-10-21",
-        "checked_days_ago": 26,
+        "checked_days_ago": 27,
         "recheck_due": true,
         "readiness": null,
         "based_on_last_edition": true,
@@ -974,7 +998,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-06",
-        "checked_days_ago": 10,
+        "checked_days_ago": 11,
         "recheck_due": false,
         "readiness": {
           "ready": 1,
@@ -985,8 +1009,8 @@
       }
     ],
     "counts": {
-      "confirmed": 1,
-      "possible": 3,
+      "confirmed": 2,
+      "possible": 2,
       "not_eligible": 1
     }
   },
@@ -1012,7 +1036,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-06",
-        "checked_days_ago": 10,
+        "checked_days_ago": 11,
         "recheck_due": false,
         "readiness": {
           "ready": 1,
@@ -1031,8 +1055,8 @@
   "GET /opportunities?fit=not_eligible&decision=pursuing": {
     "items": [],
     "counts": {
-      "confirmed": 1,
-      "possible": 1,
+      "confirmed": 2,
+      "possible": 0,
       "not_eligible": 0
     }
   },
@@ -1066,7 +1090,7 @@
           "days_left": null
         },
         "checked_on": "2026-11-11",
-        "checked_days_ago": 5,
+        "checked_days_ago": 6,
         "recheck_due": false,
         "readiness": {
           "ready": 0,
@@ -1102,7 +1126,7 @@
       "days_left": null
     },
     "checked_on": "2026-10-21",
-    "checked_days_ago": 26,
+    "checked_days_ago": 27,
     "recheck_due": true,
     "readiness": null,
     "based_on_last_edition": true,
@@ -1143,8 +1167,24 @@
         }
       },
       {
+        "action": "opportunity.archived",
+        "occurred_at": "2026-11-17T10:23:19.758057+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "blue-founders-accelerator"
+        }
+      },
+      {
+        "action": "opportunity.changed",
+        "occurred_at": "2026-11-17T10:23:26.096991+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "blue-founders-accelerator"
+        }
+      },
+      {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "occurred_at": "2026-11-17T11:28:35.086955+00:00",
         "before": null,
         "after": {
           "fit_status": "possible",
@@ -1153,7 +1193,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.991399+00:00",
+        "occurred_at": "2026-11-17T11:28:35.820343+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1165,7 +1205,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:09.074310+00:00",
+        "occurred_at": "2026-11-17T11:28:35.902080+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1177,13 +1217,182 @@
       },
       {
         "action": "decision.changed",
-        "occurred_at": "2026-11-16T21:04:10.895387+00:00",
+        "occurred_at": "2026-11-17T11:28:38.246397+00:00",
         "before": {
           "decision": "none"
         },
         "after": {
           "reason": null,
           "decision": "later"
+        }
+      }
+    ]
+  },
+  "GET /opportunities/01a1e62a-3c48-7204-8dcb-78cb27cfb4bd": {
+    "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+    "name": "Tidal Pilot Fund",
+    "funder": "Example Coastal Foundation",
+    "types": ["grant", "testbed_or_pilot"],
+    "scope": "blue_specific",
+    "fit": {
+      "status": "confirmed",
+      "few_explicit_rules": false
+    },
+    "decision": "pursuing",
+    "status": "open",
+    "opening": null,
+    "expected_month": null,
+    "deadline": {
+      "kind": "days_left",
+      "date": "2026-11-28",
+      "days_left": 11
+    },
+    "checked_on": "2026-11-04",
+    "checked_days_ago": 13,
+    "recheck_due": true,
+    "readiness": {
+      "ready": 2,
+      "total": 3
+    },
+    "based_on_last_edition": false,
+    "goal_relevant": false,
+    "source_url": "https://example.org/tidal-pilot-fund",
+    "requirements": [
+      {
+        "hard": true,
+        "quote": "Open to companies registered in Portugal, Spain or France.",
+        "fact": "country",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "Solutions must have reached TRL 5.",
+        "fact": "trl",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": true,
+        "quote": "Applicants must have fewer than 51 employees.",
+        "fact": "team_size",
+        "criterion": null,
+        "result": "pass"
+      },
+      {
+        "hard": false,
+        "quote": "Pilots should report a measurable benefit to coastal ecosystems.",
+        "fact": null,
+        "criterion": "Measurable ocean impact",
+        "result": "ai_judgement"
+      }
+    ],
+    "questions_total": 3,
+    "questions_draftable": 2,
+    "evidence": [],
+    "history": [
+      {
+        "action": "opportunity.added",
+        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "tidal-pilot-fund"
+        }
+      },
+      {
+        "action": "opportunity.archived",
+        "occurred_at": "2026-11-17T10:23:19.758057+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "tidal-pilot-fund"
+        }
+      },
+      {
+        "action": "opportunity.changed",
+        "occurred_at": "2026-11-17T10:23:26.096991+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "tidal-pilot-fund"
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-17T11:28:35.086955+00:00",
+        "before": null,
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-17T11:28:35.269855+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-17T11:28:35.587563+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-17T11:28:35.668661+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-17T11:28:35.703406+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "match.recalculated",
+        "occurred_at": "2026-11-17T11:28:35.785508+00:00",
+        "before": {
+          "fit_status": "possible",
+          "few_explicit_rules": false
+        },
+        "after": {
+          "fit_status": "confirmed",
+          "few_explicit_rules": false
+        }
+      },
+      {
+        "action": "decision.changed",
+        "occurred_at": "2026-11-17T11:28:39.032085+00:00",
+        "before": {
+          "decision": "none"
+        },
+        "after": {
+          "reason": null,
+          "decision": "pursuing"
         }
       }
     ]
@@ -1208,10 +1417,10 @@
       "days_left": null
     },
     "checked_on": "2026-11-02",
-    "checked_days_ago": 14,
-    "recheck_due": false,
+    "checked_days_ago": 15,
+    "recheck_due": true,
     "readiness": {
-      "ready": 0,
+      "ready": 1,
       "total": 2
     },
     "based_on_last_edition": false,
@@ -1248,7 +1457,7 @@
       }
     ],
     "questions_total": 2,
-    "questions_draftable": 0,
+    "questions_draftable": 1,
     "evidence": [],
     "history": [
       {
@@ -1260,8 +1469,24 @@
         }
       },
       {
+        "action": "opportunity.archived",
+        "occurred_at": "2026-11-17T10:23:19.758057+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "atlantic-seaweed-grant"
+        }
+      },
+      {
+        "action": "opportunity.changed",
+        "occurred_at": "2026-11-17T10:23:26.096991+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "atlantic-seaweed-grant"
+        }
+      },
+      {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "occurred_at": "2026-11-17T11:28:35.086955+00:00",
         "before": null,
         "after": {
           "fit_status": "possible",
@@ -1270,7 +1495,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.460908+00:00",
+        "occurred_at": "2026-11-17T11:28:35.269855+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1282,7 +1507,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.510428+00:00",
+        "occurred_at": "2026-11-17T11:28:35.305146+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1294,7 +1519,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.607718+00:00",
+        "occurred_at": "2026-11-17T11:28:35.419322+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1306,7 +1531,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.643147+00:00",
+        "occurred_at": "2026-11-17T11:28:35.453541+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1318,7 +1543,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.724784+00:00",
+        "occurred_at": "2026-11-17T11:28:35.552686+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1330,148 +1555,7 @@
       },
       {
         "action": "decision.changed",
-        "occurred_at": "2026-11-16T21:04:13.984425+00:00",
-        "before": {
-          "decision": "none"
-        },
-        "after": {
-          "reason": null,
-          "decision": "pursuing"
-        }
-      }
-    ]
-  },
-  "GET /opportunities/01a1e62a-3c48-7204-8dcb-78cb27cfb4bd": {
-    "id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
-    "name": "Tidal Pilot Fund",
-    "funder": "Example Coastal Foundation",
-    "types": ["grant", "testbed_or_pilot"],
-    "scope": "blue_specific",
-    "fit": {
-      "status": "possible",
-      "few_explicit_rules": false
-    },
-    "decision": "pursuing",
-    "status": "open",
-    "opening": null,
-    "expected_month": null,
-    "deadline": {
-      "kind": "days_left",
-      "date": "2026-11-28",
-      "days_left": 12
-    },
-    "checked_on": "2026-11-04",
-    "checked_days_ago": 12,
-    "recheck_due": true,
-    "readiness": {
-      "ready": 1,
-      "total": 3
-    },
-    "based_on_last_edition": false,
-    "goal_relevant": false,
-    "source_url": "https://example.org/tidal-pilot-fund",
-    "requirements": [
-      {
-        "hard": true,
-        "quote": "Open to companies registered in Portugal, Spain or France.",
-        "fact": "country",
-        "criterion": null,
-        "result": "pass"
-      },
-      {
-        "hard": true,
-        "quote": "Solutions must have reached TRL 5.",
-        "fact": "trl",
-        "criterion": null,
-        "result": "pass"
-      },
-      {
-        "hard": true,
-        "quote": "Applicants must have fewer than 51 employees.",
-        "fact": "team_size",
-        "criterion": null,
-        "result": "unknown"
-      },
-      {
-        "hard": false,
-        "quote": "Pilots should report a measurable benefit to coastal ecosystems.",
-        "fact": null,
-        "criterion": "Measurable ocean impact",
-        "result": "ai_judgement"
-      }
-    ],
-    "questions_total": 3,
-    "questions_draftable": 1,
-    "evidence": [],
-    "history": [
-      {
-        "action": "opportunity.added",
-        "occurred_at": "2026-11-16T21:01:29.832592+00:00",
-        "before": null,
-        "after": {
-          "seed_key": "tidal-pilot-fund"
-        }
-      },
-      {
-        "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
-        "before": null,
-        "after": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        }
-      },
-      {
-        "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.460908+00:00",
-        "before": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        },
-        "after": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        }
-      },
-      {
-        "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.762260+00:00",
-        "before": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        },
-        "after": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        }
-      },
-      {
-        "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.840584+00:00",
-        "before": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        },
-        "after": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        }
-      },
-      {
-        "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.884347+00:00",
-        "before": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        },
-        "after": {
-          "fit_status": "possible",
-          "few_explicit_rules": false
-        }
-      },
-      {
-        "action": "decision.changed",
-        "occurred_at": "2026-11-16T21:04:11.737072+00:00",
+        "occurred_at": "2026-11-17T11:28:47.490772+00:00",
         "before": {
           "decision": "none"
         },
@@ -1502,7 +1586,7 @@
       "days_left": null
     },
     "checked_on": "2026-11-09",
-    "checked_days_ago": 7,
+    "checked_days_ago": 8,
     "recheck_due": false,
     "readiness": {
       "ready": 0,
@@ -1540,8 +1624,24 @@
         }
       },
       {
+        "action": "opportunity.archived",
+        "occurred_at": "2026-11-17T10:23:19.758057+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "coastal-startup-prize"
+        }
+      },
+      {
+        "action": "opportunity.changed",
+        "occurred_at": "2026-11-17T10:23:26.096991+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "coastal-startup-prize"
+        }
+      },
+      {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "occurred_at": "2026-11-17T11:28:35.086955+00:00",
         "before": null,
         "after": {
           "fit_status": "possible",
@@ -1550,7 +1650,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.460908+00:00",
+        "occurred_at": "2026-11-17T11:28:35.269855+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1582,7 +1682,7 @@
       "days_left": null
     },
     "checked_on": "2026-11-06",
-    "checked_days_ago": 10,
+    "checked_days_ago": 11,
     "recheck_due": false,
     "readiness": {
       "ready": 1,
@@ -1620,8 +1720,24 @@
         }
       },
       {
+        "action": "opportunity.archived",
+        "occurred_at": "2026-11-17T10:23:19.758057+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "eu-ocean-energy-challenge"
+        }
+      },
+      {
+        "action": "opportunity.changed",
+        "occurred_at": "2026-11-17T10:23:26.096991+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "eu-ocean-energy-challenge"
+        }
+      },
+      {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "occurred_at": "2026-11-17T11:28:35.086955+00:00",
         "before": null,
         "after": {
           "fit_status": "possible",
@@ -1630,7 +1746,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.510428+00:00",
+        "occurred_at": "2026-11-17T11:28:35.305146+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1642,7 +1758,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.607718+00:00",
+        "occurred_at": "2026-11-17T11:28:35.419322+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": false
@@ -1654,7 +1770,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.991399+00:00",
+        "occurred_at": "2026-11-17T11:28:35.820343+00:00",
         "before": {
           "fit_status": "not_eligible",
           "few_explicit_rules": false
@@ -1666,7 +1782,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:09.074310+00:00",
+        "occurred_at": "2026-11-17T11:28:35.902080+00:00",
         "before": {
           "fit_status": "not_eligible",
           "few_explicit_rules": false
@@ -1698,7 +1814,7 @@
       "days_left": null
     },
     "checked_on": "2026-11-11",
-    "checked_days_ago": 5,
+    "checked_days_ago": 6,
     "recheck_due": false,
     "readiness": {
       "ready": 0,
@@ -1729,8 +1845,24 @@
         }
       },
       {
+        "action": "opportunity.archived",
+        "occurred_at": "2026-11-17T10:23:19.758057+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "green-shipping-voucher"
+        }
+      },
+      {
+        "action": "opportunity.changed",
+        "occurred_at": "2026-11-17T10:23:26.096991+00:00",
+        "before": null,
+        "after": {
+          "seed_key": "green-shipping-voucher"
+        }
+      },
+      {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.308287+00:00",
+        "occurred_at": "2026-11-17T11:28:35.086955+00:00",
         "before": null,
         "after": {
           "fit_status": "possible",
@@ -1739,7 +1871,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.510428+00:00",
+        "occurred_at": "2026-11-17T11:28:35.305146+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": true
@@ -1751,7 +1883,7 @@
       },
       {
         "action": "match.recalculated",
-        "occurred_at": "2026-11-16T21:04:08.607718+00:00",
+        "occurred_at": "2026-11-17T11:28:35.419322+00:00",
         "before": {
           "fit_status": "possible",
           "few_explicit_rules": true
@@ -1763,7 +1895,7 @@
       },
       {
         "action": "decision.changed",
-        "occurred_at": "2026-11-16T21:04:10.113160+00:00",
+        "occurred_at": "2026-11-17T11:28:37.462257+00:00",
         "before": {
           "decision": "none"
         },
@@ -1774,16 +1906,16 @@
       }
     ]
   },
-  "GET /applications/01a1e62c-b3e5-7be9-b054-1b5797129068": {
-    "id": "01a1e62c-b3e5-7be9-b054-1b5797129068",
+  "GET /applications/01a1e944-2282-7824-94f4-26d62eaa3948": {
+    "id": "01a1e944-2282-7824-94f4-26d62eaa3948",
     "opportunity_id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
     "opportunity": "Tidal Pilot Fund",
     "deadline": {
       "kind": "days_left",
       "date": "2026-11-28",
-      "days_left": 12
+      "days_left": 11
     },
-    "started_at": "2026-11-16T21:04:11.737072Z",
+    "started_at": "2026-11-17T11:28:39.032085Z",
     "submitted_at": null,
     "status": "in_progress",
     "answers_ready": {
@@ -1795,29 +1927,51 @@
     "questions_known": true,
     "questions": [
       {
-        "id": "01a1e62a-3c49-7142-a279-074d9aa28697",
+        "id": "01a1e908-6df4-7c5f-bac4-a4393bda4ef2",
         "position": 1,
         "text": "Describe the pilot site and what you will measure.",
         "required_facts": ["trl"],
         "missing": [],
         "draftable": true,
         "state": "approved",
-        "answer": "Our 2-hectare seaweed line off Peniche moves from tank trials to open water. Over six months we will measure nitrogen uptake, juvenile fish counts and yield per metre of line.",
-        "built_from": []
+        "answer": "Our pilot site is a 2-hectare pilot line. We run one pilot with a fish farm in Nazaré, Portugal, since March 2026. In 2026, we measured with the University of Example that the kelp on our 2-hectare pilot line took up an estimated 1.4 t of nitrogen.",
+        "built_from": [
+          "01a1e944-1318-79a3-a2e9-6e9145522b98",
+          "01a1e944-1709-75c0-b3f6-9079ff23d141",
+          "01a1e944-1815-7bef-8531-9431ee31712d"
+        ],
+        "sources": [
+          {
+            "id": "01a1e944-1318-79a3-a2e9-6e9145522b98",
+            "fact": "country",
+            "value": "Portugal"
+          },
+          {
+            "id": "01a1e944-1709-75c0-b3f6-9079ff23d141",
+            "fact": "impact",
+            "value": "On our 2-hectare pilot line, the kelp took up an estimated 1.4 t of nitrogen in 2026, measured with the University of Example."
+          },
+          {
+            "id": "01a1e944-1815-7bef-8531-9431ee31712d",
+            "fact": "traction",
+            "value": "One pilot with a fish farm in Nazaré since March 2026, and a letter of intent from a feed producer for 20 t a year."
+          }
+        ]
       },
       {
-        "id": "01a1e62a-3c4a-79b7-b80c-32f698357540",
+        "id": "01a1e908-6df5-7d98-a50e-2d217641e065",
         "position": 2,
         "text": "Who is on the team and what will each person do?",
         "required_facts": ["team_size"],
-        "missing": ["team_size"],
-        "draftable": false,
+        "missing": [],
+        "draftable": true,
         "state": "missing_facts",
         "answer": null,
-        "built_from": []
+        "built_from": [],
+        "sources": []
       },
       {
-        "id": "01a1e62a-3c4b-721f-80bf-0da9ddb02f97",
+        "id": "01a1e908-6df6-7c10-9949-0c7f5262cb4a",
         "position": 3,
         "text": "What happens after the pilot?",
         "required_facts": [],
@@ -1825,9 +1979,226 @@
         "draftable": false,
         "state": "missing_facts",
         "answer": null,
-        "built_from": []
+        "built_from": [],
+        "sources": []
       }
     ]
   },
-  "recorded_on": "2026-11-16"
+  "POST /opportunities/01a1e62a-3c35-7ee5-86aa-9c9967f7b053/why-it-fits": {
+    "text": "Your fit with Blue Founders Accelerator is possible, because whether your company was founded in the last five years is still unknown. Please confirm your founding date against that window. The call accepts one company per application, and that matches how you would apply."
+  },
+  "POST /opportunities/01a1e62a-3c48-7204-8dcb-78cb27cfb4bd/why-it-fits": {
+    "text": "Your company fits the Tidal Pilot Fund on its hard rules: you are registered in an eligible country, your solution has reached the required technology readiness level, and your team is within the size limit. The measurable coastal ecosystem benefit is a soft criterion that will be judged on its merits, so your pilot's impact reporting will matter."
+  },
+  "POST /opportunities/01a1e62a-3c28-7002-9e10-fc727663187a/why-it-fits": {
+    "text": "Your company matches the call's hard rules: it is based in Portugal, works in seaweed and aquaculture, and is a limited company or cooperative, so it is eligible. The remaining point is a judgement on whether your project shows a clear benefit to ocean health."
+  },
+  "POST /opportunities/01a1e62a-3c3a-7c41-bf60-7637545beb24/why-it-fits": {
+    "text": "Your company meets the Portugal office requirement, which is the first hard rule for this Coastal Startup Prize. The fit is still possible rather than confirmed because it is unknown whether your company is led by a woman CEO, which this edition requires."
+  },
+  "POST /opportunities/01a1e62a-3c3f-7e94-95bc-9d7ccfa7f89b/why-it-fits": {
+    "text": "This call does not fit your company because it is only for wave, tidal and offshore renewable energy, and your company does not meet that sector requirement. It also needs applications from a consortium of at least three partners, which your company does not meet."
+  },
+  "POST /opportunities/01a1e62a-3c44-7a9a-86df-a90e3bd19e31/why-it-fits": {
+    "text": "Your company does not fit this call because it is limited to port, shipping and shipbuilding innovation, and your business falls outside that sector."
+  },
+  "POST /applications/01a1e944-2282-7824-94f4-26d62eaa3948/answers/01a1e908-6df5-7d98-a50e-2d217641e065/draft": {
+    "id": "01a1e944-2282-7824-94f4-26d62eaa3948",
+    "opportunity_id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+    "opportunity": "Tidal Pilot Fund",
+    "deadline": {
+      "kind": "days_left",
+      "date": "2026-11-28",
+      "days_left": 11
+    },
+    "started_at": "2026-11-17T11:28:39.032085Z",
+    "submitted_at": null,
+    "status": "in_progress",
+    "answers_ready": {
+      "ready": 1,
+      "total": 3
+    },
+    "no_longer_eligible": false,
+    "call_removed": false,
+    "questions_known": true,
+    "questions": [
+      {
+        "id": "01a1e908-6df4-7c5f-bac4-a4393bda4ef2",
+        "position": 1,
+        "text": "Describe the pilot site and what you will measure.",
+        "required_facts": ["trl"],
+        "missing": [],
+        "draftable": true,
+        "state": "approved",
+        "answer": "Our pilot site is a 2-hectare pilot line. We run one pilot with a fish farm in Nazaré, Portugal, since March 2026. In 2026, we measured with the University of Example that the kelp on our 2-hectare pilot line took up an estimated 1.4 t of nitrogen.",
+        "built_from": [
+          "01a1e944-1318-79a3-a2e9-6e9145522b98",
+          "01a1e944-1709-75c0-b3f6-9079ff23d141",
+          "01a1e944-1815-7bef-8531-9431ee31712d"
+        ],
+        "sources": [
+          {
+            "id": "01a1e944-1318-79a3-a2e9-6e9145522b98",
+            "fact": "country",
+            "value": "Portugal"
+          },
+          {
+            "id": "01a1e944-1709-75c0-b3f6-9079ff23d141",
+            "fact": "impact",
+            "value": "On our 2-hectare pilot line, the kelp took up an estimated 1.4 t of nitrogen in 2026, measured with the University of Example."
+          },
+          {
+            "id": "01a1e944-1815-7bef-8531-9431ee31712d",
+            "fact": "traction",
+            "value": "One pilot with a fish farm in Nazaré since March 2026, and a letter of intent from a feed producer for 20 t a year."
+          }
+        ]
+      },
+      {
+        "id": "01a1e908-6df5-7d98-a50e-2d217641e065",
+        "position": 2,
+        "text": "Who is on the team and what will each person do?",
+        "required_facts": ["team_size"],
+        "missing": [],
+        "draftable": true,
+        "state": "ai_draft",
+        "answer": "Our team has 4 people. Inês is our CEO and a marine biologist with 8 years in aquaculture. Tomás is our CTO and a naval engineer who designed our longline system.",
+        "built_from": [
+          "01a1e944-157b-7879-a045-c7a0257c6669",
+          "01a1e944-179f-7309-95ea-060a6b37c7f1"
+        ],
+        "sources": [
+          {
+            "id": "01a1e944-157b-7879-a045-c7a0257c6669",
+            "fact": "team_size",
+            "value": "4"
+          },
+          {
+            "id": "01a1e944-179f-7309-95ea-060a6b37c7f1",
+            "fact": "team",
+            "value": "Inês (CEO) is a marine biologist with 8 years in aquaculture; Tomás (CTO) is a naval engineer who designed the longline system."
+          }
+        ]
+      },
+      {
+        "id": "01a1e908-6df6-7c10-9949-0c7f5262cb4a",
+        "position": 3,
+        "text": "What happens after the pilot?",
+        "required_facts": [],
+        "missing": [],
+        "draftable": false,
+        "state": "missing_facts",
+        "answer": null,
+        "built_from": [],
+        "sources": []
+      }
+    ]
+  },
+  "POST /applications/01a1e944-2282-7824-94f4-26d62eaa3948/answers/01a1e908-6df6-7c10-9949-0c7f5262cb4a/draft": {
+    "id": "01a1e944-2282-7824-94f4-26d62eaa3948",
+    "opportunity_id": "01a1e62a-3c48-7204-8dcb-78cb27cfb4bd",
+    "opportunity": "Tidal Pilot Fund",
+    "deadline": {
+      "kind": "days_left",
+      "date": "2026-11-28",
+      "days_left": 11
+    },
+    "started_at": "2026-11-17T11:28:39.032085Z",
+    "submitted_at": null,
+    "status": "in_progress",
+    "answers_ready": {
+      "ready": 1,
+      "total": 3
+    },
+    "no_longer_eligible": false,
+    "call_removed": false,
+    "questions_known": true,
+    "questions": [
+      {
+        "id": "01a1e908-6df4-7c5f-bac4-a4393bda4ef2",
+        "position": 1,
+        "text": "Describe the pilot site and what you will measure.",
+        "required_facts": ["trl"],
+        "missing": [],
+        "draftable": true,
+        "state": "approved",
+        "answer": "Our pilot site is a 2-hectare pilot line. We run one pilot with a fish farm in Nazaré, Portugal, since March 2026. In 2026, we measured with the University of Example that the kelp on our 2-hectare pilot line took up an estimated 1.4 t of nitrogen.",
+        "built_from": [
+          "01a1e944-1318-79a3-a2e9-6e9145522b98",
+          "01a1e944-1709-75c0-b3f6-9079ff23d141",
+          "01a1e944-1815-7bef-8531-9431ee31712d"
+        ],
+        "sources": [
+          {
+            "id": "01a1e944-1318-79a3-a2e9-6e9145522b98",
+            "fact": "country",
+            "value": "Portugal"
+          },
+          {
+            "id": "01a1e944-1709-75c0-b3f6-9079ff23d141",
+            "fact": "impact",
+            "value": "On our 2-hectare pilot line, the kelp took up an estimated 1.4 t of nitrogen in 2026, measured with the University of Example."
+          },
+          {
+            "id": "01a1e944-1815-7bef-8531-9431ee31712d",
+            "fact": "traction",
+            "value": "One pilot with a fish farm in Nazaré since March 2026, and a letter of intent from a feed producer for 20 t a year."
+          }
+        ]
+      },
+      {
+        "id": "01a1e908-6df5-7d98-a50e-2d217641e065",
+        "position": 2,
+        "text": "Who is on the team and what will each person do?",
+        "required_facts": ["team_size"],
+        "missing": [],
+        "draftable": true,
+        "state": "ai_draft",
+        "answer": "Our team has 4 people. Inês is our CEO and a marine biologist with 8 years in aquaculture. Tomás is our CTO and a naval engineer who designed our longline system.",
+        "built_from": [
+          "01a1e944-157b-7879-a045-c7a0257c6669",
+          "01a1e944-179f-7309-95ea-060a6b37c7f1"
+        ],
+        "sources": [
+          {
+            "id": "01a1e944-157b-7879-a045-c7a0257c6669",
+            "fact": "team_size",
+            "value": "4"
+          },
+          {
+            "id": "01a1e944-179f-7309-95ea-060a6b37c7f1",
+            "fact": "team",
+            "value": "Inês (CEO) is a marine biologist with 8 years in aquaculture; Tomás (CTO) is a naval engineer who designed the longline system."
+          }
+        ]
+      },
+      {
+        "id": "01a1e908-6df6-7c10-9949-0c7f5262cb4a",
+        "position": 3,
+        "text": "What happens after the pilot?",
+        "required_facts": [],
+        "missing": [],
+        "draftable": false,
+        "state": "ai_draft",
+        "answer": "Our pilot with a fish farm in Nazaré has been running since March 2026. A feed producer has sent us a letter of intent for 20 t a year. On our 2-hectare pilot line, the kelp took up an estimated 1.4 t of nitrogen in 2026, measured with the University of Example.",
+        "built_from": [
+          "01a1e944-1709-75c0-b3f6-9079ff23d141",
+          "01a1e944-1815-7bef-8531-9431ee31712d"
+        ],
+        "sources": [
+          {
+            "id": "01a1e944-1709-75c0-b3f6-9079ff23d141",
+            "fact": "impact",
+            "value": "On our 2-hectare pilot line, the kelp took up an estimated 1.4 t of nitrogen in 2026, measured with the University of Example."
+          },
+          {
+            "id": "01a1e944-1815-7bef-8531-9431ee31712d",
+            "fact": "traction",
+            "value": "One pilot with a fish farm in Nazaré since March 2026, and a letter of intent from a feed producer for 20 t a year."
+          }
+        ]
+      }
+    ]
+  },
+  "recorded_on": "2026-11-17"
 }

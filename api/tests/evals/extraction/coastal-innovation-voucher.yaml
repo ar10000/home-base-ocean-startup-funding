@@ -1,0 +1,37 @@
+# Fictional call written for the evaluation set. Not a real programme.
+name: Coastal Innovation Voucher
+text: |
+  Coastal Innovation Voucher 2027. Call for proposals.
+
+  1. Purpose of the call
+  The Example Coastal Agency supports young companies that bring new technology to the
+  maritime economy of the Atlantic coast. Vouchers of up to 60,000 euros cover the costs of
+  testing a product with a first customer, such as a port, a fish farm or a research vessel.
+  The voucher pays for external services, small equipment and staff time during the test.
+
+  2. Who can apply
+  The call is open to micro and small enterprises registered in Portugal or Spain at the
+  time of application. Applicants must have been incorporated for no more than 7 years.
+  Companies must have fewer than 50 employees. Each company applies alone; consortia are
+  not eligible for this voucher. Sole traders cannot apply.
+
+  3. Technology
+  The product must have reached at least technology readiness level 5 (technology validated
+  in a relevant environment) when the proposal is submitted. Products at lower levels may
+  apply to the Agency's discovery grants instead.
+
+  4. Evaluation
+  Proposals are scored on three criteria, each from 0 to 5: the quality and novelty of the
+  solution; the expected benefit for the coastal environment, with figures where possible;
+  and the capacity of the team to carry out the test within twelve months.
+
+  5. How to apply
+  Proposals are submitted through the Agency's online portal before 30 April 2027 at
+  17:00 Lisbon time. Late proposals are not accepted.
+expected:
+  - {fact: country, operator: one_of, values: [PT, ES]}
+  - {fact: company_age, operator: at_most, values: [7]}
+  - {fact: team_size, operator: at_most, values: [49]}
+  - {fact: applicant_form, operator: equals, values: [alone]}
+  - {fact: trl, operator: at_least, values: [5]}
+  - {fact: legal_form, operator: not_one_of, values: [sole_trader]}

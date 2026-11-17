@@ -28,6 +28,9 @@ _MAPPING: list[tuple[type[errors.DomainError], HTTPStatus, str]] = [
     (errors.DecisionError, HTTPStatus.UNPROCESSABLE_ENTITY, "decision"),
     (errors.ApplicationError, HTTPStatus.CONFLICT, "application"),
     (errors.ClockError, HTTPStatus.UNPROCESSABLE_ENTITY, "clock"),
+    (errors.AiBudgetError, HTTPStatus.TOO_MANY_REQUESTS, "ai-budget"),
+    (errors.AiConfigError, HTTPStatus.SERVICE_UNAVAILABLE, "ai-unavailable"),
+    (errors.AiError, HTTPStatus.BAD_GATEWAY, "ai"),
 ]
 
 

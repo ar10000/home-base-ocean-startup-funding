@@ -13,7 +13,7 @@ API_DIR = Path(__file__).resolve().parents[2]
 
 @pytest.fixture(scope="session")
 def postgres_url() -> Iterator[str]:
-    with PostgresContainer("postgres:16", driver="psycopg") as pg:
+    with PostgresContainer("pgvector/pgvector:pg16", driver="psycopg") as pg:
         yield pg.get_connection_url()
 
 

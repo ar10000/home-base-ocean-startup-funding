@@ -10,10 +10,12 @@ import uuid
 from datetime import date, datetime
 from typing import Any
 
-from sqlalchemy import CheckConstraint, ForeignKey, Text
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import CheckConstraint, ForeignKey, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
+from home_base.config import EMBEDDING_DIMENSIONS
 from home_base.core.db import Base, Record, one_of
 from home_base.core.vocabulary import Operator, OpportunityType
 from home_base.modules.opportunities.domain import EvidenceKind
@@ -70,6 +72,24 @@ class SourceRow(Record, Archivable, Base):
     verified_on: Mapped[date]
     verified_by: Mapped[str]
     original_text: Mapped[str | None]  # kept as evidence once ingestion stores it (week 4)
+
+
+class SourcePassageRow(Record, Base):
+    """One passage of a call's text, embedded for retrieval (ADR-009, D-83). Shared data."""
+
+    __tablename__ = "source_passages"
+    __table_args__ = (
+        UniqueConstraint("source_id", "model", "position", name="uq_source_passages_position"),
+        CheckConstraint("position >= 0", name="position_not_negative"),
+        CheckConstraint("length(btrim(text)) > 0", name="text_not_blank"),
+    )
+
+    source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("sources.id"), index=True)
+    position: Mapped[int]  # order in the call text, from 0
+    start: Mapped[int]  # character offset in the call text, so a quote can be found again
+    text: Mapped[str]
+    model: Mapped[str]
+    embedding: Mapped[list[float]] = mapped_column(Vector(EMBEDDING_DIMENSIONS))
 
 
 class RequirementRow(Record, Archivable, Base):

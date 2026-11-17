@@ -75,6 +75,27 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/applications/{application_id}/answers/{question_id}/draft": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Draft Answer
+     * @description Draft or redraft one answer from approved facts (D-81). A failed draft saves
+     *     nothing but its AI action log entry, which is kept so the failure can be traced.
+     */
+    post: operations["draft_answer_applications__application_id__answers__question_id__draft_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/applications/{application_id}/archive-not-eligible": {
     parameters: {
       query?: never;
@@ -351,6 +372,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/opportunities/{opportunity_id}/why-it-fits": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Why It Fits
+     * @description Word why the call fits, from the results the rules calculated (cached by input).
+     */
+    post: operations["why_it_fits_opportunities__opportunity_id__why_it_fits_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/profile": {
     parameters: {
       query?: never;
@@ -494,6 +535,21 @@ export interface components {
        */
       opportunity_id: string;
       status: components["schemas"]["ApplicationStatus"];
+    };
+    /**
+     * CitedFact
+     * @description A fact version an answer was built from (DRF-02), in words.
+     */
+    CitedFact: {
+      /** Fact */
+      fact: string;
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Value */
+      value: string;
     };
     /** Deadline */
     Deadline: {
@@ -859,6 +915,8 @@ export interface components {
       position: number;
       /** Required Facts */
       required_facts: string[];
+      /** Sources */
+      sources: components["schemas"]["CitedFact"][];
       state: components["schemas"]["AnswerState"];
       /** Text */
       text: string;
@@ -992,6 +1050,14 @@ export interface components {
       type: string;
     };
     /**
+     * WhyItFits
+     * @description D-82: the calculated fit in words, always shown marked as AI.
+     */
+    WhyItFits: {
+      /** Text */
+      text: string;
+    };
+    /**
      * Window
      * @description When a goal matters: now (within 3 months), soon (3 to 6), later (6 to 12).
      * @enum {string}
@@ -1112,6 +1178,38 @@ export interface operations {
     };
   };
   approve_answer_applications__application_id__answers__question_id__approve_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: string;
+        question_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ApplicationOut"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  draft_answer_applications__application_id__answers__question_id__draft_post: {
     parameters: {
       query?: never;
       header?: never;
@@ -1606,6 +1704,37 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["DecisionOut"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  why_it_fits_opportunities__opportunity_id__why_it_fits_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        opportunity_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WhyItFits"];
         };
       };
       /** @description Validation Error */

@@ -13,7 +13,7 @@ from sqlalchemy import Engine, delete, func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from home_base.config import HARD_RULE_FACT_KEYS, PERSONAL_FACT_KEYS
+from home_base.config import HARD_RULE_FACT_KEYS, KNOWLEDGE_FACT_KEYS, PERSONAL_FACT_KEYS
 from home_base.core.db import Record
 from home_base.modules.companies.models import (
     FOUNDER_FACT_TYPES,
@@ -76,10 +76,10 @@ def test_tenant_tables_are_empty_after_the_migration(session: Session, model: ty
     assert session.scalar(select(func.count()).select_from(model)) == 0
 
 
-def test_catalogue_holds_exactly_the_hard_rule_facts(session: Session) -> None:
+def test_catalogue_holds_exactly_the_hard_rule_and_knowledge_facts(session: Session) -> None:
     rows = session.scalars(select(FactDefinitionRow)).all()
-    assert {r.key for r in rows} == HARD_RULE_FACT_KEYS
-    assert all(r.hard_rule for r in rows)
+    assert {r.key for r in rows if r.hard_rule} == HARD_RULE_FACT_KEYS
+    assert {r.key for r in rows if not r.hard_rule} == set(KNOWLEDGE_FACT_KEYS)  # D-80
     assert {r.key: r.value_type for r in rows if r.value_type == "integer"} == {
         "company_age": "integer",
         "team_size": "integer",
