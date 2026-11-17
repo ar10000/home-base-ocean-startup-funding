@@ -3,10 +3,12 @@
 Four weeks, kept firm (spec: Timebox). When something doesn't fit, scope shrinks, not the
 deadline. Each week ends with something demonstrable and `make all` green.
 
-Rules done: 62 of 65 (see docs/rules/traceability.md). Left: DRF-01 to DRF-03 (drafting, week 4).
+Rules done: 65 of 65 (see docs/rules/traceability.md).
 
-**Paused 2026-11-16** after week 3, and published as a portfolio piece with a static demo
-(D-79). Week 4 (AI, deploy, design partners) was not started.
+**Paused 2026-11-16** after week 3 and published as a portfolio piece with a static demo
+(D-79). On 2026-11-17 week 4's AI work was built for the portfolio (ADR-009, D-80 to D-85):
+retrieval, draft answers, "Why it fits", requirement extraction and the evaluation set. Not
+done: Today's sentence worded by AI, deploying, and design partners.
 
 ## Week 1: rules and data, no UI
 
@@ -55,10 +57,10 @@ Demo: a founder can go from profile to an application workspace without AI.
 
 ## Week 4: AI, then ship to design partners
 
-- [ ] AI adapter, requirement extraction with verbatim-quote check, eval set and thresholds
-- [ ] Draft answers from approved facts only (DRF-01 to DRF-03), every number cited
-- [ ] "Why it fits" and "one thing today" wording, marked as AI
-- [ ] Deploy to the EU; smoke tests; known limitations written down
-- [ ] Three design partners onboarded
+- [x] AI adapter, requirement extraction with verbatim-quote check, eval set and thresholds (ADR-009, D-83, D-85: Claude Haiku 5.5 for the demo and evals, D-84; 3 fictional calls, 100% in 3 of 3 runs)
+- [x] Draft answers from approved facts only (DRF-01 to DRF-03), every number cited (D-81, with retrieval over pgvector)
+- [ ] "Why it fits" and "one thing today" wording, marked as AI (Why it fits done, D-82; Today keeps the spec's templates, D-66)
+- [ ] Deploy to the EU; smoke tests; known limitations written down (not deployed: the portfolio runs as a static demo, D-79; limitations are in docs/decisions.md and the README)
+- [ ] Three design partners onboarded (not started)
 
-Demo: the full workflow on a real opportunity, recorded for the case study.
+Demo: the full workflow on a real opportunity, recorded for the case study. (Done on fictional calls instead: the public demo, D-79.)
